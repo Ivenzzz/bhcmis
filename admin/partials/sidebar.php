@@ -1,40 +1,33 @@
-<div class="l-navbar show" id="nav-bar">
-    <nav class="nav">
-        <div> 
-            <a href="/bhcmis/admin" class="nav_logo gradient-text"> 
-                <img src="../public/images/punta_mesa_logo.png" alt="Logo" class="admin-logo"> 
-                <span class="nav_logo-name">Admin Dashboard</span> 
-            </a>
-            <div class="nav_list">
-                <?php
-                $current_page = $_SERVER['REQUEST_URI'];
-                ?>
+<div class="sidebar d-flex flex-column p-3">
+    <?php
+        $current_page = basename($_SERVER['REQUEST_URI']);
+    ?>
 
-                <a href="/bhcmis/admin" class="nav_link <?= preg_match('/^\/bhcmis\/admin$/', $current_page) ? 'active' : '' ?>"> 
-                    <i class="fa-solid fa-house nav_icon"></i>
-                    <span class="nav_name">Home</span> 
-                </a>
+    <a href="dashboard.php" class="mb-4">
+        <img src="/bhcmis/public/images/punta_mesa_logo.png" alt="Dashboard Icon" class="icon" style="width: 1.2rem; height: 1.2rem;">
+        <span class="text ms-2">Admin Dashboard</span>
+    </a>
 
-                <a href="/bhcmis/admin-residents" class="nav_link <?= strpos($current_page, '/admin-residents') !== false ? 'active' : '' ?>"> 
-                    <i class="fa-solid fa-users nav_icon"></i>
-                    <span class="nav_name">Residents</span> 
-                </a> 
 
-                <a href="/bhcmis/admin-midwife" class="nav_link <?= strpos($current_page, '/admin-midwife') !== false ? 'active' : '' ?>"> 
-                    <i class="fa-solid fa-user-doctor nav_icon"></i>
-                    <span class="nav_name">Midwife</span> 
-                </a>
+    <a href="home.php" class="d-flex align-items-center <?= $current_page == 'dashboard.php' ? 'active' : '' ?>">
+        <span class="icon fa fa-folder-open text-info"></span>
+        <span class="text ms-2">Home</span>
+    </a>
+    <a href="residents.php" class="<?= $current_page == 'residents.php' ? 'active' : '' ?>">
+        <span class="icon fa fa-users text-amber"></span>
+        <span class="text">Residents</span>
+    </a>
+    <a href="midwife.php" class="<?= $current_page == 'midwife.php' ? 'active' : '' ?>">
+        <span class="icon fa fa-user-md text-warning"></span>
+        <span class="text">Midwife</span>
+    </a>
+    <a href="bhws.php" class="<?= $current_page == 'bhws.php' ? 'active' : '' ?>">
+        <span class="icon fa fa-user-nurse text-red"></span>
+        <span class="text">BHWs</span>
+    </a>
+    <a href="events.php" class="<?= $current_page == 'events.php' ? 'active' : '' ?>">
+        <span class="icon fa fa-calendar-check text-slate-500"></span>
+        <span class="text">Events</span>
+    </a>
 
-                <a href="/bhcmis/admin-bhws" class="nav_link <?= strpos($current_page, '/admin-bhws') !== false ? 'active' : '' ?>"> 
-                    <i class="fa-solid fa-user-nurse nav_icon"></i>
-                    <span class="nav_name">BHWs</span> 
-                </a>
-
-                <a href="/bhcmis/admin-events" class="nav_link <?= strpos($current_page, '/admin-events') !== false ? 'active' : '' ?>"> 
-                    <i class='bx bxs-calendar-check'></i>
-                    <span class="nav_name">Events</span> 
-                </a> 
-            </div>
-        </div>
-    </nav>
 </div>
