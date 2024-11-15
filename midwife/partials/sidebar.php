@@ -1,46 +1,38 @@
-<div class="l-navbar show" id="nav-bar">
-    <nav class="nav">
-        <div> 
-            <a href="/bhcmis/midwife" class="nav_logo gradient-text"> 
-                <img src="./public/images/punta_mesa_logo.png" alt="Logo" class="admin-logo"> 
-                <span class="nav_logo-name">Midwife Dashboard</span> 
-            </a>
-            <div class="nav_list">
-                <?php
-                $current_page = $_SERVER['REQUEST_URI'];
-                ?>
+<div class="sidebar d-flex flex-column p-3">
+    <?php
+        $current_page = basename($_SERVER['REQUEST_URI']);
+        if ($current_page == '' || $current_page == 'index.php') {
+            $current_page = 'overview';
+        }
+    ?>
 
-                <!-- Dashboard Link -->
-                <a href="/bhcmis/midwife" class="nav_link <?= preg_match('/^\/bhcmis\/midwife$/', $current_page) ? 'active' : '' ?>"> 
-                    <i class='bx bx-line-chart nav_icon'></i> 
-                    <span class="nav_name">Home</span> 
-                </a>
+    <a href="#" class="mb-4">
+        <img src="/bhcmis/public/images/punta_mesa_logo.png" alt="Dashboard Icon" class="icon" style="width: 1.2rem; height: 1.2rem;">
+        <span class="text ms-2">Midwife Dashboard</span>
+    </a>
 
-                <a href="/bhcmis/midwife-appointments" class="nav_link <?= strpos($current_page, '/midwife-appointments') !== false ? 'active' : '' ?>"> 
-                    <i class="fas fa-calendar-check"></i>
-                    <span class="nav_name">Appointments</span> 
-                </a>
+    <a href="index.php" class="d-flex align-items-center <?= $current_page == 'overview' ? 'active' : '' ?>">
+        <i class="icon fa-solid fa-chart-area text-info"></i>
+        <span class="text ms-2">Overview</span>
+    </a>
 
-                <a href="/bhcmis/midwife-prenatals" class="nav_link <?= strpos($current_page, '/midwife-prenatals') !== false ? 'active' : '' ?>"> 
-                    <i class="fa-solid fa-female"></i>
-                    <span class="nav_name">Prenatal</span> 
-                </a>
-
-                <a href="/bhcmis/midwife-medicines" class="nav_link <?= strpos($current_page, '/midwife-medicines') !== false ? 'active' : '' ?>"> 
-                    <i class="fa-solid fa-capsules"></i>
-                    <span class="nav_name">Medicines</span> 
-                </a>
-
-                <a href="/bhcmis/midwife/vaccine-stock" class="nav_link <?= strpos($current_page, '/midwife/vaccine-stock') !== false ? 'active' : '' ?>"> 
-                    <i class="fa-solid fa-syringe"></i>
-                    <span class="nav_name">Vaccinations</span> 
-                </a>
-
-                <a href="/bhcmis/midwife/bhw-tasks" class="nav_link <?= strpos($current_page, '/midwife/bhw-tasks') !== false ? 'active' : '' ?>"> 
-                    <i class="fa-solid fa-tasks"></i>
-                    <span class="nav_name">Audit Logs</span> 
-                </a>    
-            </div>
-        </div>
-    </nav>
+    <a href="consultations.php" class="d-flex align-items-center <?= $current_page == 'consultations.php' ? 'active' : '' ?>">
+        <i class="icon fa-solid fa-calendar-check text-amber"></i>
+        <span class="text ms-2">Consultations</span>
+    </a>
+    
+    <a href="prenatals.php" class="d-flex align-items-center <?= $current_page == 'prenatals.php' ? 'active' : '' ?>">
+        <i class="icon fa-solid fa-baby text-warning"></i>
+        <span class="text ms-2">Prenatals</span>
+    </a>
+    
+    <a href="medicines.php" class="d-flex align-items-center <?= $current_page == 'medicines.php' ? 'active' : '' ?>">
+        <i class="icon fa-solid fa-pills text-danger"></i>
+        <span class="text ms-2">Medicines</span>
+    </a>
+    
+    <a href="vaccinations.php" class="d-flex align-items-center <?= $current_page == 'vaccinations.php' ? 'active' : '' ?>">
+        <i class="icon fa-solid fa-syringe text-slate-500"></i>
+        <span class="text ms-2">Vaccinations</span>
+    </a>
 </div>

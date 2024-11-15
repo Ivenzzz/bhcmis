@@ -1,30 +1,24 @@
-<div class="l-navbar show" id="nav-bar">
-    <nav class="nav">
-        <div> 
-            <a href="/bhcmis/r-appointments" class="nav_logo gradient-text"> 
-                <img src="./public/images/punta_mesa_logo.png" alt="Logo" class="admin-logo"> 
-                <span class="nav_logo-name">Resident Page</span> 
-            </a>
-            <div class="nav_list">
-                <?php
-                $current_page = $_SERVER['REQUEST_URI'];
-                ?>
+<div class="sidebar d-flex flex-column p-3">
+    <?php
+        $current_page = basename($_SERVER['REQUEST_URI']);
+        if ($current_page == '' || $current_page == 'index.php') {
+            $current_page = 'index';
+        }
+    ?>
 
-                <a href="/bhcmis/r-appointments" class="nav_link <?= strpos($current_page, '/r-appointments') !== false ? 'active' : '' ?>"> 
-                    <i class="fas fa-calendar-check nav_icon"></i>
-                    <span class="nav_name">Appointments</span> 
-                </a>
+    <a href="#" class="mb-4">
+        <img src="/bhcmis/public/images/punta_mesa_logo.png" alt="Dashboard Icon" class="icon" style="width: 1.2rem; height: 1.2rem;">
+        <span class="text ms-2">Resident's Page</span>
+    </a>
 
-                <a href="/bhcmis/r-med-history" class="nav_link <?= strpos($current_page, '/r-med-history') !== false ? 'active' : '' ?>"> 
-                    <i class="fas fa-notes-medical nav_icon"></i> 
-                    <span class="nav_name">Medical History</span> 
-                </a>
+    <a href="index.php" class="d-flex align-items-center <?= $current_page == 'index' ? 'active' : '' ?>">
+        <i class="icon fa-solid fa-calendar-check text-info"></i>
+        <span class="text ms-2">Appointments</span>
+    </a>
 
-                <a href="/bhcmis/r-clinic-record" class="nav_link <?= strpos($current_page, '/r-clinic-record') !== false ? 'active' : '' ?>"> 
-                    <i class="fas fa-file-medical-alt nav_icon"></i> 
-                    <span class="nav_name">Clinical Records</span> 
-                </a>
-            </div>
-        </div>
-    </nav>
+    <a href="medical_history.php" class="d-flex align-items-center <?= $current_page == 'medical_history.php' ? 'active' : '' ?>">
+        <i class="icon fa-solid fa-clipboard-list text-amber"></i>
+        <span class="text ms-2">Medical History</span>
+    </a>
+
 </div>

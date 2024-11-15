@@ -48,7 +48,7 @@ function addLoginButtonListener() {
         formData.append('remember', rememberMe);
 
         try {
-            const response = await fetch('controllers/index_login.php', {
+            const response = await fetch('../controllers/index_login.php', {
                 method: 'POST',
                 body: formData
             });
@@ -71,16 +71,16 @@ function addLoginButtonListener() {
 function redirectToDashboard(role) {
     switch (role) {
         case 'admin':
-            window.location.href = 'admin/index.php';
+            window.location.href = '../admin/index.php';
             break;
         case 'midwife':
-            window.location.href = 'midwife/index.php';
+            window.location.href = '../midwife/index.php';
             break;
         case 'residents':
-            window.location.href = 'resident/index.php';
+            window.location.href = '../resident/index.php';
             break;
         case 'bhw':
-            window.location.href = 'bhw/index.php';
+            window.location.href = '../bhw/index.php';
             break;
     }
 }

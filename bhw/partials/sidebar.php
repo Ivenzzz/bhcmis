@@ -1,31 +1,23 @@
-<div class="l-navbar show" id="nav-bar">
-    <nav class="nav">
-        <div> 
-            <!-- Logo Section -->
-            <a href="/bhcmis/bhw" class="nav_logo gradient-text"> 
-                <img src="./public/images/punta_mesa_logo.png" alt="Logo" class="admin-logo"> 
-                <span class="nav_logo-name">BHW Dashboard</span> 
-            </a>
+<div class="sidebar d-flex flex-column p-3">
+    <?php
+        $current_page = basename($_SERVER['REQUEST_URI']);
+        if ($current_page == '' || $current_page == 'index.php') {
+            $current_page = 'overview';
+        }
+    ?>
 
-            <!-- Navigation Links -->
-            <div class="nav_list">
-                <?php
-                $current_page = $_SERVER['REQUEST_URI'];
-                ?>
+    <a href="#" class="mb-4">
+        <img src="/bhcmis/public/images/punta_mesa_logo.png" alt="Dashboard Icon" class="icon" style="width: 1.2rem; height: 1.2rem;">
+        <span class="text ms-2">BHW Dashboard</span>
+    </a>
 
-                <a href="/bhcmis/bhw" class="nav_link <?= preg_match('/^\/bhcmis\/bhw$/', $current_page) ? 'active' : '' ?>"> 
-                    <i class='bx bx-home nav_icon'></i> 
-                    <span class="nav_name">Home</span> 
-                </a>
+    <a href="index.php" class="d-flex align-items-center <?= $current_page == 'overview' ? 'active' : '' ?>">
+        <i class="icon fa-solid fa-chart-area text-info"></i>
+        <span class="text ms-2">Overview</span>
+    </a>
 
-
-                <!-- Household Profiling Link -->
-                <a href="/bhcmis/bhw-household-profiling" class="nav_link <?= strpos($current_page, '/bhw-household-profiling') !== false ? 'active' : '' ?>"> 
-                    <i class='bx bxs-home-heart nav_icon'></i>
-                    <span class="nav_name">Household Profiling</span> 
-                </a>
-
-            </div>
-        </div>
-    </nav>
+    <a href="household_records.php" class="d-flex align-items-center <?= $current_page == 'household_records.php' ? 'active' : '' ?>">
+        <i class="icon fa-solid fa-file-alt text-amber"></i>
+        <span class="text ms-2">Household Records</span>
+    </a>
 </div>

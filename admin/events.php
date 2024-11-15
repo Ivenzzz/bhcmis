@@ -2,30 +2,39 @@
 
 session_start();
 
-$title = 'Healthcare Events';
+$title = 'Events';
 
-require './config/db_config.php';
-require './app/models/get_current_user.php';
+require '../partials/global_db_config.php';
+require '../models/get_current_user.php';
 
 $user = getCurrentUser($conn);
-
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php require './app/views/globals/head.php'; ?>
-    <link rel="stylesheet" href="./public/css/admin.css">
+    <?php require '../partials/global_head.php'; ?>
+    <link rel="stylesheet" href="../public/css/main.css">
 </head>
-<body id="body-pd">
-    <?php require 'partials/top_navigation.php'; ?>
+<body class="poppins-regular">
     <?php require 'partials/sidebar.php'; ?>
-    <div class="height-100 main-content">
-        <h1>Events</h1>
-    </div>
-    <?php require './app/views/globals/javascripts.php'; ?>
-    <script src="./public/js/admin/logout.js"></script>
 
+    <div class="flex-grow-1 bg-slate-100">
+
+        <?php require 'partials/header.php'; ?>
+        
+        <div class="container mt-4 px-4">
+            <div class="row">
+                <div class="col-12">
+                    <p>Events Page</p>
+                </div>
+            </div>
+        </div>
+  </div>
+
+
+    <?php require '../partials/global_javascript_links.php'; ?>
+    <script src="../public/js/global_logout.js"></script>
 </body>
 </html>

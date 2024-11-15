@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark header p-2">
     <div class="container-fluid">
         <div class="ms-auto avatar-menu dropdown">
-            <span class="me-2">Welcome, <?= htmlspecialchars($currentUser['username'] ?? 'User'); ?></span>
+            <span class="me-2">Welcome, <?= htmlspecialchars($user['username'] ?? 'User'); ?></span>
             <img src="<?= htmlspecialchars($user['profile_picture']); ?>" alt="Avatar" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             
             <ul class="dropdown-menu dropdown-menu-end p-3">

@@ -2,7 +2,7 @@
 
 session_start();
 
-$title = 'BHW Dashboard';
+$title = 'Appointments';
 
 require '../partials/global_db_config.php';
 require '../models/get_current_user.php';
@@ -27,7 +27,7 @@ $user = getCurrentUser($conn);
         <div class="container mt-4 px-4">
             <div class="row">
                 <div class="col-12">
-                    <p>BHWs Page</p>
+                    <p>Consultations Page</p>
                 </div>
             </div>
         </div>
