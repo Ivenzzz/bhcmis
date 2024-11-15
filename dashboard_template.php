@@ -24,7 +24,7 @@ $user = getCurrentUser($conn);
 
         <?php require 'partials/header.php'; ?>
         
-        <div class="container mt-4 px-4">
+        <div class="container mt-4 px-5">
             <div class="row">
                 <div class="col-12">
                     

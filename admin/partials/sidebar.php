@@ -17,7 +17,7 @@
     </a>
 
     <a href="residents.php" class="<?= $current_page == 'residents.php' ? 'active' : '' ?>">
-        <i class="icon fa-solid fa-person text-amber"></i>
+        <i class="icon fa-solid fa-person text-amber-500"></i>
         <span class="text">Individual Records</span>
     </a>
     <a href="midwife.php" class="<?= $current_page == 'midwife.php' ? 'active' : '' ?>">
@@ -25,7 +25,7 @@
         <span class="text">Midwife</span>
     </a>
     <a href="bhws.php" class="<?= $current_page == 'bhws.php' ? 'active' : '' ?>">
-        <i class="icon fa fa-user-nurse text-red"></i>
+        <i class="icon fa fa-user-nurse text-red-500"></i>
         <span class="text">BHWs</span>
     </a>
     <a href="events.php" class="<?= $current_page == 'events.php' ? 'active' : '' ?>">
