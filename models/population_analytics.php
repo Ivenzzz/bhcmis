@@ -3,7 +3,7 @@
 function getTotalResidents($conn) {
     $sql = "SELECT COUNT(*) AS total_residents 
             FROM personal_information 
-            WHERE isArchived = 0 AND isTransferred = 0 AND isAlive = 1";
+            WHERE isTransferred = 0 AND deceased_date IS NULL";
     $result = $conn->query($sql);
 
     if ($result && $result->num_rows > 0) {
@@ -59,10 +59,10 @@ function getTotalTransferredResidents($conn) {
 }
 
 function getTotalDeceasedResidents($conn) {
-    // SQL query to count residents who are not alive
+    // SQL query to count residents with a deceased_date
     $sql = "SELECT COUNT(*) AS total_deceased
             FROM personal_information
-            WHERE isAlive = 0";
+            WHERE deceased_date IS NOT NULL";
 
     // Execute the query
     $result = $conn->query($sql);

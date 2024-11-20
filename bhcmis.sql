@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2024 at 07:04 AM
+-- Generation Time: Nov 20, 2024 at 07:58 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -127,6 +127,31 @@ INSERT INTO `allergies` (`allergy_id`, `resident_id`, `allergy_type`, `allergen`
 (3, 4, 'Environmental', 'Pollen'),
 (4, 5, 'Food', 'Seafood'),
 (5, 5, 'Insect', 'Bee Sting');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `annual_population`
+--
+
+CREATE TABLE `annual_population` (
+  `population_id` int(11) NOT NULL,
+  `year` year(4) NOT NULL,
+  `total_population` int(11) NOT NULL,
+  `total_males` int(11) NOT NULL,
+  `total_females` int(11) NOT NULL,
+  `deceased_count` int(11) DEFAULT 0,
+  `transferred_count` int(11) DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `annual_population`
+--
+
+INSERT INTO `annual_population` (`population_id`, `year`, `total_population`, `total_males`, `total_females`, `deceased_count`, `transferred_count`, `created_at`, `updated_at`) VALUES
+(1, '2023', 7000, 4000, 3000, 35, 10, '2024-11-20 14:56:49', '2024-11-20 14:56:49');
 
 -- --------------------------------------------------------
 
@@ -548,9 +573,9 @@ CREATE TABLE `personal_information` (
   `phone_number` varchar(20) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `id_picture` varchar(255) DEFAULT NULL,
-  `isAlive` tinyint(1) NOT NULL DEFAULT 1,
   `isTransferred` tinyint(1) NOT NULL DEFAULT 0,
-  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `registered_voter` tinyint(1) NOT NULL DEFAULT 1,
+  `deceased_date` date DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -559,20 +584,20 @@ CREATE TABLE `personal_information` (
 -- Dumping data for table `personal_information`
 --
 
-INSERT INTO `personal_information` (`personal_info_id`, `lastname`, `firstname`, `middlename`, `date_of_birth`, `civil_status`, `educational_attainment`, `occupation`, `religion`, `citizenship`, `address_id`, `sex`, `phone_number`, `email`, `id_picture`, `isAlive`, `isTransferred`, `isArchived`, `created_at`, `updated_at`) VALUES
-(1, 'Victorino', 'Amiel Jose', 'Lakobalo', '2002-04-09', 'Single', 'College Graduate', 'Brgy. Secretary', 'Roman Catholic', 'Filipino', 6, 'male', '09171234567', 'amieljosevictorino@gmail.com', NULL, 1, 0, 0, '2024-07-25 11:07:25', '2024-07-25 11:07:25'),
-(2, 'Singua', 'Reyna Jane', 'Lakobalo', '1994-03-09', 'Single', 'College Graduate', 'Brgy. Midwife', 'Roman Catholic', 'Filipino', 6, 'female', '09281234567', 'reynajanesingua@gmail.com', NULL, 1, 0, 0, '2024-07-25 11:07:25', '2024-07-25 11:07:25'),
-(3, 'Gonzales', 'Ann', 'Ramos', '1978-11-15', 'Married', 'College Undergraduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 3, 'male', '09331234567', 'anngonzales@gmail.com', NULL, 1, 0, 0, '2024-07-25 11:07:25', '2024-09-16 12:56:54'),
-(4, 'Garcia', 'Ana', 'Santos', '1985-07-16', 'Married', 'College Undergraduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 4, 'female', '09441234566', 'ana.garcia@gmail.com', NULL, 1, 0, 0, '2024-07-25 11:07:25', '2024-09-16 14:08:19'),
-(5, 'Mendoza', 'May', 'Alvarez', '1996-12-04', 'Single', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 5, 'male', '09551234567', 'carlos.mendoza@example.com', NULL, 1, 0, 0, '2024-07-25 11:07:25', '2024-07-25 11:07:25'),
-(6, 'Aquino', 'Laura', 'Gonzalez', '1992-09-18', 'Married', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 6, 'female', '09661234567', 'laura.aquino@example.com', NULL, 1, 0, 0, '2024-07-25 11:07:25', '2024-09-27 13:40:16'),
-(7, 'Santos', 'Isabel', 'Navarro', '1983-06-25', 'Legally Separated', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 7, 'female', '09771234567', 'isabel.santos@example.com', NULL, 1, 0, 0, '2024-07-25 11:07:25', '2024-07-25 11:07:25'),
-(8, 'Cruz', 'Annie', 'Castro', '1973-01-10', 'Married', 'Highschool Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 8, 'male', '09881234567', 'annie.cruz@gmail.com', NULL, 1, 0, 0, '2024-07-25 11:07:25', '2024-09-16 14:07:55'),
-(9, 'Morales', 'Elena', 'Garcia', '1999-04-20', 'Single', 'Highschool Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 9, 'male', '09991234567', 'elena.morales@example.com', NULL, 1, 0, 0, '2024-07-25 11:07:25', '2024-09-07 08:42:29'),
-(10, 'Reyes', 'Gabriela', 'Santos', '1981-08-14', 'Married', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 10, 'male', '09182345678', 'gabriel.delosreyes@example.com', NULL, 1, 0, 0, '2024-07-25 11:07:25', '2024-09-10 10:44:05'),
-(13, 'Araneta', 'Roy Marjohn', 'Galjlfad', '2001-08-28', 'Married', 'College Graduate', 'Kingpin', 'Roman Catholic', 'Filipino', 6, 'male', '09308309624', 'roymarjohnaraneta@gmail.com', NULL, 1, 0, 0, '2024-07-25 11:07:25', '2024-09-06 09:32:11'),
-(14, 'Angcona', 'Ruvy', 'Lakobalo', '2001-11-09', 'Married', 'College Undergraduate', 'Teacher', 'Roman Catholic', 'Filipino', 6, 'female', '09586789012', 'ruvyangcona@gmail.com', NULL, 1, 0, 0, '2024-07-25 11:07:25', '2024-09-10 03:31:46'),
-(67, 'Araneta', 'Roy Marjohn Jr.', 'Lakobalo', '2018-10-03', 'Single', NULL, NULL, 'Filipino', 'Roman Catholic', 6, 'male', NULL, NULL, NULL, 1, 0, 0, '2024-10-11 15:08:06', '2024-10-11 15:08:06');
+INSERT INTO `personal_information` (`personal_info_id`, `lastname`, `firstname`, `middlename`, `date_of_birth`, `civil_status`, `educational_attainment`, `occupation`, `religion`, `citizenship`, `address_id`, `sex`, `phone_number`, `email`, `id_picture`, `isTransferred`, `registered_voter`, `deceased_date`, `created_at`, `updated_at`) VALUES
+(1, 'Victorino', 'Amiel Jose', 'Lakobalo', '2002-04-09', 'Single', 'College Graduate', 'Brgy. Secretary', 'Roman Catholic', 'Filipino', 6, 'male', '09171234567', 'amieljosevictorino@gmail.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-07-25 11:07:25'),
+(2, 'Singua', 'Reyna Jane', 'Lakobalo', '1994-03-09', 'Single', 'College Graduate', 'Brgy. Midwife', 'Roman Catholic', 'Filipino', 6, 'female', '09281234567', 'reynajanesingua@gmail.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-07-25 11:07:25'),
+(3, 'Gonzales', 'Ann', 'Ramos', '1978-11-15', 'Married', 'College Undergraduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 3, 'male', '09331234567', 'anngonzales@gmail.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-16 12:56:54'),
+(4, 'Garcia', 'Ana', 'Santos', '1985-07-16', 'Married', 'College Undergraduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 4, 'female', '09441234566', 'ana.garcia@gmail.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-16 14:08:19'),
+(5, 'Mendoza', 'May', 'Alvarez', '1996-12-04', 'Single', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 5, 'male', '09551234567', 'carlos.mendoza@example.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-07-25 11:07:25'),
+(6, 'Aquino', 'Laura', 'Gonzalez', '1992-09-18', 'Married', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 6, 'female', '09661234567', 'laura.aquino@example.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-27 13:40:16'),
+(7, 'Santos', 'Isabel', 'Navarro', '1983-06-25', 'Legally Separated', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 7, 'female', '09771234567', 'isabel.santos@example.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-07-25 11:07:25'),
+(8, 'Cruz', 'Annie', 'Castro', '1973-01-10', 'Married', 'Highschool Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 8, 'male', '09881234567', 'annie.cruz@gmail.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-16 14:07:55'),
+(9, 'Morales', 'Elena', 'Garcia', '1999-04-20', 'Single', 'Highschool Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 9, 'male', '09991234567', 'elena.morales@example.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-07 08:42:29'),
+(10, 'Reyes', 'Gabriela', 'Santos', '1981-08-14', 'Married', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 10, 'male', '09182345678', 'gabriel.delosreyes@example.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-10 10:44:05'),
+(13, 'Araneta', 'Roy Marjohn', 'Galjlfad', '2001-08-28', 'Married', 'College Graduate', 'Kingpin', 'Roman Catholic', 'Filipino', 6, 'male', '09308309624', 'roymarjohnaraneta@gmail.com', NULL, 0, 1, NULL, '2024-07-16 11:07:25', '2024-09-06 09:32:11'),
+(14, 'Angcona', 'Ruvy', 'Lakobalo', '2001-11-09', 'Married', 'College Undergraduate', 'Teacher', 'Roman Catholic', 'Filipino', 6, 'female', '09586789012', 'ruvyangcona@gmail.com', NULL, 0, 1, NULL, '2024-07-16 11:07:25', '2024-09-10 03:31:46'),
+(67, 'Araneta', 'Roy Marjohn Jr.', 'Lakobalo', '2018-10-03', 'Single', NULL, NULL, 'Filipino', 'Roman Catholic', 6, 'male', NULL, NULL, NULL, 0, 1, NULL, '2024-07-17 11:07:25', '2024-10-11 15:08:06');
 
 -- --------------------------------------------------------
 
@@ -785,6 +810,12 @@ ALTER TABLE `allergies`
   ADD KEY `fk_allergiesResId` (`resident_id`);
 
 --
+-- Indexes for table `annual_population`
+--
+ALTER TABLE `annual_population`
+  ADD PRIMARY KEY (`population_id`);
+
+--
 -- Indexes for table `appointments`
 --
 ALTER TABLE `appointments`
@@ -983,6 +1014,12 @@ ALTER TABLE `admin`
 --
 ALTER TABLE `allergies`
   MODIFY `allergy_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `annual_population`
+--
+ALTER TABLE `annual_population`
+  MODIFY `population_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `appointments`

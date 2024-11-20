@@ -36,7 +36,7 @@ $totalFamilies = getTotalFamilies($conn);
 
             <div class="row">
                 <div class="col-md-4 mb-3">
-                    <div class="card text-center p-3 shadow">
+                    <div class="card text-center p-3 shadow bg-sky-100">
                         <div class="card-body">
                             <i class="fa-solid fa-users fa-2x mb-3 text-sky-500"></i>
                             <h5 class="card-title display-6"><?= $totalResidents; ?></h5>
@@ -48,7 +48,7 @@ $totalFamilies = getTotalFamilies($conn);
                     </div>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <div class="card text-center p-3 shadow">
+                    <div class="card text-center p-3 shadow bg-green-100">
                         <div class="card-body">
                             <i class="fa-solid fa-house-chimney-user fa-2x mb-3 text-green-500"></i>
                             <h5 class="card-title display-6"><?= $totalHouseholds; ?></h5>
@@ -60,7 +60,7 @@ $totalFamilies = getTotalFamilies($conn);
                     </div>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <div class="card text-center p-3 shadow">
+                    <div class="card text-center p-3 shadow bg-indigo-100">
                         <div class="card-body">
                             <i class="fa-solid fa-people-roof fa-2x mb-3 text-indigo-500"></i>
                             <h5 class="card-title display-6"><?= $totalFamilies; ?></h5>

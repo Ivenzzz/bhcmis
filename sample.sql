@@ -20,12 +20,24 @@ CREATE TABLE `personal_information` (
   `phone_number` varchar(20) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `id_picture` varchar(255) DEFAULT NULL,
-  `isAlive` tinyint(1) NOT NULL DEFAULT 1,
   `isTransferred` tinyint(1) NOT NULL DEFAULT 0,
-  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `registered_voter` tinyint(1) NOT NULL DEFAULT 1,
+  `deceased_date` date DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE `annual_population` (
+  `population_id` int(11) NOT NULL,
+  `year` year(4) NOT NULL,
+  `total_population` int(11) NOT NULL,
+  `total_males` int(11) NOT NULL,
+  `total_females` int(11) NOT NULL,
+  `deceased_count` int(11) DEFAULT 0,
+  `transferred_count` int(11) DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `household` (
   `household_id` int(10) NOT NULL,
