@@ -1,6 +1,9 @@
 initPopulationGrowth();
 initPopulationGrowthText();
 initPopulationPerYearChart();
+initPopulationPerArea();
+initAgeDistribution();
+initGenderDistribution();
 
 function initPopulationGrowth() {
     document.addEventListener("DOMContentLoaded", function () {
@@ -153,5 +156,206 @@ function initPopulationPerYearChart() {
                 }
             })
             .catch((error) => console.error("Error fetching the API:", error));
+    });
+}
+
+function initPopulationPerArea() {
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch('../api/population_per_area.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    // Extract labels and data for the chart
+                    const labels = data.data.map(area => area.address_name);
+                    const populationCounts = data.data.map(area => area.population_count);
+
+                    // Render the horizontal bar chart
+                    const ctx = document.getElementById("populationPerAreaChart").getContext("2d");
+                    new Chart(ctx, {
+                        type: "bar", // Bar chart
+                        data: {
+                            labels: labels, // Area names
+                            datasets: [
+                                {
+                                    label: "Population Count",
+                                    data: populationCounts, // Population count per area
+                                    backgroundColor: "#2ecc71", // Bar color
+                                    borderColor: "#27ae60",
+                                    borderWidth: 1
+                                }
+                            ]
+                        },
+                        options: {
+                            indexAxis: "y", // Horizontal bars
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: "top"
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (context) {
+                                            return `${context.dataset.label}: ${context.raw}`;
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: "Population Count"
+                                    }
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: "Area"
+                                    }
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    console.error("Failed to fetch population per area data:", data.message);
+                }
+            })
+            .catch(error => console.error("Error fetching population per area data:", error));
+    });
+}
+
+function initAgeDistribution() {
+    document.addEventListener("DOMContentLoaded", function () {
+        // Fetch the API data
+        fetch('../api/age_distribution.php') // Adjust to your API's actual path
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.status === "success") {
+                    const ageData = data.data;
+
+                    // Prepare data for the chart
+                    const labels = ["Child (0-12)", "Minor (13-17)", "Adult (18-59)", "Senior (60+)"];
+                    const chartData = [
+                        ageData.child,
+                        ageData.minor,
+                        ageData.adult,
+                        ageData.senior,
+                    ];
+                    const backgroundColors = ["#3498db", "#9b59b6", "#2ecc71", "#e74c3c"];
+
+                    // Render the pie chart
+                    const ctx = document.getElementById("ageDistributionChart").getContext("2d");
+                    new Chart(ctx, {
+                        type: "pie", // Pie chart
+                        data: {
+                            labels: labels,
+                            datasets: [
+                                {
+                                    label: "Age Distribution",
+                                    data: chartData,
+                                    backgroundColor: backgroundColors,
+                                    borderColor: "#fff",
+                                    borderWidth: 1,
+                                },
+                            ],
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: "bottom",
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (context) {
+                                            const percentage = (
+                                                (context.raw /
+                                                    chartData.reduce((a, b) => a + b, 0)) *
+                                                100
+                                            ).toFixed(2);
+                                            return `${context.label}: ${context.raw} (${percentage}%)`;
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    });
+                } else {
+                    console.error("Failed to fetch age distribution:", data.message);
+                }
+            })
+            .catch((error) => console.error("Error fetching the API:", error));
+    });
+}
+
+function initGenderDistribution() {
+    document.addEventListener("DOMContentLoaded", function () {
+        // Fetch the gender distribution data from the API
+        fetch('../api/gender_distribution.php') // Replace with the actual API URL
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    const genderData = data.data;
+
+                    // Prepare data for the chart
+                    const labels = ["Male", "Female"];
+                    const distribution = [genderData.male, genderData.female];
+
+                    // Get the canvas context
+                    const ctx = document.getElementById("genderDistributionChart").getContext("2d");
+
+                    // Render the chart
+                    new Chart(ctx, {
+                        type: "bar",
+                        data: {
+                            labels: labels,
+                            datasets: [
+                                {
+                                    label: "Population",
+                                    data: distribution,
+                                    backgroundColor: ["#3498db", "#e74c3c"], // Blue for male, Red for female
+                                    borderColor: ["#2980b9", "#c0392b"],
+                                    borderWidth: 1,
+                                },
+                            ],
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: false, // Hides the legend
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (context) {
+                                            return `${context.dataset.label}: ${context.raw}`;
+                                        },
+                                    },
+                                },
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: "Population Count",
+                                    },
+                                },
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: "Gender",
+                                    },
+                                },
+                            },
+                        },
+                    });
+                } else {
+                    console.error("Error fetching gender distribution:", data.message);
+                }
+            })
+            .catch(error => console.error("Error fetching the API:", error));
     });
 }

@@ -18,7 +18,7 @@
 
     <a href="residents.php" class="<?= $current_page == 'residents.php' ? 'active' : '' ?>">
         <i class="icon fa-solid fa-person text-amber-500"></i>
-        <span class="text">Individual Records</span>
+        <span class="text">Residents Records</span>
     </a>
     <a href="midwife.php" class="<?= $current_page == 'midwife.php' ? 'active' : '' ?>">
         <i class="icon fa fa-user-md text-warning"></i>
