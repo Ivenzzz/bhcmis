@@ -4,6 +4,7 @@ initPopulationPerYearChart();
 initPopulationPerArea();
 initAgeDistribution();
 initGenderDistribution();
+initYearlyPopulationTable();
 
 function initPopulationGrowth() {
     document.addEventListener("DOMContentLoaded", function () {
@@ -357,5 +358,18 @@ function initGenderDistribution() {
                 }
             })
             .catch(error => console.error("Error fetching the API:", error));
+    });
+}
+
+function initYearlyPopulationTable() {
+    $(document).ready(function() {
+        // Initialize the DataTable
+        $('#yearlyPopulationTable').DataTable({
+            "paging": true,        // Enable pagination
+            "ordering": true,      // Enable sorting
+            "searching": true,     // Enable searching/filtering
+            "info": true,          // Display table information
+            "responsive": true     // Make the table responsive
+        });
     });
 }

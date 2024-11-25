@@ -14,6 +14,7 @@ $totalHouseholds = getTotalHouseholds($conn);
 $totalFamilies = getTotalFamilies($conn);
 $transferredResidents = getTotalTransferredResidents($conn);
 $deceasedResidents = getTotalDeceasedResidents($conn);
+$yearly_population = getYearlyPopulationInfo($conn);
 
 ?>
 
@@ -34,7 +35,7 @@ $deceasedResidents = getTotalDeceasedResidents($conn);
 
             <nav aria-label="breadcrumb" class="mb-4">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.php">Overview</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Overview</li>
                 </ol>
             </nav>    
 
@@ -115,6 +116,44 @@ $deceasedResidents = getTotalDeceasedResidents($conn);
             </div>
 
             <div class="row mb-4 shadow p-4">
+                <div class="col-md-12 p-2 shadow">
+                    <h2 class="text-center mb-4 poppins-extralight">Yearly Population</h2>
+                    <table id="yearlyPopulationTable" class="table table-bordered table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Total Population</th>
+                                <th>Total Males</th>
+                                <th>Total Females</th>
+                                <th>Deceased Count</th>
+                                <th>Transferred Count</th>
+                                <th>Growth Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (!empty($yearly_population)): ?>
+                                <?php foreach ($yearly_population as $record): ?>
+                                    <tr>
+                                        <td><?php echo $record['year']; ?></td>
+                                        <td><?php echo number_format($record['total_population']); ?></td>
+                                        <td><?php echo number_format($record['total_males']); ?></td>
+                                        <td><?php echo number_format($record['total_females']); ?></td>
+                                        <td><?php echo number_format($record['deceased_count']); ?></td>
+                                        <td><?php echo number_format($record['transferred_count']); ?></td>
+                                        <td><?php echo number_format($record['growth_rate'], 2) . '%'; ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="8" class="text-center">No population records found.</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row mb-4 shadow p-4">
                 <div class="col-md-5 p-2 shadow">
                     <h5 class="text-center poppins-extralight">Age Distribution</h5>
                     <canvas id="ageDistributionChart"></canvas>
@@ -128,7 +167,7 @@ $deceasedResidents = getTotalDeceasedResidents($conn);
             <div class="row mb-4 p-4">
                 <div class="col-md-12 d-flex justify-content-end">
                     <button class="btn btn-primary me-2">Save</button>
-                    <a href="print_population_details.php" target="_blank"><button class="btn btn-success">Print</button></a>
+                    <a href="print_population_details.php" target="_blank"><button class="btn btn-success">Print Population Info</button></a>
                 </div>
             </div>
 
@@ -137,6 +176,6 @@ $deceasedResidents = getTotalDeceasedResidents($conn);
 
     <?php require '../partials/global_javascript_links.php'; ?>
     <script src="../public/js/global_logout.js"></script>
-    <script src="../public/js/population_details_charts.js"></script>
+    <script src="../public/js/admin_population_analytics.js"></script>
 </body>
 </html>

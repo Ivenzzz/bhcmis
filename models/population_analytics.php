@@ -218,6 +218,35 @@ function getPopulationGrowthRate($conn) {
     ];
 }
 
+function getYearlyPopulationInfo($conn) {
+    // SQL query to retrieve all records
+    $sql = "SELECT 
+                population_id, 
+                year, 
+                total_population, 
+                growth_rate,
+                total_males, 
+                total_females, 
+                deceased_count, 
+                transferred_count, 
+                created_at, 
+                updated_at 
+            FROM annual_population 
+            ORDER BY year ASC"; // Order by year, ascending
+
+    // Execute the query
+    $result = $conn->query($sql);
+
+    // Check if any data was returned
+    if ($result->num_rows > 0) {
+        // Fetch all data as an associative array
+        $yearly_population = $result->fetch_all(MYSQLI_ASSOC);
+        return $yearly_population; // Return all population records
+    } else {
+        return []; // Return an empty array if no records found
+    }
+}
+
 
 
 

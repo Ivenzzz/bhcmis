@@ -2,7 +2,7 @@
     <?php
         $current_page = basename($_SERVER['REQUEST_URI']);
         if ($current_page == '' || $current_page == 'index.php') {
-            $current_page = 'statistics';
+            $current_page = 'index';
         }
     ?>
 
@@ -11,9 +11,9 @@
         <span class="text ms-2">Admin Dashboard</span>
     </a>
 
-    <a href="index.php" class="d-flex align-items-center <?= $current_page == 'statistics' ? 'active' : '' ?>">
-        <i class="icon fa-solid fa-chart-area text-info"></i>
-        <span class="text ms-2">Overview</span>
+    <a href="index.php" class="d-flex align-items-center <?= $current_page == 'index' ? 'active' : '' ?>">
+        <i class="icon fa-solid fa-people-group text-indigo-500"></i>
+        <span class="text ms-2">Population</span>
     </a>
 
     <a href="residents.php" class="<?= $current_page == 'residents.php' ? 'active' : '' ?>">
