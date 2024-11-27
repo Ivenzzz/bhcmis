@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2024 at 07:58 AM
+-- Generation Time: Nov 25, 2024 at 08:54 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -138,6 +138,7 @@ CREATE TABLE `annual_population` (
   `population_id` int(11) NOT NULL,
   `year` year(4) NOT NULL,
   `total_population` int(11) NOT NULL,
+  `growth_rate` decimal(10,2) NOT NULL,
   `total_males` int(11) NOT NULL,
   `total_females` int(11) NOT NULL,
   `deceased_count` int(11) DEFAULT 0,
@@ -150,8 +151,9 @@ CREATE TABLE `annual_population` (
 -- Dumping data for table `annual_population`
 --
 
-INSERT INTO `annual_population` (`population_id`, `year`, `total_population`, `total_males`, `total_females`, `deceased_count`, `transferred_count`, `created_at`, `updated_at`) VALUES
-(1, '2023', 7000, 4000, 3000, 35, 10, '2024-11-20 14:56:49', '2024-11-20 14:56:49');
+INSERT INTO `annual_population` (`population_id`, `year`, `total_population`, `growth_rate`, `total_males`, `total_females`, `deceased_count`, `transferred_count`, `created_at`, `updated_at`) VALUES
+(1, '2023', 10, 15.00, 6, 4, 0, 0, '2024-11-20 14:56:49', '2024-11-22 02:01:30'),
+(2, '2024', 13, 30.00, 8, 5, 0, 0, '2024-11-20 16:20:46', '2024-11-22 02:01:31');
 
 -- --------------------------------------------------------
 
@@ -597,7 +599,7 @@ INSERT INTO `personal_information` (`personal_info_id`, `lastname`, `firstname`,
 (10, 'Reyes', 'Gabriela', 'Santos', '1981-08-14', 'Married', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 10, 'male', '09182345678', 'gabriel.delosreyes@example.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-10 10:44:05'),
 (13, 'Araneta', 'Roy Marjohn', 'Galjlfad', '2001-08-28', 'Married', 'College Graduate', 'Kingpin', 'Roman Catholic', 'Filipino', 6, 'male', '09308309624', 'roymarjohnaraneta@gmail.com', NULL, 0, 1, NULL, '2024-07-16 11:07:25', '2024-09-06 09:32:11'),
 (14, 'Angcona', 'Ruvy', 'Lakobalo', '2001-11-09', 'Married', 'College Undergraduate', 'Teacher', 'Roman Catholic', 'Filipino', 6, 'female', '09586789012', 'ruvyangcona@gmail.com', NULL, 0, 1, NULL, '2024-07-16 11:07:25', '2024-09-10 03:31:46'),
-(67, 'Araneta', 'Roy Marjohn Jr.', 'Lakobalo', '2018-10-03', 'Single', NULL, NULL, 'Filipino', 'Roman Catholic', 6, 'male', NULL, NULL, NULL, 0, 1, NULL, '2024-07-17 11:07:25', '2024-10-11 15:08:06');
+(67, 'Araneta', 'Roy Marjohn Jr.', 'Lakobalo', '2018-10-03', 'Single', NULL, NULL, 'Filipino', 'Roman Catholic', 6, 'male', NULL, NULL, NULL, 0, 0, NULL, '2024-07-17 11:07:25', '2024-10-11 15:08:06');
 
 -- --------------------------------------------------------
 
@@ -1019,7 +1021,7 @@ ALTER TABLE `allergies`
 -- AUTO_INCREMENT for table `annual_population`
 --
 ALTER TABLE `annual_population`
-  MODIFY `population_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `population_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `appointments`

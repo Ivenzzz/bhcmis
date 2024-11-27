@@ -18,8 +18,14 @@
 
     <a href="residents.php" class="<?= $current_page == 'residents.php' ? 'active' : '' ?>">
         <i class="icon fa-solid fa-person text-amber-500"></i>
-        <span class="text">Residents Records</span>
+        <span class="text">Residents</span>
     </a>
+
+    <a href="households.php" class="<?= $current_page == 'households.php' ? 'active' : '' ?>">
+        <i class="icon fa-solid fa-house-chimney-user text-green-500"></i>
+        <span class="text">Households</span>
+    </a>
+
     <a href="midwife.php" class="<?= $current_page == 'midwife.php' ? 'active' : '' ?>">
         <i class="icon fa fa-user-md text-warning"></i>
         <span class="text">Midwife</span>

@@ -116,9 +116,9 @@ $yearly_population = getYearlyPopulationInfo($conn);
             </div>
 
             <div class="row mb-4 shadow p-4">
-                <div class="col-md-12 p-2 shadow">
-                    <h2 class="text-center mb-4 poppins-extralight">Yearly Population</h2>
-                    <table id="yearlyPopulationTable" class="table table-bordered table-striped table-sm">
+                <div class="col-md-12 p-2">
+                    <h5 class="text-center mb-4 poppins-extralight">Yearly Population</h5>
+                    <table id="yearlyPopulationTable" class="table table-bordered table-striped table-sm text-center">
                         <thead>
                             <tr>
                                 <th>Year</th>
@@ -164,6 +164,14 @@ $yearly_population = getYearlyPopulationInfo($conn);
                 </div>
             </div>
 
+            <div class="row mb-4 d-flex justify-content-center">
+                <div class="col-md-6 p-3 shadow">
+                    <h5 class="text-center poppins-extralight">Top 5 Diseases/Medical Conditions</h5>
+                    <canvas id="diseasesChart"></canvas>
+                </div>
+            </div>
+
+
             <div class="row mb-4 p-4">
                 <div class="col-md-12 d-flex justify-content-end">
                     <button class="btn btn-primary me-2">Save</button>
@@ -177,5 +185,9 @@ $yearly_population = getYearlyPopulationInfo($conn);
     <?php require '../partials/global_javascript_links.php'; ?>
     <script src="../public/js/global_logout.js"></script>
     <script src="../public/js/admin_population_analytics.js"></script>
+    <script>
+    
+</script>
+
 </body>
 </html>

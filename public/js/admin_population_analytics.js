@@ -5,6 +5,7 @@ initPopulationPerArea();
 initAgeDistribution();
 initGenderDistribution();
 initYearlyPopulationTable();
+initTopDiseasesPie();
 
 function initPopulationGrowth() {
     document.addEventListener("DOMContentLoaded", function () {
@@ -371,5 +372,70 @@ function initYearlyPopulationTable() {
             "info": true,          // Display table information
             "responsive": true     // Make the table responsive
         });
+    });
+}
+
+function initTopDiseasesPie() {
+    document.addEventListener('DOMContentLoaded', function () {
+        // Fetch data from the API
+        fetch('../api/top_5_diseases.php') // Replace with the actual path to your PHP API
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const diseases = data.data;
+
+                    // Extract labels and counts
+                    const labels = diseases.map(item => item.condition_name);
+                    const counts = diseases.map(item => item.resident_count);
+
+                    // Define chart data
+                    const chartData = {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Number of Residents',
+                            data: counts,
+                            backgroundColor: [
+                                '#FF6384',
+                                '#36A2EB',
+                                '#FFCE56',
+                                '#4BC0C0',
+                                '#9966FF'
+                            ],
+                            borderWidth: 1
+                        }]
+                    };
+
+                    // Render the chart
+                    const ctx = document.getElementById('diseasesChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'doughnut',
+                        data: chartData,
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top'
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (context) {
+                                            let label = context.label || '';
+                                            const value = context.raw;
+                                            if (label) {
+                                                label += ': ';
+                                            }
+                                            label += value + ' residents';
+                                            return label;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    console.error('Failed to load data:', data.message);
+                }
+            })
+            .catch(error => console.error('Error fetching data:', error));
     });
 }

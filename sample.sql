@@ -27,6 +27,19 @@ CREATE TABLE `personal_information` (
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+CREATE TABLE `medical_conditions` (
+  `medical_conditions_id` int(10) NOT NULL,
+  `condition_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE `residents_medical_condition` (
+  `rmc_id` int(10) NOT NULL,
+  `resident_id` int(10) NOT NULL,
+  `medical_conditions_id` int(10) NOT NULL,
+  `diagnosed_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
 CREATE TABLE `annual_population` (
   `population_id` int(11) NOT NULL,
   `year` year(4) NOT NULL,
