@@ -21,10 +21,11 @@
         <span class="text">Residents</span>
     </a>
 
-    <a href="households.php" class="<?= $current_page == 'households.php' ? 'active' : '' ?>">
+    <a href="households.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['households.php', 'families.php', 'family_members.php']) ? 'active' : '' ?>">
         <i class="icon fa-solid fa-house-chimney-user text-green-500"></i>
         <span class="text">Households</span>
     </a>
+
 
     <a href="midwife.php" class="<?= $current_page == 'midwife.php' ? 'active' : '' ?>">
         <i class="icon fa fa-user-md text-warning"></i>

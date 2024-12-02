@@ -7,9 +7,11 @@ $title = 'Households';
 require '../partials/global_db_config.php';
 require '../models/get_current_user.php';
 require '../models/households.php';
+require '../models/addresses.php';
 
 $user = getCurrentUser($conn);
 $households = getAllHouseholds($conn);
+$addresses = getAllAddresses($conn);
 
 ?>
 
@@ -28,16 +30,15 @@ $households = getAllHouseholds($conn);
         
         <div class="container mt-4 px-5">
 
-        <div class="row">
-            <div class="col-12">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Households</li>
-                    </ol>
-                </nav>
+            <div class="row">
+                <div class="col-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active" aria-current="page">Households</li>
+                        </ol>
+                    </nav>
+                </div>
             </div>
-        </div>
-
 
             <div class="row mb-4">
                 <div class="col-md-12 shadow">
@@ -67,10 +68,21 @@ $households = getAllHouseholds($conn);
                                         <td><?php echo htmlspecialchars($household['toilet_facility']); ?></td>
                                         <td><?php echo htmlspecialchars($household['number_of_families']); ?></td>
                                         <td>BHW <?php echo htmlspecialchars($household['bhw_name']); ?></td>
-                                        <td>
-                                            <a href="families.php?household_id=<?php echo urlencode($household['household_id']); ?>" class="btn btn-success">View Families</a>
+                                        <td class="d-flex justify-content-center">
+                                            <a href="families.php?household_id=<?php echo urlencode($household['household_id']); ?>" class="btn btn-success btn-sm me-2">
+                                                View Families <i class="fa-solid fa-people-roof"></i>
+                                            </a>
+                                            <button 
+                                                class="btn btn-warning btn-sm" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#updateHouseholdModal<?php echo htmlspecialchars($household['household_id']); ?>">
+                                                Update <i class="fa-solid fa-edit"></i>
+                                            </button>
                                         </td>
                                     </tr>
+
+                                    <?php require 'partials/update_household_modal.php'; ?>
+
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>

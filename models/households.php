@@ -51,23 +51,32 @@ function getAllHouseholds($conn) {
 }
 
 function getFamiliesByHouseholdId($conn, $household_id) {
-    // Prepare the SQL query to retrieve families for the specified household_id
+    // SQL query to retrieve families, head of the family, family name, number of members, and parent family name
     $sql = "
         SELECT 
             f.family_id, 
             f.parent_family_id, 
             f.4PsMember,
-            fm.role, 
-            p.firstname, 
-            p.lastname 
+            CONCAT(pi.lastname, ' Family') AS family_name, 
+            CONCAT(pi.firstname, ' ', pi.lastname) AS head_of_family,
+            (SELECT COUNT(*) 
+             FROM family_members fm 
+             WHERE fm.family_id = f.family_id) AS number_of_members,
+            (SELECT CONCAT(pi2.lastname, ' Family')
+             FROM families pf
+             LEFT JOIN family_members pfm ON pf.family_id = pfm.family_id AND pfm.role = 'husband'
+             LEFT JOIN residents r2 ON pfm.resident_id = r2.resident_id
+             LEFT JOIN personal_information pi2 ON r2.personal_info_id = pi2.personal_info_id
+             WHERE pf.family_id = f.parent_family_id
+             LIMIT 1) AS parent_family
         FROM 
             families f
         LEFT JOIN 
-            family_members fm ON f.family_id = fm.family_id
+            family_members fm ON f.family_id = fm.family_id AND fm.role = 'husband'
         LEFT JOIN 
             residents r ON fm.resident_id = r.resident_id
         LEFT JOIN 
-            personal_information p ON r.personal_info_id = p.personal_info_id
+            personal_information pi ON r.personal_info_id = pi.personal_info_id
         WHERE 
             f.family_id IN (
                 SELECT hm.family_id 
@@ -99,6 +108,63 @@ function getFamiliesByHouseholdId($conn, $household_id) {
     }
 }
 
+function getFamilyMembersByFamilyId($conn, $family_id) {
+    // SQL query to retrieve family members, the family name, and age
+    $sql = "
+        SELECT 
+            fm.fmember_id,
+            fm.role,
+            r.resident_id,
+            pi.firstname,
+            pi.lastname,
+            pi.middlename,
+            pi.date_of_birth,
+            pi.sex,
+            pi.civil_status,
+            pi.educational_attainment,
+            pi.occupation,
+            TIMESTAMPDIFF(YEAR, pi.date_of_birth, CURDATE()) AS age, -- Calculate age
+            CONCAT(
+                (SELECT pi_head.lastname 
+                 FROM family_members fm_head
+                 LEFT JOIN residents r_head ON fm_head.resident_id = r_head.resident_id
+                 LEFT JOIN personal_information pi_head ON r_head.personal_info_id = pi_head.personal_info_id
+                 WHERE fm_head.family_id = fm.family_id AND fm_head.role = 'husband'
+                 LIMIT 1
+                ), ' Family'
+            ) AS family_name
+        FROM 
+            family_members fm
+        LEFT JOIN 
+            residents r ON fm.resident_id = r.resident_id
+        LEFT JOIN 
+            personal_information pi ON r.personal_info_id = pi.personal_info_id
+        WHERE 
+            fm.family_id = ?
+    ";
+
+    // Prepare and execute the query
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param("i", $family_id);  // Bind the family_id as an integer
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        // Check if there are any members
+        if ($result && $result->num_rows > 0) {
+            $members = [];
+            while ($row = $result->fetch_assoc()) {
+                $members[] = $row;
+            }
+            return $members;  // Return the family members data
+        } else {
+            return [];  // No members found
+        }
+    } else {
+        // Handle query preparation failure
+        echo "Error preparing the query.";
+        return [];
+    }
+}
 
 
 ?>
