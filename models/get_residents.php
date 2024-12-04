@@ -13,7 +13,7 @@ function getAllResidents($conn) {
             p.address_id,
             p.civil_status,
             p.sex,
-            p.registered_voter,  
+            p.isRegisteredVoter,  
             a.address_name, 
             a.address_type, 
             p.created_at, 

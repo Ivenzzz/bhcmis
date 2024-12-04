@@ -68,7 +68,7 @@ $residents = getAllResidents($conn);
                                     <td>
                                         <?php 
                                         // Check if the resident is a registered voter
-                                        if ($resident['registered_voter']) {
+                                        if ($resident['isRegisteredVoter']) {
                                             // Display a green check icon for registered voters
                                             echo '<i class="fas fa-check-circle text-green-500"></i>';
                                         } else {
@@ -78,8 +78,9 @@ $residents = getAllResidents($conn);
                                         ?>
                                     </td>                                    
                                     <td>
-                                        <button class="btn btn-info">More</button>
+                                        <a href="resident_details.php?resident_id=<?php echo htmlspecialchars($resident['resident_id']); ?>" class="btn btn-info">More</a>
                                     </td>
+
                                 </tr>
                             <?php
                                 }

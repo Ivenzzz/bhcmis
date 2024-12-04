@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 25, 2024 at 08:54 AM
+-- Generation Time: Dec 04, 2024 at 07:49 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -327,7 +327,7 @@ CREATE TABLE `families` (
 --
 
 INSERT INTO `families` (`family_id`, `parent_family_id`, `4PsMember`) VALUES
-(1001, NULL, 1),
+(1001, NULL, 0),
 (1002, 1001, 1);
 
 -- --------------------------------------------------------
@@ -349,7 +349,8 @@ CREATE TABLE `family_members` (
 
 INSERT INTO `family_members` (`fmember_id`, `family_id`, `resident_id`, `role`) VALUES
 (1, 1001, 4, 'husband'),
-(2, 1001, 5, 'wife');
+(2, 1001, 5, 'wife'),
+(56, 1001, 99, 'child');
 
 -- --------------------------------------------------------
 
@@ -413,18 +414,20 @@ CREATE TABLE `household` (
   `housing_type` enum('Owned','Rented','Other') NOT NULL,
   `construction_materials` enum('light','strong') NOT NULL,
   `lighting_facilities` enum('electricity','kerosene') NOT NULL,
-  `water_source` enum('LEVEL 1 - Point Source','LEVEL 2 - Communal Faucet','LEVEL 3 - Individual Connection','OTHERS - For doubtful sources, open dug well etc.') NOT NULL,
-  `toilet_facility` enum('Pointflush type connected to septic tank','Pointflush toilet connected to septic tank and to sewerage system','Ventilated Pit','Overhung Latrine','Without toilet') NOT NULL,
-  `recorded_by` int(10) NOT NULL
+  `water_source` enum('Point Source','Communal Faucet','Individual Connection','OTHERS') NOT NULL,
+  `toilet_facility` enum('Pointflush type','Ventilated Pit','Overhung Latrine','Without toilet') NOT NULL,
+  `recorded_by` int(10) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `household`
 --
 
-INSERT INTO `household` (`household_id`, `address_id`, `year_resided`, `housing_type`, `construction_materials`, `lighting_facilities`, `water_source`, `toilet_facility`, `recorded_by`) VALUES
-(1001, 6, '2000', 'Owned', 'strong', 'electricity', 'LEVEL 1 - Point Source', 'Pointflush type connected to septic tank', 1),
-(1002, 6, '2015', 'Rented', 'strong', 'electricity', 'LEVEL 1 - Point Source', 'Pointflush type connected to septic tank', 1);
+INSERT INTO `household` (`household_id`, `address_id`, `year_resided`, `housing_type`, `construction_materials`, `lighting_facilities`, `water_source`, `toilet_facility`, `recorded_by`, `created_at`, `updated_at`) VALUES
+(1001, 6, '2000', 'Owned', 'strong', 'electricity', 'Point Source', 'Pointflush type', 1, '2024-12-02 10:31:14', '2024-12-02 10:31:39'),
+(1002, 6, '2015', 'Rented', 'strong', 'electricity', 'Individual Connection', 'Pointflush type', 1, '2024-12-02 10:31:14', '2024-12-02 10:31:39');
 
 -- --------------------------------------------------------
 
@@ -576,7 +579,8 @@ CREATE TABLE `personal_information` (
   `email` varchar(255) DEFAULT NULL,
   `id_picture` varchar(255) DEFAULT NULL,
   `isTransferred` tinyint(1) NOT NULL DEFAULT 0,
-  `registered_voter` tinyint(1) NOT NULL DEFAULT 1,
+  `isDeceased` tinyint(1) NOT NULL DEFAULT 0,
+  `isRegisteredVoter` tinyint(1) NOT NULL DEFAULT 1,
   `deceased_date` date DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
@@ -586,20 +590,20 @@ CREATE TABLE `personal_information` (
 -- Dumping data for table `personal_information`
 --
 
-INSERT INTO `personal_information` (`personal_info_id`, `lastname`, `firstname`, `middlename`, `date_of_birth`, `civil_status`, `educational_attainment`, `occupation`, `religion`, `citizenship`, `address_id`, `sex`, `phone_number`, `email`, `id_picture`, `isTransferred`, `registered_voter`, `deceased_date`, `created_at`, `updated_at`) VALUES
-(1, 'Victorino', 'Amiel Jose', 'Lakobalo', '2002-04-09', 'Single', 'College Graduate', 'Brgy. Secretary', 'Roman Catholic', 'Filipino', 6, 'male', '09171234567', 'amieljosevictorino@gmail.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-07-25 11:07:25'),
-(2, 'Singua', 'Reyna Jane', 'Lakobalo', '1994-03-09', 'Single', 'College Graduate', 'Brgy. Midwife', 'Roman Catholic', 'Filipino', 6, 'female', '09281234567', 'reynajanesingua@gmail.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-07-25 11:07:25'),
-(3, 'Gonzales', 'Ann', 'Ramos', '1978-11-15', 'Married', 'College Undergraduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 3, 'male', '09331234567', 'anngonzales@gmail.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-16 12:56:54'),
-(4, 'Garcia', 'Ana', 'Santos', '1985-07-16', 'Married', 'College Undergraduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 4, 'female', '09441234566', 'ana.garcia@gmail.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-16 14:08:19'),
-(5, 'Mendoza', 'May', 'Alvarez', '1996-12-04', 'Single', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 5, 'male', '09551234567', 'carlos.mendoza@example.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-07-25 11:07:25'),
-(6, 'Aquino', 'Laura', 'Gonzalez', '1992-09-18', 'Married', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 6, 'female', '09661234567', 'laura.aquino@example.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-27 13:40:16'),
-(7, 'Santos', 'Isabel', 'Navarro', '1983-06-25', 'Legally Separated', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 7, 'female', '09771234567', 'isabel.santos@example.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-07-25 11:07:25'),
-(8, 'Cruz', 'Annie', 'Castro', '1973-01-10', 'Married', 'Highschool Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 8, 'male', '09881234567', 'annie.cruz@gmail.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-16 14:07:55'),
-(9, 'Morales', 'Elena', 'Garcia', '1999-04-20', 'Single', 'Highschool Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 9, 'male', '09991234567', 'elena.morales@example.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-07 08:42:29'),
-(10, 'Reyes', 'Gabriela', 'Santos', '1981-08-14', 'Married', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 10, 'male', '09182345678', 'gabriel.delosreyes@example.com', NULL, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-10 10:44:05'),
-(13, 'Araneta', 'Roy Marjohn', 'Galjlfad', '2001-08-28', 'Married', 'College Graduate', 'Kingpin', 'Roman Catholic', 'Filipino', 6, 'male', '09308309624', 'roymarjohnaraneta@gmail.com', NULL, 0, 1, NULL, '2024-07-16 11:07:25', '2024-09-06 09:32:11'),
-(14, 'Angcona', 'Ruvy', 'Lakobalo', '2001-11-09', 'Married', 'College Undergraduate', 'Teacher', 'Roman Catholic', 'Filipino', 6, 'female', '09586789012', 'ruvyangcona@gmail.com', NULL, 0, 1, NULL, '2024-07-16 11:07:25', '2024-09-10 03:31:46'),
-(67, 'Araneta', 'Roy Marjohn Jr.', 'Lakobalo', '2018-10-03', 'Single', NULL, NULL, 'Filipino', 'Roman Catholic', 6, 'male', NULL, NULL, NULL, 0, 0, NULL, '2024-07-17 11:07:25', '2024-10-11 15:08:06');
+INSERT INTO `personal_information` (`personal_info_id`, `lastname`, `firstname`, `middlename`, `date_of_birth`, `civil_status`, `educational_attainment`, `occupation`, `religion`, `citizenship`, `address_id`, `sex`, `phone_number`, `email`, `id_picture`, `isTransferred`, `isDeceased`, `isRegisteredVoter`, `deceased_date`, `created_at`, `updated_at`) VALUES
+(1, 'Victorino', 'Amiel Jose', 'Lakobalo', '2002-04-09', 'Single', 'College Graduate', 'Brgy. Secretary', 'Roman Catholic', 'Filipino', 6, 'male', '09171234567', 'amieljosevictorino@gmail.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-07-25 11:07:25'),
+(2, 'Singua', 'Reyna Jane', 'Lakobalo', '1994-03-09', 'Single', 'College Graduate', 'Brgy. Midwife', 'Roman Catholic', 'Filipino', 6, 'female', '09281234567', 'reynajanesingua@gmail.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-07-25 11:07:25'),
+(3, 'Gonzales', 'Ann', 'Ramos', '1978-11-15', 'Married', 'College Undergraduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 3, 'male', '09331234567', 'anngonzales@gmail.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-16 12:56:54'),
+(4, 'Garcia', 'Ana', 'Santos', '1985-07-16', 'Married', 'College Undergraduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 4, 'female', '09441234566', 'ana.garcia@gmail.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-16 14:08:19'),
+(5, 'Mendoza', 'May', 'Alvarez', '1996-12-04', 'Single', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 5, 'male', '09551234567', 'carlos.mendoza@example.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-07-25 11:07:25'),
+(6, 'Aquino', 'Laura', 'Gonzalez', '1992-09-18', 'Married', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 6, 'female', '09661234567', 'laura.aquino@example.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-27 13:40:16'),
+(7, 'Santos', 'Isabel', 'Navarro', '1983-06-25', 'Legally Separated', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 7, 'female', '09771234567', 'isabel.santos@example.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-07-25 11:07:25'),
+(8, 'Cruz', 'Annie', 'Castro', '1973-01-10', 'Married', 'Highschool Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 8, 'male', '09881234567', 'annie.cruz@gmail.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-16 14:07:55'),
+(9, 'Morales', 'Elena', 'Garcia', '1999-04-20', 'Single', 'Highschool Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 9, 'male', '09991234567', 'elena.morales@example.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-07 08:42:29'),
+(10, 'Reyes', 'Gabriela', 'Santos', '1981-08-14', 'Married', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 10, 'male', '09182345678', 'gabriel.delosreyes@example.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-10 10:44:05'),
+(13, 'Araneta', 'Roy Marjohn', 'Galjlfad', '2001-08-28', 'Married', 'College Graduate', 'Kingpin', 'Roman Catholic', 'Filipino', 6, 'male', '09308309624', 'roymarjohnaraneta@gmail.com', NULL, 0, 0, 1, NULL, '2024-07-16 11:07:25', '2024-09-06 09:32:11'),
+(14, 'Angcona', 'Ruvy', 'Lakobalo', '2001-11-09', 'Married', 'College Undergraduate', 'Teacher', 'Roman Catholic', 'Filipino', 6, 'female', '09586789012', 'ruvyangcona@gmail.com', NULL, 0, 0, 1, NULL, '2024-07-16 11:07:25', '2024-09-10 03:31:46'),
+(67, 'Araneta', 'Roy Marjohn Jr.', 'Lakobalo', '2018-10-03', 'Single', NULL, NULL, 'Filipino', 'Roman Catholic', 6, 'male', NULL, NULL, NULL, 0, 0, 0, NULL, '2024-07-17 11:07:25', '2024-10-11 15:08:06');
 
 -- --------------------------------------------------------
 
@@ -710,6 +714,7 @@ CREATE TABLE `residents_medical_condition` (
   `resident_id` int(10) NOT NULL,
   `medical_conditions_id` int(10) NOT NULL,
   `diagnosed_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` enum('Ongoing','Cured') NOT NULL DEFAULT 'Ongoing',
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -717,10 +722,13 @@ CREATE TABLE `residents_medical_condition` (
 -- Dumping data for table `residents_medical_condition`
 --
 
-INSERT INTO `residents_medical_condition` (`rmc_id`, `resident_id`, `medical_conditions_id`, `diagnosed_date`, `created_at`) VALUES
-(17, 4, 10, '2024-09-30 11:40:54', '2024-09-30 11:40:54'),
-(18, 4, 2, '2024-09-30 11:40:54', '2024-09-30 11:40:54'),
-(19, 4, 11, '2024-09-30 11:40:54', '2024-09-30 11:40:54');
+INSERT INTO `residents_medical_condition` (`rmc_id`, `resident_id`, `medical_conditions_id`, `diagnosed_date`, `status`, `created_at`) VALUES
+(17, 4, 10, '2024-09-30 11:40:54', 'Ongoing', '2024-09-30 11:40:54'),
+(18, 4, 2, '2024-09-30 11:40:54', 'Ongoing', '2024-09-30 11:40:54'),
+(19, 4, 11, '2024-09-30 11:40:54', 'Ongoing', '2024-09-30 11:40:54'),
+(20, 5, 2, '2024-11-27 12:33:45', 'Ongoing', '2024-11-27 12:33:45'),
+(21, 99, 24, '2024-11-27 12:33:45', 'Ongoing', '2024-11-27 12:33:45'),
+(22, 5, 2, '2024-11-27 12:33:58', 'Ongoing', '2024-11-27 12:33:58');
 
 -- --------------------------------------------------------
 
@@ -1069,7 +1077,7 @@ ALTER TABLE `families`
 -- AUTO_INCREMENT for table `family_members`
 --
 ALTER TABLE `family_members`
-  MODIFY `fmember_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `fmember_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT for table `health_information`
@@ -1147,7 +1155,7 @@ ALTER TABLE `residents`
 -- AUTO_INCREMENT for table `residents_medical_condition`
 --
 ALTER TABLE `residents_medical_condition`
-  MODIFY `rmc_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `rmc_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `vaccinations`

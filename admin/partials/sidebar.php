@@ -16,7 +16,7 @@
         <span class="text ms-2">Population</span>
     </a>
 
-    <a href="residents.php" class="<?= $current_page == 'residents.php' ? 'active' : '' ?>">
+    <a href="residents.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['residents.php', 'resident_details.php']) ? 'active' : '' ?>">
         <i class="icon fa-solid fa-person text-amber-500"></i>
         <span class="text">Residents</span>
     </a>

@@ -21,7 +21,8 @@ CREATE TABLE `personal_information` (
   `email` varchar(255) DEFAULT NULL,
   `id_picture` varchar(255) DEFAULT NULL,
   `isTransferred` tinyint(1) NOT NULL DEFAULT 0,
-  `registered_voter` tinyint(1) NOT NULL DEFAULT 1,
+  `isDeceased` tinyint(1) NOT NULL DEFAULT 0,
+  `isRegisteredVoter` tinyint(1) NOT NULL DEFAULT 1,
   `deceased_date` date DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
@@ -40,17 +41,6 @@ CREATE TABLE `residents_medical_condition` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
-CREATE TABLE `annual_population` (
-  `population_id` int(11) NOT NULL,
-  `year` year(4) NOT NULL,
-  `total_population` int(11) NOT NULL,
-  `total_males` int(11) NOT NULL,
-  `total_females` int(11) NOT NULL,
-  `deceased_count` int(11) DEFAULT 0,
-  `transferred_count` int(11) DEFAULT 0,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `household` (
   `household_id` int(10) NOT NULL,
@@ -59,9 +49,11 @@ CREATE TABLE `household` (
   `housing_type` enum('Owned','Rented','Other') NOT NULL,
   `construction_materials` enum('light','strong') NOT NULL,
   `lighting_facilities` enum('electricity','kerosene') NOT NULL,
-  `water_source` enum('LEVEL 1 - Point Source','LEVEL 2 - Communal Faucet','LEVEL 3 - Individual Connection','OTHERS - For doubtful sources, open dug well etc.') NOT NULL,
-  `toilet_facility` enum('Pointflush type connected to septic tank','Pointflush toilet connected to septic tank and to sewerage system','Ventilated Pit','Overhung Latrine','Without toilet') NOT NULL,
-  `recorded_by` int(10) NOT NULL
+  `water_source` enum('Point Source','Communal Faucet','Individual Connection','OTHERS') NOT NULL,
+  `toilet_facility` enum('Pointflush type','Ventilated Pit','Overhung Latrine','Without toilet') NOT NULL,
+  `recorded_by` int(10) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 CREATE TABLE `household_members` (
@@ -82,3 +74,15 @@ CREATE TABLE `family_members` (
   `resident_id` int(10) NOT NULL,
   `role` enum('husband','wife','child') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE `annual_population` (
+  `population_id` int(11) NOT NULL,
+  `year` year(4) NOT NULL,
+  `total_population` int(11) NOT NULL,
+  `total_males` int(11) NOT NULL,
+  `total_females` int(11) NOT NULL,
+  `deceased_count` int(11) DEFAULT 0,
+  `transferred_count` int(11) DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
