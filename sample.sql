@@ -1,7 +1,19 @@
-CREATE TABLE `residents` (
-  `resident_id` int(10) NOT NULL,
-  `account_id` int(10) DEFAULT NULL,
-  `personal_info_id` int(10) NOT NULL
+CREATE TABLE `midwife` (
+  `midwife_id` int(10) NOT NULL,
+  `account_id` int(10) NOT NULL,
+  `personal_info_id` int(10) NOT NULL,
+  `employment_status` enum('active','inactive') NOT NULL DEFAULT 'active',
+  `employment_date` date NOT NULL DEFAULT current_timestamp(),
+  `license_number` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE `bhw` (
+  `bhw_id` int(10) NOT NULL,
+  `account_id` int(10) NOT NULL,
+  `personal_info_id` int(10) NOT NULL,
+  `assigned_area` int(10) NOT NULL,
+  `date_started` date NOT NULL DEFAULT current_timestamp(),
+  `employment_status` enum('active','inactive','on_leave') NOT NULL DEFAULT 'active'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 CREATE TABLE `personal_information` (
@@ -26,6 +38,12 @@ CREATE TABLE `personal_information` (
   `deceased_date` date DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE `residents` (
+  `resident_id` int(10) NOT NULL,
+  `account_id` int(10) DEFAULT NULL,
+  `personal_info_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 CREATE TABLE `medical_conditions` (
