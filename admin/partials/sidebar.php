@@ -32,7 +32,7 @@
         <span class="text">Midwife</span>
     </a>
 
-    <a href="bhws.php" class="<?= $current_page == 'bhws.php' ? 'active' : '' ?>">
+    <a href="bhws.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['bhws.php']) ? 'active' : '' ?>">
         <i class="icon fa fa-user-nurse text-red-500"></i>
         <span class="text">BHWs</span>
     </a>
