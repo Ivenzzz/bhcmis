@@ -17,7 +17,7 @@
     </a>
 
     <a href="household_records.php" class="d-flex align-items-center <?= $current_page == 'household_records.php' ? 'active' : '' ?>">
-        <i class="icon fa-solid fa-file-alt text-amber"></i>
+        <i class="icon fa-solid fa-file-alt text-green-500"></i>
         <span class="text ms-2">Household Records</span>
     </a>
 </div>

@@ -166,5 +166,82 @@ function getFamilyMembersByFamilyId($conn, $family_id) {
     }
 }
 
+function getHouseholdsByBhwId($conn, $bhw_id) {
+    $query = "
+        SELECT 
+            h.*, 
+            a.address_name, 
+            a.address_type, 
+            COUNT(DISTINCT hm.family_id) AS number_of_families
+        FROM 
+            household h
+        INNER JOIN address a ON h.address_id = a.address_id
+        INNER JOIN bhw b ON b.assigned_area = a.address_id
+        LEFT JOIN household_members hm ON h.household_id = hm.household_id
+        WHERE b.bhw_id = ? AND h.isArchived = 0
+        GROUP BY h.household_id
+    ";
+
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('i', $bhw_id);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    $households = [];
+
+    while ($row = $result->fetch_assoc()) {
+        $households[] = $row;
+    }
+
+    return $households;
+}
+
+function getAssignedArea($conn) {
+    // Ensure that the session is started
+    if (!isset($_SESSION)) {
+        session_start();
+    }
+
+    // Check if bhw_id is available in session
+    if (!isset($_SESSION['bhw_id'])) {
+        return null;  // BHW ID not found in session
+    }
+
+    $bhw_id = $_SESSION['bhw_id'];
+
+    // Prepare the SQL query to fetch both assigned_area (address_id) and address_name based on the BHW
+    $query = "
+        SELECT b.assigned_area, a.address_name
+        FROM bhw b
+        INNER JOIN address a ON b.assigned_area = a.address_id
+        WHERE b.bhw_id = ?
+    ";
+
+    // Prepare the statement
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('i', $bhw_id);
+    
+    // Execute the statement
+    $stmt->execute();
+    
+    // Get the result
+    $result = $stmt->get_result();
+    
+    // Fetch the assigned area (address_id) and address_name if it exists
+    if ($row = $result->fetch_assoc()) {
+        return [
+            'assigned_area_id' => $row['assigned_area'], // address_id
+            'assigned_area_name' => $row['address_name'] // address_name
+        ];
+    }
+
+    // Return null if no result found
+    return null;
+}
+
+
+
+
+
 
 ?>

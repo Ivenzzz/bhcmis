@@ -20,6 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['role'] = $user['role'];
             $_SESSION['logged_in'] = true;
 
+            // Set specific role-related IDs in session
+            $_SESSION['bhw_id'] = $user['bhw_id'] ?? null;
+            $_SESSION['midwife_id'] = $user['midwife_id'] ?? null;
+            $_SESSION['admin_id'] = $user['admin_id'] ?? null;
+            $_SESSION['resident_id'] = $user['resident_id'] ?? null;
+
             // Set cookies only if Remember Me is checked
             if ($rememberMe) {
                 setcookie('username', $username, time() + (86400 * 30), "/"); 
