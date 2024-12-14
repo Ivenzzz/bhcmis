@@ -14,11 +14,13 @@ function getAllHouseholds($conn) {
             h.water_source, 
             h.toilet_facility, 
             CONCAT(p.firstname, ' ', p.lastname) AS bhw_name,  -- BHW full name
-            COUNT(DISTINCT hm.family_id) AS number_of_families  -- Number of families in the household
+            COUNT(DISTINCT CASE WHEN f.isArchived = 0 THEN hm.family_id END) AS number_of_families  -- Count families that are not archived
         FROM 
             household h
         LEFT JOIN 
             household_members hm ON h.household_id = hm.household_id
+        LEFT JOIN 
+            families f ON hm.family_id = f.family_id AND f.isArchived = 0  -- Ensure only non-archived families are considered
         -- Join with the bhw table to get the BHW details
         LEFT JOIN 
             bhw b ON h.recorded_by = b.bhw_id
@@ -51,7 +53,7 @@ function getAllHouseholds($conn) {
 }
 
 function getFamiliesByHouseholdId($conn, $household_id) {
-    // SQL query to retrieve families, head of the family, family name, number of members, and parent family name
+    // SQL query to retrieve families, head of the family, family name, number of members, and parent family name with family_id
     $sql = "
         SELECT 
             f.family_id, 
@@ -62,7 +64,7 @@ function getFamiliesByHouseholdId($conn, $household_id) {
             (SELECT COUNT(*) 
              FROM family_members fm 
              WHERE fm.family_id = f.family_id) AS number_of_members,
-            (SELECT CONCAT(pi2.lastname, ' Family')
+            (SELECT CONCAT(pi2.lastname, ' Family - ', pf.family_id)
              FROM families pf
              LEFT JOIN family_members pfm ON pf.family_id = pfm.family_id AND pfm.role = 'husband'
              LEFT JOIN residents r2 ON pfm.resident_id = r2.resident_id
@@ -78,6 +80,7 @@ function getFamiliesByHouseholdId($conn, $household_id) {
         LEFT JOIN 
             personal_information pi ON r.personal_info_id = pi.personal_info_id
         WHERE 
+            f.isArchived = 0 AND  -- Only include families that are not archived
             f.family_id IN (
                 SELECT hm.family_id 
                 FROM household_members hm 
@@ -109,36 +112,33 @@ function getFamiliesByHouseholdId($conn, $household_id) {
 }
 
 function getFamilyMembersByFamilyId($conn, $family_id) {
-    // SQL query to retrieve family members, the family name, and age
+    // SQL query to retrieve family members with optimized joins
     $sql = "
         SELECT 
             fm.fmember_id,
             fm.role,
             r.resident_id,
-            pi.firstname,
-            pi.lastname,
-            pi.middlename,
-            pi.date_of_birth,
-            pi.sex,
-            pi.civil_status,
-            pi.educational_attainment,
-            pi.occupation,
+            pi.*,
             TIMESTAMPDIFF(YEAR, pi.date_of_birth, CURDATE()) AS age, -- Calculate age
-            CONCAT(
+            COALESCE(
                 (SELECT pi_head.lastname 
                  FROM family_members fm_head
                  LEFT JOIN residents r_head ON fm_head.resident_id = r_head.resident_id
                  LEFT JOIN personal_information pi_head ON r_head.personal_info_id = pi_head.personal_info_id
                  WHERE fm_head.family_id = fm.family_id AND fm_head.role = 'husband'
                  LIMIT 1
-                ), ' Family'
-            ) AS family_name
+                ), 'Unknown Family'
+            ) AS family_name,
+            -- Check if the child has their own family
+            f_child.family_id AS child_family_id
         FROM 
             family_members fm
         LEFT JOIN 
             residents r ON fm.resident_id = r.resident_id
         LEFT JOIN 
             personal_information pi ON r.personal_info_id = pi.personal_info_id
+        LEFT JOIN
+            families f_child ON f_child.parent_family_id = fm.family_id AND fm.role = 'child' AND f_child.isArchived = 0
         WHERE 
             fm.family_id = ?
     ";

@@ -42,13 +42,13 @@ $title = 'Household Records of ' . $assigned_area['assigned_area_name'];
             </div>
 
             <div class="row mb-3">
-                <div class="col-md-12 shadow p-4">
-                    <table id="householdsTable" class="display table-sm text-center">
+                <div class="col-md-12 shadow p-5">
+                    <table id="householdsTable" class="display text-center text-sm">
                         <thead>
                             <tr>
                                 <th class="text-center">Household No.</th>
                                 <th class="text-center">Year Resided</th>
-                                <th class="text-center">Number of Families</th>
+                                <th class="text-center"># of Families</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 09, 2024 at 04:23 AM
+-- Generation Time: Dec 14, 2024 at 06:53 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -64,26 +64,28 @@ INSERT INTO `accounts` (`account_id`, `username`, `password`, `role`, `profile_p
 CREATE TABLE `address` (
   `address_id` int(10) NOT NULL,
   `address_name` varchar(255) NOT NULL,
-  `address_type` enum('hda','sitio') NOT NULL
+  `address_type` enum('hda','sitio') NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `address`
 --
 
-INSERT INTO `address` (`address_id`, `address_name`, `address_type`) VALUES
-(1, 'Hda. Sta. Rosalia', 'hda'),
-(2, 'Sto. Juancho', 'sitio'),
-(3, 'Sto. Cogon', 'sitio'),
-(4, 'GK Village', 'hda'),
-(5, 'Sto. Gutusan', 'sitio'),
-(6, 'Punta Mesa Proper', 'hda'),
-(7, 'Sitio Banquerohan', 'sitio'),
-(8, 'Hda. Busay', 'hda'),
-(9, 'Hda. Bilbao', 'hda'),
-(10, 'Hda. Lumayagan', 'hda'),
-(11, 'Hda. Lourdes', 'hda'),
-(12, 'Hda. Cuaycong', 'hda');
+INSERT INTO `address` (`address_id`, `address_name`, `address_type`, `created_at`, `updated_at`) VALUES
+(1, 'Hda. Sta. Rosalia', 'hda', '2024-12-14 11:14:48', '2024-12-14 11:14:48'),
+(2, 'Sto. Juancho', 'sitio', '2024-12-14 11:14:48', '2024-12-14 11:14:48'),
+(3, 'Sto. Cogon', 'sitio', '2024-12-14 11:14:48', '2024-12-14 11:14:48'),
+(4, 'GK Village', 'hda', '2024-12-14 11:14:48', '2024-12-14 11:14:48'),
+(5, 'Sto. Gutusan', 'sitio', '2024-12-14 11:14:48', '2024-12-14 11:14:48'),
+(6, 'Punta Mesa Proper', 'hda', '2024-12-14 11:14:48', '2024-12-14 11:14:48'),
+(7, 'Sitio Banquerohan', 'sitio', '2024-12-14 11:14:48', '2024-12-14 11:14:48'),
+(8, 'Hda. Busay', 'hda', '2024-12-14 11:14:48', '2024-12-14 11:14:48'),
+(9, 'Hda. Bilbao', 'hda', '2024-12-14 11:14:48', '2024-12-14 11:14:48'),
+(10, 'Hda. Lumayagan', 'hda', '2024-12-14 11:14:48', '2024-12-14 11:14:48'),
+(11, 'Hda. Lourdes', 'hda', '2024-12-14 11:14:48', '2024-12-14 11:14:48'),
+(12, 'Hda. Cuaycong', 'hda', '2024-12-14 11:14:48', '2024-12-14 11:14:48');
 
 -- --------------------------------------------------------
 
@@ -114,19 +116,21 @@ CREATE TABLE `allergies` (
   `allergy_id` int(10) NOT NULL,
   `resident_id` int(10) NOT NULL,
   `allergy_type` varchar(255) NOT NULL,
-  `allergen` varchar(255) NOT NULL
+  `allergen` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `allergies`
 --
 
-INSERT INTO `allergies` (`allergy_id`, `resident_id`, `allergy_type`, `allergen`) VALUES
-(1, 4, 'Food', 'Peanuts'),
-(2, 4, 'Drug', 'Penicillin'),
-(3, 4, 'Environmental', 'Pollen'),
-(4, 5, 'Food', 'Seafood'),
-(5, 5, 'Insect', 'Bee Sting');
+INSERT INTO `allergies` (`allergy_id`, `resident_id`, `allergy_type`, `allergen`, `created_at`, `updated_at`) VALUES
+(1, 4, 'Food', 'Peanuts', '2024-12-14 11:15:34', '2024-12-14 11:15:34'),
+(2, 4, 'Drug', 'Penicillin', '2024-12-14 11:15:34', '2024-12-14 11:15:34'),
+(3, 4, 'Environmental', 'Pollen', '2024-12-14 11:15:34', '2024-12-14 11:15:34'),
+(4, 5, 'Food', 'Seafood', '2024-12-14 11:15:34', '2024-12-14 11:15:34'),
+(5, 5, 'Insect', 'Bee Sting', '2024-12-14 11:15:34', '2024-12-14 11:15:34');
 
 -- --------------------------------------------------------
 
@@ -143,6 +147,7 @@ CREATE TABLE `annual_population` (
   `total_females` int(11) NOT NULL,
   `deceased_count` int(11) DEFAULT 0,
   `transferred_count` int(11) DEFAULT 0,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -151,9 +156,9 @@ CREATE TABLE `annual_population` (
 -- Dumping data for table `annual_population`
 --
 
-INSERT INTO `annual_population` (`population_id`, `year`, `total_population`, `growth_rate`, `total_males`, `total_females`, `deceased_count`, `transferred_count`, `created_at`, `updated_at`) VALUES
-(1, '2023', 10, 15.00, 6, 4, 0, 0, '2024-11-20 14:56:49', '2024-11-22 02:01:30'),
-(2, '2024', 13, 30.00, 8, 5, 0, 0, '2024-11-20 16:20:46', '2024-11-22 02:01:31');
+INSERT INTO `annual_population` (`population_id`, `year`, `total_population`, `growth_rate`, `total_males`, `total_females`, `deceased_count`, `transferred_count`, `isArchived`, `created_at`, `updated_at`) VALUES
+(1, '2023', 10, 15.00, 6, 4, 0, 0, 0, '2024-11-20 14:56:49', '2024-11-22 02:01:30'),
+(2, '2024', 13, 30.00, 8, 5, 0, 0, 0, '2024-11-20 16:20:46', '2024-11-22 02:01:31');
 
 -- --------------------------------------------------------
 
@@ -168,6 +173,7 @@ CREATE TABLE `appointments` (
   `sched_id` int(10) NOT NULL,
   `priority_number` int(10) NOT NULL,
   `status` enum('Scheduled','Cancelled','Completed') NOT NULL DEFAULT 'Scheduled',
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -176,12 +182,12 @@ CREATE TABLE `appointments` (
 -- Dumping data for table `appointments`
 --
 
-INSERT INTO `appointments` (`appointment_id`, `tracking_code`, `resident_id`, `sched_id`, `priority_number`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'HC467245364359PH', 4, 1, 1, 'Cancelled', '2024-07-25 03:51:10', '2024-10-09 00:00:24'),
-(2, 'HC191823420527PH', 5, 1, 2, 'Scheduled', '2024-07-25 03:51:10', '2024-10-07 06:01:33'),
-(33, 'HC813792096667PH', 4, 7, 1, 'Completed', '2024-10-09 06:43:13', '2024-10-09 06:47:51'),
-(34, 'HC736135777798PH', 4, 2, 3, 'Scheduled', '2024-10-09 06:47:04', '2024-10-09 06:47:04'),
-(35, 'HC882902703689PH', 4, 6, 1, 'Cancelled', '2024-10-10 04:12:17', '2024-10-10 04:12:44');
+INSERT INTO `appointments` (`appointment_id`, `tracking_code`, `resident_id`, `sched_id`, `priority_number`, `status`, `isArchived`, `created_at`, `updated_at`) VALUES
+(1, 'HC467245364359PH', 4, 1, 1, 'Cancelled', 0, '2024-07-25 03:51:10', '2024-10-09 00:00:24'),
+(2, 'HC191823420527PH', 5, 1, 2, 'Scheduled', 0, '2024-07-25 03:51:10', '2024-10-07 06:01:33'),
+(33, 'HC813792096667PH', 4, 7, 1, 'Completed', 0, '2024-10-09 06:43:13', '2024-10-09 06:47:51'),
+(34, 'HC736135777798PH', 4, 2, 3, 'Scheduled', 0, '2024-10-09 06:47:04', '2024-10-09 06:47:04'),
+(35, 'HC882902703689PH', 4, 6, 1, 'Cancelled', 0, '2024-10-10 04:12:17', '2024-10-10 04:12:44');
 
 -- --------------------------------------------------------
 
@@ -195,18 +201,21 @@ CREATE TABLE `bhw` (
   `personal_info_id` int(10) NOT NULL,
   `assigned_area` int(10) NOT NULL,
   `date_started` date NOT NULL DEFAULT current_timestamp(),
-  `employment_status` enum('active','inactive','on_leave') NOT NULL DEFAULT 'active'
+  `employment_status` enum('active','inactive','on_leave') NOT NULL DEFAULT 'active',
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `bhw`
 --
 
-INSERT INTO `bhw` (`bhw_id`, `account_id`, `personal_info_id`, `assigned_area`, `date_started`, `employment_status`) VALUES
-(1, 2, 4, 6, '2024-08-07', 'on_leave'),
-(2, 6, 6, 1, '2024-09-16', 'active'),
-(3, 7, 8, 3, '2024-09-16', 'active'),
-(4, 8, 10, 4, '2024-09-16', 'active');
+INSERT INTO `bhw` (`bhw_id`, `account_id`, `personal_info_id`, `assigned_area`, `date_started`, `employment_status`, `isArchived`, `created_at`, `updated_at`) VALUES
+(1, 2, 4, 6, '2024-08-07', 'on_leave', 0, '2024-12-14 11:13:16', '2024-12-14 11:13:16'),
+(2, 6, 6, 1, '2024-09-16', 'active', 0, '2024-12-14 11:13:16', '2024-12-14 11:13:16'),
+(3, 7, 8, 3, '2024-09-16', 'active', 0, '2024-12-14 11:13:16', '2024-12-14 11:13:16'),
+(4, 8, 10, 4, '2024-09-16', 'active', 0, '2024-12-14 11:13:16', '2024-12-14 11:13:16');
 
 -- --------------------------------------------------------
 
@@ -217,7 +226,10 @@ INSERT INTO `bhw` (`bhw_id`, `account_id`, `personal_info_id`, `assigned_area`, 
 CREATE TABLE `conditions_prescriptions` (
   `prescription_id` int(10) NOT NULL,
   `medicine_id` int(10) NOT NULL,
-  `resident_condition_id` int(10) NOT NULL
+  `resident_condition_id` int(10) NOT NULL,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
@@ -252,8 +264,8 @@ CREATE TABLE `consultations` (
 INSERT INTO `consultations` (`consultation_id`, `resident_id`, `appointment_id`, `reason_for_visit`, `sched_id`, `symptoms`, `weight_kg`, `temperature`, `heart_rate`, `respiratory_rate`, `blood_pressure`, `cholesterol_level`, `physical_findings`, `refer_to`, `created_at`, `updated_at`) VALUES
 (1, 4, 33, 'not feeling well', 1, 'diarrhea', 70.00, NULL, NULL, NULL, '120/80', 'Normal', 'Patient exhibits normal vital signs and overall health is satisfactory; no immediate concerns.', '', '2024-07-24 19:54:36', '2024-07-24 19:54:36'),
 (2, 5, NULL, 'not feeling well', NULL, 'sore throat, fever', 65.00, NULL, NULL, NULL, '110/70', 'Normal', 'Patient shows signs of mild hypertension; recommend lifestyle modifications and follow-up visit in 3 months', '', '2024-07-24 19:54:36', '2024-07-24 19:54:36'),
-(21, 4, NULL, 'not feeling well', NULL, 'fever, cough', 55.00, NULL, NULL, NULL, '120/70', 'Normal', 'Patient has a fever; initiate dietary adjustments.', '', '2024-07-25 08:39:43', '2024-07-25 08:39:43'),
-(22, 4, NULL, 'not feeling well', NULL, 'fatigue, weakness, fever', 58.00, NULL, NULL, NULL, '120/80', 'Normal', 'Patient\'s vital signs are normal; continue with current health regimen and routine check-ups.', '', '2024-07-25 08:42:04', '2024-07-25 08:42:04'),
+(21, 4, NULL, 'nakagtan ka ido', NULL, 'fever, cough', 55.00, NULL, NULL, NULL, '120/70', 'Normal', 'Patient has a fever; initiate dietary adjustments.', '', '2024-07-25 08:39:43', '2024-07-25 08:39:43'),
+(22, 4, NULL, 'nabuno ka lapis', NULL, 'fatigue, weakness, fever', 58.00, NULL, NULL, NULL, '120/80', 'Normal', 'Patient\'s vital signs are normal; continue with current health regimen and routine check-ups.', '', '2024-07-25 08:42:04', '2024-07-25 08:42:04'),
 (23, 4, NULL, 'not feeling well', NULL, 'headache, sneeze, cough', 55.00, NULL, NULL, NULL, '120/70', 'Normal', 'Patient\'s health is stable with no new concerns; maintain current health plan and schedule next routine visit.', '', '2024-07-25 08:43:19', '2024-07-25 08:43:19');
 
 -- --------------------------------------------------------
@@ -268,6 +280,7 @@ CREATE TABLE `consultations_prescriptions` (
   `medicine_id` int(10) NOT NULL,
   `quantity` int(10) NOT NULL,
   `instructions` text DEFAULT NULL,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -276,8 +289,8 @@ CREATE TABLE `consultations_prescriptions` (
 -- Dumping data for table `consultations_prescriptions`
 --
 
-INSERT INTO `consultations_prescriptions` (`medication_id`, `consultation_id`, `medicine_id`, `quantity`, `instructions`, `created_at`, `updated_at`) VALUES
-(6, 2, 39, 2, '1 tablet after breakfast and 1 after dinner', '2024-10-01 13:18:06', '2024-10-01 13:18:06');
+INSERT INTO `consultations_prescriptions` (`medication_id`, `consultation_id`, `medicine_id`, `quantity`, `instructions`, `isArchived`, `created_at`, `updated_at`) VALUES
+(6, 2, 39, 2, '1 tablet after breakfast and 1 after dinner', 0, '2024-10-01 13:18:06', '2024-10-01 13:18:06');
 
 -- --------------------------------------------------------
 
@@ -287,20 +300,23 @@ INSERT INTO `consultations_prescriptions` (`medication_id`, `consultation_id`, `
 
 CREATE TABLE `consultation_schedules` (
   `con_sched_id` int(10) NOT NULL,
-  `con_sched_date` datetime NOT NULL
+  `con_sched_date` datetime NOT NULL,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `consultation_schedules`
 --
 
-INSERT INTO `consultation_schedules` (`con_sched_id`, `con_sched_date`) VALUES
-(1, '2024-10-05 08:00:00'),
-(2, '2024-10-06 09:00:00'),
-(3, '2024-10-16 09:00:00'),
-(6, '2024-11-07 08:00:00'),
-(7, '2024-10-03 08:00:00'),
-(8, '2024-10-11 08:00:00');
+INSERT INTO `consultation_schedules` (`con_sched_id`, `con_sched_date`, `isArchived`, `created_at`, `updated_at`) VALUES
+(1, '2024-10-05 08:00:00', 0, '2024-12-14 11:21:08', '2024-12-14 11:21:08'),
+(2, '2024-10-06 09:00:00', 0, '2024-12-14 11:21:08', '2024-12-14 11:21:08'),
+(3, '2024-10-16 09:00:00', 0, '2024-12-14 11:21:08', '2024-12-14 11:21:08'),
+(6, '2024-11-07 08:00:00', 0, '2024-12-14 11:21:08', '2024-12-14 11:21:08'),
+(7, '2024-10-03 08:00:00', 0, '2024-12-14 11:21:08', '2024-12-14 11:21:08'),
+(8, '2024-10-11 08:00:00', 0, '2024-12-14 11:21:08', '2024-12-14 11:21:08');
 
 -- --------------------------------------------------------
 
@@ -311,16 +327,19 @@ INSERT INTO `consultation_schedules` (`con_sched_id`, `con_sched_date`) VALUES
 CREATE TABLE `families` (
   `family_id` int(10) NOT NULL,
   `parent_family_id` int(10) DEFAULT NULL,
-  `4PsMember` tinyint(1) NOT NULL DEFAULT 0
+  `4PsMember` tinyint(1) NOT NULL DEFAULT 0,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `families`
 --
 
-INSERT INTO `families` (`family_id`, `parent_family_id`, `4PsMember`) VALUES
-(1001, NULL, 0),
-(1002, 1001, 1);
+INSERT INTO `families` (`family_id`, `parent_family_id`, `4PsMember`, `isArchived`, `created_at`, `updated_at`) VALUES
+(1001, NULL, 1, 0, '2024-12-14 11:21:49', '2024-12-14 11:21:49'),
+(1002, 1001, 1, 0, '2024-12-14 11:21:49', '2024-12-14 11:21:49');
 
 -- --------------------------------------------------------
 
@@ -332,17 +351,21 @@ CREATE TABLE `family_members` (
   `fmember_id` int(10) NOT NULL,
   `family_id` int(10) NOT NULL,
   `resident_id` int(10) NOT NULL,
-  `role` enum('husband','wife','child') NOT NULL
+  `role` enum('husband','wife','child') NOT NULL,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `family_members`
 --
 
-INSERT INTO `family_members` (`fmember_id`, `family_id`, `resident_id`, `role`) VALUES
-(1, 1001, 4, 'husband'),
-(2, 1001, 5, 'wife'),
-(56, 1001, 99, 'child');
+INSERT INTO `family_members` (`fmember_id`, `family_id`, `resident_id`, `role`, `isArchived`, `created_at`, `updated_at`) VALUES
+(1, 1001, 4, 'husband', 0, '2024-12-14 11:23:02', '2024-12-14 11:23:02'),
+(2, 1001, 5, 'wife', 0, '2024-12-14 11:23:02', '2024-12-14 11:23:02'),
+(56, 1001, 99, 'child', 0, '2024-12-14 11:23:02', '2024-12-14 11:23:02'),
+(58, 1002, 99, 'husband', 0, '2024-12-14 11:23:02', '2024-12-14 11:23:02');
 
 -- --------------------------------------------------------
 
@@ -354,18 +377,20 @@ CREATE TABLE `health_information` (
   `health_information_id` int(10) NOT NULL,
   `resident_id` int(10) NOT NULL,
   `blood_type` enum('A','B','AB','O') DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `health_information`
 --
 
-INSERT INTO `health_information` (`health_information_id`, `resident_id`, `blood_type`, `created_at`) VALUES
-(1, 4, 'B', '2024-07-25 08:37:06'),
-(2, 5, 'B', '2024-07-25 08:37:06'),
-(5, 5, 'B', '2024-07-25 08:37:06'),
-(8, 4, 'B', '2024-07-25 08:43:19');
+INSERT INTO `health_information` (`health_information_id`, `resident_id`, `blood_type`, `isArchived`, `created_at`, `updated_at`) VALUES
+(1, 4, 'B', 0, '2024-07-25 08:37:06', '2024-12-14 11:23:29'),
+(2, 5, 'B', 0, '2024-07-25 08:37:06', '2024-12-14 11:23:29'),
+(5, 5, 'B', 0, '2024-07-25 08:37:06', '2024-12-14 11:23:29'),
+(8, 4, 'B', 0, '2024-07-25 08:43:19', '2024-12-14 11:23:29');
 
 -- --------------------------------------------------------
 
@@ -419,9 +444,8 @@ CREATE TABLE `household` (
 --
 
 INSERT INTO `household` (`household_id`, `address_id`, `year_resided`, `housing_type`, `construction_materials`, `lighting_facilities`, `water_source`, `toilet_facility`, `recorded_by`, `isArchived`, `created_at`, `updated_at`) VALUES
-(1001, 6, '2006', 'Owned', 'strong', 'electricity', 'Point Source', 'Pointflush type', 1, 0, '2024-12-02 10:31:14', '2024-12-02 10:31:39'),
-(1002, 6, '2015', 'Rented', 'strong', 'electricity', 'Individual Connection', 'Pointflush type', 1, 0, '2024-12-02 10:31:14', '2024-12-02 10:31:39'),
-(1020, 6, '2020', 'Owned', 'light', 'electricity', 'Point Source', 'Pointflush type', 1, 0, '2024-12-09 11:22:27', '2024-12-09 11:22:27');
+(1001, 6, '2002', 'Owned', 'strong', 'electricity', 'Point Source', 'Pointflush type', 1, 0, '2024-12-02 10:31:14', '2024-12-02 10:31:39'),
+(1002, 6, '2015', 'Rented', 'strong', 'electricity', 'Individual Connection', 'Pointflush type', 1, 0, '2024-12-02 10:31:14', '2024-12-02 10:31:39');
 
 -- --------------------------------------------------------
 
@@ -432,16 +456,19 @@ INSERT INTO `household` (`household_id`, `address_id`, `year_resided`, `housing_
 CREATE TABLE `household_members` (
   `hm_id` int(10) NOT NULL,
   `household_id` int(10) NOT NULL,
-  `family_id` int(10) NOT NULL
+  `family_id` int(10) NOT NULL,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `household_members`
 --
 
-INSERT INTO `household_members` (`hm_id`, `household_id`, `family_id`) VALUES
-(1, 1001, 1001),
-(2, 1001, 1002);
+INSERT INTO `household_members` (`hm_id`, `household_id`, `family_id`, `isArchived`, `created_at`, `updated_at`) VALUES
+(1, 1001, 1001, 0, '2024-12-14 11:25:24', '2024-12-14 11:25:24'),
+(2, 1001, 1002, 0, '2024-12-14 11:25:24', '2024-12-14 11:25:24');
 
 -- --------------------------------------------------------
 
@@ -451,39 +478,40 @@ INSERT INTO `household_members` (`hm_id`, `household_id`, `family_id`) VALUES
 
 CREATE TABLE `medical_conditions` (
   `medical_conditions_id` int(10) NOT NULL,
-  `condition_name` varchar(255) NOT NULL
+  `condition_name` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `medical_conditions`
 --
 
-INSERT INTO `medical_conditions` (`medical_conditions_id`, `condition_name`) VALUES
-(1, 'Arthritis'),
-(2, 'Asthma'),
-(3, 'Cancer'),
-(4, 'Heart Disease'),
-(9, 'Alzheimer\'s Disease'),
-(10, 'Anxiety'),
-(11, 'Appendicitis'),
-(12, 'Bipolar Disorder'),
-(13, 'Bone Cancer'),
-(14, 'Breast Cancer'),
-(15, 'Brain Tumor'),
-(16, 'Bronchitis'),
-(17, 'Cerebral Palsy'),
-(18, 'Current Wound/Skin Problems'),
-(19, 'Stroke'),
-(20, 'Bone/Joint Problems'),
-(21, 'Bowel/Bladder Problems'),
-(22, 'History of heavy alcohol use'),
-(23, 'Drug use'),
-(24, 'Smoking habits'),
-(26, 'Kidney Problems'),
-(27, 'Sleeping Problems'),
-(28, 'Autism'),
-(29, 'Acne'),
-(30, 'Tuberculosis');
+INSERT INTO `medical_conditions` (`medical_conditions_id`, `condition_name`, `created_at`) VALUES
+(1, 'Arthritis', '2024-12-14 11:26:18'),
+(2, 'Asthma', '2024-12-14 11:26:18'),
+(3, 'Cancer', '2024-12-14 11:26:18'),
+(4, 'Heart Disease', '2024-12-14 11:26:18'),
+(9, 'Alzheimer\'s Disease', '2024-12-14 11:26:18'),
+(10, 'Anxiety', '2024-12-14 11:26:18'),
+(11, 'Appendicitis', '2024-12-14 11:26:18'),
+(12, 'Bipolar Disorder', '2024-12-14 11:26:18'),
+(13, 'Bone Cancer', '2024-12-14 11:26:18'),
+(14, 'Breast Cancer', '2024-12-14 11:26:18'),
+(15, 'Brain Tumor', '2024-12-14 11:26:18'),
+(16, 'Bronchitis', '2024-12-14 11:26:18'),
+(17, 'Cerebral Palsy', '2024-12-14 11:26:18'),
+(18, 'Current Wound/Skin Problems', '2024-12-14 11:26:18'),
+(19, 'Stroke', '2024-12-14 11:26:18'),
+(20, 'Bone/Joint Problems', '2024-12-14 11:26:18'),
+(21, 'Bowel/Bladder Problems', '2024-12-14 11:26:18'),
+(22, 'History of heavy alcohol use', '2024-12-14 11:26:18'),
+(23, 'Drug use', '2024-12-14 11:26:18'),
+(24, 'Smoking habits', '2024-12-14 11:26:18'),
+(26, 'Kidney Problems', '2024-12-14 11:26:18'),
+(27, 'Sleeping Problems', '2024-12-14 11:26:18'),
+(28, 'Autism', '2024-12-14 11:26:18'),
+(29, 'Acne', '2024-12-14 11:26:18'),
+(30, 'Tuberculosis', '2024-12-14 11:26:18');
 
 -- --------------------------------------------------------
 
@@ -501,6 +529,7 @@ CREATE TABLE `medicines` (
   `expiry_date` date DEFAULT NULL,
   `quantity_in_stock` int(10) NOT NULL DEFAULT 0,
   `description` text DEFAULT NULL,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -509,27 +538,27 @@ CREATE TABLE `medicines` (
 -- Dumping data for table `medicines`
 --
 
-INSERT INTO `medicines` (`medicine_id`, `batch_number`, `name`, `generic_name`, `dosage`, `form`, `expiry_date`, `quantity_in_stock`, `description`, `created_at`, `updated_at`) VALUES
-(21, 'A1B2C3', 'Paracetamol', 'Paracetamol', '500 mg', 'Tablet', '2025-12-31', 200, 'Pain reliever and fever reducer', '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
-(22, 'D4E5F6', 'Ibuprofen', 'Ibuprofen', '400 mg', 'Tablet', '2024-11-30', 150, 'Anti-inflammatory and pain relief', '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
-(23, 'G7H8I9', 'Amoxicillin', 'Amoxicillin', '500 mg', 'Capsule', '2024-08-31', 100, 'Antibiotic used to treat infections', '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
-(24, 'J1K2L3', 'Aspirin', 'Acetylsalicylic Acid', '100 mg', 'Tablet', '2025-03-15', 250, 'Pain relief and anti-inflammatory', '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
-(25, 'M4N5O6', 'Loperamide', 'Loperamide', '2 mg', 'Capsule', '2024-10-01', 80, 'Anti-diarrheal', '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
-(26, 'P7Q8R9', 'Cetirizine', 'Cetirizine', '10 mg', 'Tablet', '2025-05-20', 180, 'Antihistamine for allergies', '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
-(27, 'S1T2U3', 'Metformin', 'Metformin', '500 mg', 'Tablet', '2024-12-31', 120, 'Medication for type 2 diabetes', '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
-(28, 'V4W5X6', 'Cough Syrup', 'Dextromethorphan', '100 ml', 'Syrup', '2024-07-15', 90, 'Relieves cough and throat irritation', '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
-(29, 'Y7Z8A9', 'Salbutamol', 'Salbutamol', '100 mcg', 'Inhaler', '2025-09-30', 70, 'Bronchodilator for asthma', '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
-(30, 'B1C2D3', 'Omeprazole', 'Omeprazole', '20 mg', 'Capsule', '2025-01-10', 110, 'Reduces stomach acid production', '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
-(31, 'E4F5G6', 'Biogesic', 'Paracetamol', '500mg', 'Tablet', '2025-12-31', 100, 'For fever and mild to moderate pain relief.', '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
-(32, 'H7I8J9', 'Alaxan FR', 'Ibuprofen + Paracetamol', '200mg + 325mg', 'Tablet', '2026-06-30', 80, 'For pain and inflammation relief.', '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
-(33, 'K1L2M3', 'Amoxicillin', 'Amoxicillin', '500mg', 'Capsule', '2024-11-15', 50, 'Antibiotic for bacterial infections.', '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
-(34, 'N4O5P6', 'Ascof Lagundi', 'Vitex Negundo', '300mg', 'Syrup', '2025-03-20', 30, 'Herbal cough remedy.', '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
-(35, 'Q7R8S9', 'Bioflu', 'Phenylephrine HCl, Chlorphenamine Maleate, Paracetamol', '10mg/2mg/500mg', 'Tablet', '2025-07-12', 120, 'For flu and common cold symptoms.', '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
-(36, 'T1U2V3', 'Neozep Forte', 'Phenylephrine HCl, Chlorphenamine Maleate, Paracetamol', '10mg/2mg/500mg', 'Tablet', '2024-09-15', 90, 'For colds, allergies, and headache relief.', '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
-(37, 'W4X5Y6', 'Kremil-S', 'Aluminum Hydroxide + Magnesium Hydroxide + Simethicone', '178mg/233mg/30mg', 'Tablet', '2025-01-30', 60, 'For hyperacidity and indigestion.', '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
-(38, 'Z7A8B9', 'Mefenamic Acid', 'Mefenamic Acid', '500mg', 'Tablet', '2026-08-10', 70, 'For pain relief such as headaches and dysmenorrhea.', '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
-(39, 'C1D2E3', 'Cefalexin', 'Cefalexin', '500mg', 'Capsule', '2025-05-25', 40, 'Antibiotic for bacterial infections.', '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
-(40, 'F4G5H6', 'Salbutamol', 'Salbutamol', '2mg/5ml', 'Syrup', '2024-12-20', 45, 'For asthma and bronchospasm relief.', '2024-09-22 12:15:55', '2024-09-22 12:15:55');
+INSERT INTO `medicines` (`medicine_id`, `batch_number`, `name`, `generic_name`, `dosage`, `form`, `expiry_date`, `quantity_in_stock`, `description`, `isArchived`, `created_at`, `updated_at`) VALUES
+(21, 'A1B2C3', 'Paracetamol', 'Paracetamol', '500 mg', 'Tablet', '2025-12-31', 200, 'Pain reliever and fever reducer', 0, '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
+(22, 'D4E5F6', 'Ibuprofen', 'Ibuprofen', '400 mg', 'Tablet', '2024-11-30', 150, 'Anti-inflammatory and pain relief', 0, '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
+(23, 'G7H8I9', 'Amoxicillin', 'Amoxicillin', '500 mg', 'Capsule', '2024-08-31', 100, 'Antibiotic used to treat infections', 0, '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
+(24, 'J1K2L3', 'Aspirin', 'Acetylsalicylic Acid', '100 mg', 'Tablet', '2025-03-15', 250, 'Pain relief and anti-inflammatory', 0, '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
+(25, 'M4N5O6', 'Loperamide', 'Loperamide', '2 mg', 'Capsule', '2024-10-01', 80, 'Anti-diarrheal', 0, '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
+(26, 'P7Q8R9', 'Cetirizine', 'Cetirizine', '10 mg', 'Tablet', '2025-05-20', 180, 'Antihistamine for allergies', 0, '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
+(27, 'S1T2U3', 'Metformin', 'Metformin', '500 mg', 'Tablet', '2024-12-31', 120, 'Medication for type 2 diabetes', 0, '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
+(28, 'V4W5X6', 'Cough Syrup', 'Dextromethorphan', '100 ml', 'Syrup', '2024-07-15', 90, 'Relieves cough and throat irritation', 0, '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
+(29, 'Y7Z8A9', 'Salbutamol', 'Salbutamol', '100 mcg', 'Inhaler', '2025-09-30', 70, 'Bronchodilator for asthma', 0, '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
+(30, 'B1C2D3', 'Omeprazole', 'Omeprazole', '20 mg', 'Capsule', '2025-01-10', 110, 'Reduces stomach acid production', 0, '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
+(31, 'E4F5G6', 'Biogesic', 'Paracetamol', '500mg', 'Tablet', '2025-12-31', 100, 'For fever and mild to moderate pain relief.', 0, '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
+(32, 'H7I8J9', 'Alaxan FR', 'Ibuprofen + Paracetamol', '200mg + 325mg', 'Tablet', '2026-06-30', 80, 'For pain and inflammation relief.', 0, '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
+(33, 'K1L2M3', 'Amoxicillin', 'Amoxicillin', '500mg', 'Capsule', '2024-11-15', 50, 'Antibiotic for bacterial infections.', 0, '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
+(34, 'N4O5P6', 'Ascof Lagundi', 'Vitex Negundo', '300mg', 'Syrup', '2025-03-20', 30, 'Herbal cough remedy.', 0, '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
+(35, 'Q7R8S9', 'Bioflu', 'Phenylephrine HCl, Chlorphenamine Maleate, Paracetamol', '10mg/2mg/500mg', 'Tablet', '2025-07-12', 120, 'For flu and common cold symptoms.', 0, '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
+(36, 'T1U2V3', 'Neozep Forte', 'Phenylephrine HCl, Chlorphenamine Maleate, Paracetamol', '10mg/2mg/500mg', 'Tablet', '2024-09-15', 90, 'For colds, allergies, and headache relief.', 0, '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
+(37, 'W4X5Y6', 'Kremil-S', 'Aluminum Hydroxide + Magnesium Hydroxide + Simethicone', '178mg/233mg/30mg', 'Tablet', '2025-01-30', 60, 'For hyperacidity and indigestion.', 0, '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
+(38, 'Z7A8B9', 'Mefenamic Acid', 'Mefenamic Acid', '500mg', 'Tablet', '2026-08-10', 70, 'For pain relief such as headaches and dysmenorrhea.', 0, '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
+(39, 'C1D2E3', 'Cefalexin', 'Cefalexin', '500mg', 'Capsule', '2025-05-25', 40, 'Antibiotic for bacterial infections.', 0, '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
+(40, 'F4G5H6', 'Salbutamol', 'Salbutamol', '2mg/5ml', 'Syrup', '2024-12-20', 45, 'For asthma and bronchospasm relief.', 0, '2024-09-22 12:15:55', '2024-09-22 12:15:55');
 
 -- --------------------------------------------------------
 
@@ -543,15 +572,18 @@ CREATE TABLE `midwife` (
   `personal_info_id` int(10) NOT NULL,
   `employment_status` enum('active','inactive') NOT NULL DEFAULT 'active',
   `employment_date` date NOT NULL DEFAULT current_timestamp(),
-  `license_number` varchar(100) DEFAULT NULL
+  `license_number` varchar(100) DEFAULT NULL,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `midwife`
 --
 
-INSERT INTO `midwife` (`midwife_id`, `account_id`, `personal_info_id`, `employment_status`, `employment_date`, `license_number`) VALUES
-(1, 12, 2, 'active', '2024-03-05', '12345');
+INSERT INTO `midwife` (`midwife_id`, `account_id`, `personal_info_id`, `employment_status`, `employment_date`, `license_number`, `isArchived`, `created_at`, `updated_at`) VALUES
+(1, 12, 2, 'active', '2024-03-05', '12345', 0, '2024-12-14 11:27:58', '2024-12-14 11:27:58');
 
 -- --------------------------------------------------------
 
@@ -613,6 +645,7 @@ CREATE TABLE `pregnancy` (
   `resident_id` int(10) NOT NULL,
   `expected_due_date` date NOT NULL,
   `pregnancy_status` enum('Ongoing','Completed','Terminated') NOT NULL,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -621,8 +654,8 @@ CREATE TABLE `pregnancy` (
 -- Dumping data for table `pregnancy`
 --
 
-INSERT INTO `pregnancy` (`pregnancy_id`, `resident_id`, `expected_due_date`, `pregnancy_status`, `created_at`, `updated_at`) VALUES
-(1, 5, '2024-12-15', 'Ongoing', '2024-07-25 09:49:51', '2024-10-11 07:02:10');
+INSERT INTO `pregnancy` (`pregnancy_id`, `resident_id`, `expected_due_date`, `pregnancy_status`, `isArchived`, `created_at`, `updated_at`) VALUES
+(1, 5, '2024-12-15', 'Ongoing', 0, '2024-07-25 09:49:51', '2024-10-11 07:02:10');
 
 -- --------------------------------------------------------
 
@@ -645,6 +678,7 @@ CREATE TABLE `prenatals` (
   `fetal_movement` varchar(255) DEFAULT NULL,
   `checkup_notes` text DEFAULT NULL,
   `refer_to` varchar(255) DEFAULT NULL,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -653,8 +687,8 @@ CREATE TABLE `prenatals` (
 -- Dumping data for table `prenatals`
 --
 
-INSERT INTO `prenatals` (`prenatal_id`, `tracking_code`, `pregnancy_id`, `sched_id`, `bhw_id`, `weight`, `blood_pressure`, `heart_lungs_condition`, `abdominal_exam`, `fetal_heart_rate`, `fundal_height`, `fetal_movement`, `checkup_notes`, `refer_to`, `created_at`, `updated_at`) VALUES
-(6, 'A1B2C3D4E5F6G7H8', 1, 1, 1, 65.50, '120/80', 'Normal', 'No abnormalities', 'Strong', '20 cm', 'Felt regularly', 'First visit checkup', NULL, '2024-09-23 02:12:40', '2024-09-23 06:25:01');
+INSERT INTO `prenatals` (`prenatal_id`, `tracking_code`, `pregnancy_id`, `sched_id`, `bhw_id`, `weight`, `blood_pressure`, `heart_lungs_condition`, `abdominal_exam`, `fetal_heart_rate`, `fundal_height`, `fetal_movement`, `checkup_notes`, `refer_to`, `isArchived`, `created_at`, `updated_at`) VALUES
+(6, 'A1B2C3D4E5F6G7H8', 1, 1, 1, 65.50, '120/80', 'Normal', 'No abnormalities', 'Strong', '20 cm', 'Felt regularly', 'First visit checkup', NULL, 0, '2024-09-23 02:12:40', '2024-09-23 06:25:01');
 
 -- --------------------------------------------------------
 
@@ -665,19 +699,22 @@ INSERT INTO `prenatals` (`prenatal_id`, `tracking_code`, `pregnancy_id`, `sched_
 CREATE TABLE `prenatal_schedules` (
   `sched_id` int(10) NOT NULL,
   `sched_date` datetime(6) NOT NULL,
-  `sched_note` varchar(255) NOT NULL
+  `sched_note` varchar(255) NOT NULL,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `prenatal_schedules`
 --
 
-INSERT INTO `prenatal_schedules` (`sched_id`, `sched_date`, `sched_note`) VALUES
-(1, '2024-11-03 10:00:00.000000', 'First prenatal checkup'),
-(2, '2024-11-10 14:00:00.000000', 'Second trimester follow-up'),
-(3, '2024-11-17 09:30:00.000000', 'Ultrasound appointment'),
-(4, '2024-11-20 11:00:00.000000', 'Blood test and weight check'),
-(5, '2024-11-28 13:00:00.000000', 'Final prenatal evaluation');
+INSERT INTO `prenatal_schedules` (`sched_id`, `sched_date`, `sched_note`, `isArchived`, `created_at`, `updated_at`) VALUES
+(1, '2024-11-03 10:00:00.000000', 'First prenatal checkup', 0, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
+(2, '2024-11-10 14:00:00.000000', 'Second trimester follow-up', 0, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
+(3, '2024-11-17 09:30:00.000000', 'Ultrasound appointment', 0, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
+(4, '2024-11-20 11:00:00.000000', 'Blood test and weight check', 0, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
+(5, '2024-11-28 13:00:00.000000', 'Final prenatal evaluation', 0, '2024-12-14 11:30:22', '2024-12-14 11:30:22');
 
 -- --------------------------------------------------------
 
@@ -688,17 +725,20 @@ INSERT INTO `prenatal_schedules` (`sched_id`, `sched_date`, `sched_note`) VALUES
 CREATE TABLE `residents` (
   `resident_id` int(10) NOT NULL,
   `account_id` int(10) DEFAULT NULL,
-  `personal_info_id` int(10) NOT NULL
+  `personal_info_id` int(10) NOT NULL,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `residents`
 --
 
-INSERT INTO `residents` (`resident_id`, `account_id`, `personal_info_id`) VALUES
-(4, 13, 13),
-(5, 14, 14),
-(99, 50, 67);
+INSERT INTO `residents` (`resident_id`, `account_id`, `personal_info_id`, `isArchived`, `created_at`, `updated_at`) VALUES
+(4, 13, 13, 0, '2024-12-14 11:31:22', '2024-12-14 11:31:22'),
+(5, 14, 14, 0, '2024-12-14 11:31:22', '2024-12-14 11:31:22'),
+(99, 50, 67, 0, '2024-12-14 11:31:22', '2024-12-14 11:31:22');
 
 -- --------------------------------------------------------
 
@@ -712,20 +752,22 @@ CREATE TABLE `residents_medical_condition` (
   `medical_conditions_id` int(10) NOT NULL,
   `diagnosed_date` datetime NOT NULL DEFAULT current_timestamp(),
   `status` enum('Ongoing','Cured') NOT NULL DEFAULT 'Ongoing',
-  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `residents_medical_condition`
 --
 
-INSERT INTO `residents_medical_condition` (`rmc_id`, `resident_id`, `medical_conditions_id`, `diagnosed_date`, `status`, `created_at`) VALUES
-(18, 4, 2, '2024-09-30 11:40:54', 'Ongoing', '2024-09-30 11:40:54'),
-(20, 5, 2, '2024-11-27 12:33:45', 'Ongoing', '2024-11-27 12:33:45'),
-(21, 99, 24, '2024-11-27 12:33:45', 'Ongoing', '2024-11-27 12:33:45'),
-(22, 5, 2, '2024-11-27 12:33:58', 'Ongoing', '2024-11-27 12:33:58'),
-(23, 4, 1, '2024-12-04 00:00:00', 'Ongoing', '2024-12-04 16:41:55'),
-(26, 4, 30, '2024-12-12 00:00:00', 'Ongoing', '2024-12-04 16:50:13');
+INSERT INTO `residents_medical_condition` (`rmc_id`, `resident_id`, `medical_conditions_id`, `diagnosed_date`, `status`, `isArchived`, `created_at`, `updated_at`) VALUES
+(18, 4, 2, '2024-09-30 11:40:54', 'Ongoing', 0, '2024-09-30 11:40:54', '2024-12-14 11:31:55'),
+(20, 5, 2, '2024-11-27 12:33:45', 'Ongoing', 0, '2024-11-27 12:33:45', '2024-12-14 11:31:55'),
+(21, 99, 24, '2024-11-27 12:33:45', 'Ongoing', 0, '2024-11-27 12:33:45', '2024-12-14 11:31:55'),
+(22, 5, 2, '2024-11-27 12:33:58', 'Ongoing', 0, '2024-11-27 12:33:58', '2024-12-14 11:31:55'),
+(23, 4, 1, '2024-12-04 00:00:00', 'Ongoing', 0, '2024-12-04 16:41:55', '2024-12-14 11:31:55'),
+(26, 4, 30, '2024-12-12 00:00:00', 'Ongoing', 0, '2024-12-04 16:50:13', '2024-12-14 11:31:55');
 
 -- --------------------------------------------------------
 
@@ -737,16 +779,19 @@ CREATE TABLE `vaccinations` (
   `vaccination_id` int(10) NOT NULL,
   `resident_id` int(10) NOT NULL,
   `vaccine_id` int(10) NOT NULL,
-  `vaccination_date` date NOT NULL
+  `vaccination_date` date NOT NULL,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `vaccinations`
 --
 
-INSERT INTO `vaccinations` (`vaccination_id`, `resident_id`, `vaccine_id`, `vaccination_date`) VALUES
-(1, 4, 16, '2024-01-15'),
-(2, 5, 16, '2024-02-20');
+INSERT INTO `vaccinations` (`vaccination_id`, `resident_id`, `vaccine_id`, `vaccination_date`, `isArchived`, `created_at`, `updated_at`) VALUES
+(1, 4, 16, '2024-01-15', 0, '2024-12-14 11:33:10', '2024-12-14 11:33:10'),
+(2, 5, 16, '2024-02-20', 0, '2024-12-14 11:33:10', '2024-12-14 11:33:10');
 
 -- --------------------------------------------------------
 
@@ -756,34 +801,35 @@ INSERT INTO `vaccinations` (`vaccination_id`, `resident_id`, `vaccine_id`, `vacc
 
 CREATE TABLE `vaccines` (
   `vaccine_id` int(10) NOT NULL,
-  `vaccine_name` varchar(255) NOT NULL
+  `vaccine_name` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `vaccines`
 --
 
-INSERT INTO `vaccines` (`vaccine_id`, `vaccine_name`) VALUES
-(1, 'Bacillus Calmette-Guérin (BCG) Vaccine'),
-(2, 'Hepatitis B Vaccine'),
-(3, 'Diphtheria, Tetanus, and Pertussis (DTaP) Vaccine'),
-(4, 'Polio Vaccine (IPV)'),
-(5, 'Measles, Mumps, and Rubella (MMR) Vaccine'),
-(6, 'Hepatitis A Vaccine'),
-(7, 'Influenza Vaccine (Flu Shot)'),
-(8, 'Typhoid Vaccine'),
-(9, 'Japanese Encephalitis Vaccine'),
-(10, 'Rabies Vaccine'),
-(11, 'Human Papillomavirus (HPV) Vaccine'),
-(12, 'Pneumococcal Conjugate Vaccine (PCV)'),
-(13, 'Varicella (Chickenpox) Vaccine'),
-(14, 'Tetanus, Diphtheria, and Pertussis (Tdap) Booster'),
-(15, 'Meningococcal Vaccine'),
-(16, 'Pfizer-BioNTech COVID-19 Vaccine'),
-(17, 'Moderna COVID-19 Vaccine'),
-(18, 'AstraZeneca COVID-19 Vaccine'),
-(19, 'Sinovac-CoronaVac COVID-19 Vaccine'),
-(20, 'Johnson & Johnson COVID-19 Vaccine');
+INSERT INTO `vaccines` (`vaccine_id`, `vaccine_name`, `created_at`) VALUES
+(1, 'Bacillus Calmette-Guérin (BCG) Vaccine', '2024-12-14 11:33:40'),
+(2, 'Hepatitis B Vaccine', '2024-12-14 11:33:40'),
+(3, 'Diphtheria, Tetanus, and Pertussis (DTaP) Vaccine', '2024-12-14 11:33:40'),
+(4, 'Polio Vaccine (IPV)', '2024-12-14 11:33:40'),
+(5, 'Measles, Mumps, and Rubella (MMR) Vaccine', '2024-12-14 11:33:40'),
+(6, 'Hepatitis A Vaccine', '2024-12-14 11:33:40'),
+(7, 'Influenza Vaccine (Flu Shot)', '2024-12-14 11:33:40'),
+(8, 'Typhoid Vaccine', '2024-12-14 11:33:40'),
+(9, 'Japanese Encephalitis Vaccine', '2024-12-14 11:33:40'),
+(10, 'Rabies Vaccine', '2024-12-14 11:33:40'),
+(11, 'Human Papillomavirus (HPV) Vaccine', '2024-12-14 11:33:40'),
+(12, 'Pneumococcal Conjugate Vaccine (PCV)', '2024-12-14 11:33:40'),
+(13, 'Varicella (Chickenpox) Vaccine', '2024-12-14 11:33:40'),
+(14, 'Tetanus, Diphtheria, and Pertussis (Tdap) Booster', '2024-12-14 11:33:40'),
+(15, 'Meningococcal Vaccine', '2024-12-14 11:33:40'),
+(16, 'Pfizer-BioNTech COVID-19 Vaccine', '2024-12-14 11:33:40'),
+(17, 'Moderna COVID-19 Vaccine', '2024-12-14 11:33:40'),
+(18, 'AstraZeneca COVID-19 Vaccine', '2024-12-14 11:33:40'),
+(19, 'Sinovac-CoronaVac COVID-19 Vaccine', '2024-12-14 11:33:40'),
+(20, 'Johnson & Johnson COVID-19 Vaccine', '2024-12-14 11:33:40');
 
 --
 -- Indexes for dumped tables
@@ -882,8 +928,8 @@ ALTER TABLE `families`
 --
 ALTER TABLE `family_members`
   ADD PRIMARY KEY (`fmember_id`),
-  ADD UNIQUE KEY `resident_id` (`resident_id`),
-  ADD KEY `fk_memberFamilyId` (`family_id`);
+  ADD KEY `fk_memberFamilyId` (`family_id`),
+  ADD KEY `resident_id` (`resident_id`) USING BTREE;
 
 --
 -- Indexes for table `health_information`
@@ -1068,13 +1114,13 @@ ALTER TABLE `consultation_schedules`
 -- AUTO_INCREMENT for table `families`
 --
 ALTER TABLE `families`
-  MODIFY `family_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1021;
+  MODIFY `family_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1027;
 
 --
 -- AUTO_INCREMENT for table `family_members`
 --
 ALTER TABLE `family_members`
-  MODIFY `fmember_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `fmember_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `health_information`
@@ -1092,13 +1138,13 @@ ALTER TABLE `hospitalizations`
 -- AUTO_INCREMENT for table `household`
 --
 ALTER TABLE `household`
-  MODIFY `household_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1021;
+  MODIFY `household_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1024;
 
 --
 -- AUTO_INCREMENT for table `household_members`
 --
 ALTER TABLE `household_members`
-  MODIFY `hm_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `hm_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `medical_conditions`

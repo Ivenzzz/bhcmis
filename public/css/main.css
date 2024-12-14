@@ -268,6 +268,19 @@ a {
 .text-orange-800 { color: #9a3412; }
 .text-orange-900 { color: #7c2d12; }
 
+/* Pink Text Colors */
+.text-pink-50 { color: #fdf2f8; }
+.text-pink-100 { color: #fce7f3; }
+.text-pink-200 { color: #fbcfe8; }
+.text-pink-300 { color: #f9a8d4; }
+.text-pink-400 { color: #f472b6; }
+.text-pink-500 { color: #ec4899; }
+.text-pink-600 { color: #db2777; }
+.text-pink-700 { color: #be185d; }
+.text-pink-800 { color: #9d174d; }
+.text-pink-900 { color: #831843; }
+
+
 
 /* Slate Colors */
 .bg-slate-50 { background-color: #f8fafc; }
@@ -353,6 +366,19 @@ a {
 .bg-orange-800 { background-color: #9a3412; }
 .bg-orange-900 { background-color: #7c2d12; }
 
+/* Pink Background Colors */
+.bg-pink-50 { background-color: #fdf2f8; }
+.bg-pink-100 { background-color: #fce7f3; }
+.bg-pink-200 { background-color: #fbcfe8; }
+.bg-pink-300 { background-color: #f9a8d4; }
+.bg-pink-400 { background-color: #f472b6; }
+.bg-pink-500 { background-color: #ec4899; }
+.bg-pink-600 { background-color: #db2777; }
+.bg-pink-700 { background-color: #be185d; }
+.bg-pink-800 { background-color: #9d174d; }
+.bg-pink-900 { background-color: #831843; }
+
+
 
 /* Tailwind CSS Font Sizes */
 .text-xs { font-size: 0.75rem; }  /* 12px */
@@ -381,6 +407,27 @@ a {
 
 .print_logo {
     margin-right: 0.9rem;
+}
+
+
+/* Family Members Card */
+.member-card {
+    position: relative;
+    overflow: visible; /* Allow content to overflow the card */
+}
+
+.card-actions {
+    display: none;
+    position: absolute;
+    top: 50%; /* Vertically align buttons */
+    left: -3.5rem; /* Position outside the left of the card */
+    transform: translateY(-50%); /* Center the buttons vertically */
+    z-index: 1;
+    flex-direction: column; /* Stack buttons vertically */
+}
+
+.member-card:hover .card-actions {
+    display: flex !important; /* Show the buttons on hover */
 }
 
 

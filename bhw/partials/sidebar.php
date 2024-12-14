@@ -16,7 +16,7 @@
         <span class="text ms-2">Overview</span>
     </a>
 
-    <a href="household_records.php" class="d-flex align-items-center <?= $current_page == 'household_records.php' ? 'active' : '' ?>">
+    <a href="household_records.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['household_records.php', 'families.php', 'family_members.php']) ? 'active' : '' ?>">
         <i class="icon fa-solid fa-file-alt text-green-500"></i>
         <span class="text ms-2">Household Records</span>
     </a>

@@ -37,7 +37,8 @@ CREATE TABLE `household_members` (
 CREATE TABLE `families` (
   `family_id` int(10) NOT NULL,
   `parent_family_id` int(10) DEFAULT NULL,
-  `4PsMember` tinyint(1) NOT NULL DEFAULT 0
+  `4PsMember` tinyint(1) NOT NULL DEFAULT 0,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 CREATE TABLE `family_members` (
@@ -73,59 +74,3 @@ CREATE TABLE `personal_information` (
 
 
 
-CREATE TABLE `medical_conditions` (
-  `medical_conditions_id` int(10) NOT NULL,
-  `condition_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-CREATE TABLE `residents_medical_condition` (
-  `rmc_id` int(10) NOT NULL,
-  `resident_id` int(10) NOT NULL,
-  `medical_conditions_id` int(10) NOT NULL,
-  `diagnosed_date` datetime NOT NULL DEFAULT current_timestamp(),
-  `created_at` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-
-CREATE TABLE `annual_population` (
-  `population_id` int(11) NOT NULL,
-  `year` year(4) NOT NULL,
-  `total_population` int(11) NOT NULL,
-  `total_males` int(11) NOT NULL,
-  `total_females` int(11) NOT NULL,
-  `deceased_count` int(11) DEFAULT 0,
-  `transferred_count` int(11) DEFAULT 0,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE `midwife` (
-  `midwife_id` int(10) NOT NULL,
-  `account_id` int(10) NOT NULL,
-  `personal_info_id` int(10) NOT NULL,
-  `employment_status` enum('active','inactive') NOT NULL DEFAULT 'active',
-  `employment_date` date NOT NULL DEFAULT current_timestamp(),
-  `license_number` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-CREATE TABLE `residents` (
-  `resident_id` int(10) NOT NULL,
-  `account_id` int(10) DEFAULT NULL,
-  `personal_info_id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-CREATE TABLE `admin` (
-  `admin_id` int(10) NOT NULL,
-  `account_id` int(10) NOT NULL,
-  `personal_information_id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-CREATE TABLE `accounts` (
-  `account_id` int(10) NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `role` enum('admin','midwife','bhw','residents') NOT NULL,
-  `profile_picture` varchar(255) DEFAULT NULL,
-  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
-  `isValid` tinyint(1) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
