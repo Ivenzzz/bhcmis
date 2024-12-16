@@ -10,7 +10,7 @@
         </div>
         <div class="card-actions position-absolute d-none">
             <button class="btn btn-sm btn-warning mb-2" data-bs-toggle="modal" data-bs-target="#updateHeadModal">Update</button>
-            <button class="btn btn-sm btn-danger mb-2">Delete</button>
+            <button class="btn btn-sm btn-danger mb-2 delete-member-btn" data-id="<?php echo htmlspecialchars($head['fmember_id']); ?>">Delete</button>
             <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#headInfoModal">View Info</button>
         </div>
     </div>

@@ -112,7 +112,7 @@ function getFamiliesByHouseholdId($conn, $household_id) {
 }
 
 function getFamilyMembersByFamilyId($conn, $family_id) {
-    // SQL query to retrieve family members with optimized joins
+    // SQL query to retrieve family members with optimized joins, excluding archived members
     $sql = "
         SELECT 
             fm.fmember_id,
@@ -140,7 +140,7 @@ function getFamilyMembersByFamilyId($conn, $family_id) {
         LEFT JOIN
             families f_child ON f_child.parent_family_id = fm.family_id AND fm.role = 'child' AND f_child.isArchived = 0
         WHERE 
-            fm.family_id = ?
+            fm.family_id = ? AND fm.isArchived = 0
     ";
 
     // Prepare and execute the query
@@ -165,6 +165,7 @@ function getFamilyMembersByFamilyId($conn, $family_id) {
         return [];
     }
 }
+
 
 function getHouseholdsByBhwId($conn, $bhw_id) {
     $query = "

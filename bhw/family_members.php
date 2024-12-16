@@ -31,7 +31,7 @@ $family_members = getFamilyMembersByFamilyId($conn, $family_id);
         
         <div class="container mt-4 px-5">
 
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -43,7 +43,13 @@ $family_members = getFamilyMembersByFamilyId($conn, $family_id);
                 </div>
             </div>
 
-            <div class="row mb-4 p-5">
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <h4 class="poppins-bold text-center">Family <?php echo $family_id?></h4>
+                </div>
+            </div>
+
+            <div class="row px-5">
                 <?php if (!empty($family_members)): ?>
                     <?php 
                     $head = null;
@@ -72,89 +78,23 @@ $family_members = getFamilyMembersByFamilyId($conn, $family_id);
 
                     <!-- Display the wife -->
                     <?php if ($wife): ?>
-                        <div class="col-md-6 mx-auto mb-4 shadow p-3">
-                            <div class="card text-center shadow bg-pink-100 position-relative member-card">
-                                <div class="card-body">
-                                    <h5 class="card-title text-pink-500">Wife</h5>
-                                    <div class="card-text">
-                                        <p class="poppins-medium"><?php echo htmlspecialchars($wife['firstname'] . ' ' . $wife['lastname']); ?></p>
-                                        <p>Age: <?php echo htmlspecialchars($wife['age']);?></p>
-                                        <p>Occupation: <span class="text-muted"><?php echo htmlspecialchars($wife['occupation'] ?? 'None'); ?></span></p>
-                                    </div>
-                                </div>
-                                <div class="card-actions position-absolute d-none">
-                                    <button class="btn btn-sm btn-warning mb-2">Update</button>
-                                    <button class="btn btn-sm btn-danger mb-2">Delete</button>
-                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#wifeInfoModal">View Info</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Modal for Wife -->
-                        <div class="modal fade" id="wifeInfoModal" tabindex="-1" aria-labelledby="wifeInfoModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="wifeInfoModalLabel">Wife - <?php echo htmlspecialchars($wife['firstname'] . ' ' . $wife['lastname']); ?></h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p><strong>Name:</strong> <?php echo htmlspecialchars($wife['firstname'] . ' ' . $wife['lastname']); ?></p>
-                                        <p><strong>Age:</strong> <?php echo htmlspecialchars($wife['age']); ?></p>
-                                        <p><strong>Occupation:</strong> <?php echo htmlspecialchars($wife['occupation'] ?? 'None'); ?></p>
-                                        <p><strong>Civil Status:</strong> <?php echo htmlspecialchars($wife['civil_status']); ?></p>
-                                        <p><strong>Educational Attainment:</strong> <?php echo htmlspecialchars($wife['educational_attainment']); ?></p>
-                                        <p><strong>Date of Birth:</strong> <?php echo htmlspecialchars($wife['date_of_birth']); ?></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <?php
+                            require 'partials/card_wife.php';
+                            require 'partials/modal_view_wife.php';
+                            require 'partials/modal_update_wife.php';   
+                        ?>
                     <?php endif; ?>
 
                     <!-- Display children -->
                     <?php if (!empty($children)): ?>
-                        <div class="col-12 text-center shadow p-3">
-                            <h4 class="poppins-light">Children</h4>
+                        <div class="col-md-12 shadow p-3">
+                            <h4 class="poppins-light text-center">Children</h4>
                             <?php foreach ($children as $child): ?>
-                                <div class="col-md-4 mx-auto">
-                                    <div class="card text-center shadow bg-green-100 position-relative member-card">
-                                        <div class="card-body">
-                                            <h5 class="card-title text-info">Child</h5>
-                                            <div class="card-text">
-                                                <p class="fw-bold"><?php echo htmlspecialchars($child['firstname'] . ' ' . $child['lastname']); ?></p>
-                                                <p>Age: <span class="text-muted"><?php echo htmlspecialchars($child['age'] ?? 'Unknown'); ?></span></p>
-                                                <p>Sex: <span class="text-muted"><?php echo htmlspecialchars($child['sex'] ?? 'Unknown'); ?></span></p>
-                                            </div>
-                                        </div>
-                                        <div class="card-actions position-absolute d-none">
-                                            <button class="btn btn-sm btn-warning mb-2">Update</button>
-                                            <button class="btn btn-sm btn-danger mb-2">Delete</button>
-                                            <button class="btn btn-sm btn-info mb-2" data-bs-toggle="modal" data-bs-target="#childInfoModal<?php echo $child['fmember_id']; ?>">View Info</button>
-                                            <?php if ($child['child_family_id']): ?>
-                                                <a href="family_members.php?family_id=<?php echo htmlspecialchars($child['child_family_id']); ?>&household_id=<?php echo htmlspecialchars($household_id); ?>" class="btn btn-sm btn-info mb-2">Own Family</a>
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
-                                </div>
-    
-                                <!-- Modal for Child -->
-                                <div class="modal fade" id="childInfoModal<?php echo $child['fmember_id']; ?>" tabindex="-1" aria-labelledby="childInfoModalLabel<?php echo $child['fmember_id']; ?>" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="childInfoModalLabel<?php echo $child['fmember_id']; ?>">Child - <?php echo htmlspecialchars($child['firstname'] . ' ' . $child['lastname']); ?></h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p><strong>Name:</strong> <?php echo htmlspecialchars($child['firstname'] . ' ' . $child['lastname']); ?></p>
-                                                <p><strong>Age:</strong> <?php echo htmlspecialchars($child['age'] ?? 'Unknown'); ?></p>
-                                                <p><strong>Occupation:</strong> <?php echo htmlspecialchars($child['occupation'] ?? 'None'); ?></p>
-                                                <p><strong>Civil Status:</strong> <?php echo htmlspecialchars($child['civil_status'] ?? 'Unknown'); ?></p>
-                                                <p><strong>Educational Attainment:</strong> <?php echo htmlspecialchars($child['educational_attainment'] ?? 'Unknown'); ?></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <?php
+                                    require 'partials/card_child.php';
+                                    require 'partials/modal_view_child.php';
+                                    require 'partials/modal_update_child.php';   
+                                ?>
                             <?php endforeach; ?>
                         </div>
                     <?php endif; ?>
@@ -166,24 +106,17 @@ $family_members = getFamilyMembersByFamilyId($conn, $family_id);
                     <?php endif; ?>
             </div>
 
+            <div class="row p-5">
+                <div class="col-md-12 d-flex justify-content-end">
+                    <button class="btn btn-primary">Add Member</button>
+                </div>
+            </div>
+
         </div>
   </div>
 
-
-
-
     <?php require '../partials/global_javascript_links.php'; ?>
     <script src="../public/js/global_logout.js"></script>
-    <script>
-    // JavaScript to toggle visibility of deceased date input based on the checkbox
-    document.getElementById('isDeceased').addEventListener('change', function() {
-        var deceasedDateDiv = document.getElementById('deceased_date_div');
-        if (this.checked) {
-            deceasedDateDiv.style.display = 'block';
-        } else {
-            deceasedDateDiv.style.display = 'none';
-        }
-    });
-</script>
+    <script src="../public/js/bhw_family_members.js"></script>
 </body>
 </html>
