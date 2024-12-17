@@ -38,6 +38,15 @@ $medicines = getMedicines($conn);
                 </div>
             </div>
 
+            <div class="row mb-3 shadow p-2">
+                <div class="col-md-8">
+                    <canvas id="medicineChart"></canvas>
+                </div>
+                <div class="col-md-4">
+                    <canvas id="expiryStatusChart"></canvas>
+                </div>
+            </div>
+
 
             <div class="row mb-4">
                 <div class="col-md-12 shadow p-3">
@@ -82,8 +91,8 @@ $medicines = getMedicines($conn);
                                         <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editMedicineModal<?= $medicine['medicine_id'] ?>">
                                             Edit
                                         </button>
-                                        <button class="btn btn-sm btn-danger delete-btn">
-                                            Delete
+                                        <button class="btn btn-transparent btn-sm delete-btn" data-id="<?= htmlspecialchars($medicine['medicine_id']); ?>">
+                                            <i class="fa-regular fa-trash-can text-red-500"></i>
                                         </button>
                                     </td>
                                 </tr>

@@ -26,7 +26,7 @@ function getMedicines($conn) {
         WHERE 
             isArchived = 0
         ORDER BY 
-            expiry_date ASC
+            expiry_date DESC
     ";
 
     // Execute the query
