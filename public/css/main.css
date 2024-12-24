@@ -456,3 +456,8 @@ a {
     background-color: #17a2b8;
     border-color: #17a2b8;
 }
+
+/* FullCalendar styles*/
+.fc-event-time {
+    font-size: 0.7rem; /* Adjust this value to your desired font size */
+}

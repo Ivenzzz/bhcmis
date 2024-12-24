@@ -24,17 +24,33 @@ $user = getCurrentUser($conn);
 
         <?php require 'partials/header.php'; ?>
         
-        <div class="container mt-4 px-4">
+        <div class="container mt-4 px-5">
+
+
             <div class="row">
-                <div class="col-12">
-                    <p>Consultations Page</p>
+                <div class="col-md-12">
+                    <nav aria-label="breadcrumb" class="mb-4">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active" aria-current="page">Consultation Schedules Calendar</li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
-        </div>
-  </div>
 
+
+            <div class="row mb-4 shadow">
+                <div class="col-md-8 p-4">
+                    <div id="consultationsCalendar"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <?php require 'partials/modal_add_consultation_schedule.php'; ?>
 
     <?php require '../partials/global_javascript_links.php'; ?>
     <script src="../public/js/global_logout.js"></script>
+    <script src="../public/js/midwife_consultations.js"></script>
 </body>
 </html>

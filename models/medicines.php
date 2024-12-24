@@ -26,7 +26,7 @@ function getMedicines($conn) {
         WHERE 
             isArchived = 0
         ORDER BY 
-            expiry_date DESC
+            created_at DESC
     ";
 
     // Execute the query
@@ -43,6 +43,5 @@ function getMedicines($conn) {
         return []; // Return an empty array if no medicines are found
     }
 }
-
 
 ?>

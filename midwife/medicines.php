@@ -105,8 +105,18 @@ $medicines = getMedicines($conn);
                     </table>
                 </div>
             </div>
+
+            <div class="row mb-4">
+                <div class="col-md-12 d-flex justify-content-end">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMedicineModal">Add Medicine</button>
+                </div>
+                </div>
+            </div>
+            
         </div>
     </div>
+
+    <?php require 'partials/modal_add_medicine.php'; ?>
 
     <?php require '../partials/global_javascript_links.php'; ?>
     <script src="../public/js/global_logout.js"></script>

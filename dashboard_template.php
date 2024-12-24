@@ -22,17 +22,11 @@ $user = getCurrentUser($conn);
 
     <div class="flex-grow-1 bg-slate-100">
 
-        <?php require 'partials/header.php'; ?>
-        
+        <?php require 'partials/header.php'; ?>        
         <div class="container mt-4 px-5">
-            <div class="row">
-                <div class="col-12">
-                    
-                </div>
-            </div>
+            
         </div>
   </div>
-
 
     <?php require '../partials/global_javascript_links.php'; ?>
     <script src="../public/js/global_logout.js"></script>

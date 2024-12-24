@@ -16,8 +16,8 @@
         <span class="text ms-2">Overview</span>
     </a>
 
-    <a href="consultations.php" class="d-flex align-items-center <?= $current_page == 'consultations.php' ? 'active' : '' ?>">
-        <i class="icon fa-solid fa-calendar-check text-amber"></i>
+    <a href="consultations.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['consultations.php', 'consultation_details.php', 'prescriptions.php']) ? 'active' : '' ?>">
+        <i class="icon fa-solid fa-calendar-check text-green-500"></i>
         <span class="text ms-2">Consultations</span>
     </a>
     
@@ -26,7 +26,7 @@
         <span class="text ms-2">Prenatals</span>
     </a>
     
-    <a href="medicines.php" class="d-flex align-items-center <?= $current_page == 'medicines.php' ? 'active' : '' ?>">
+    <a href="medicines.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['medicines.php']) ? 'active' : '' ?>">
         <i class="icon fa-solid fa-pills text-danger"></i>
         <span class="text ms-2">Medicines</span>
     </a>
