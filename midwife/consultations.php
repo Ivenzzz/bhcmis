@@ -2,7 +2,7 @@
 
 session_start();
 
-$title = 'Appointments';
+$title = 'Schedules of Consultations';
 
 require '../partials/global_db_config.php';
 require '../models/get_current_user.php';
@@ -31,7 +31,7 @@ $user = getCurrentUser($conn);
                 <div class="col-md-12">
                     <nav aria-label="breadcrumb" class="mb-4">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item active" aria-current="page">Consultation Schedules Calendar</li>
+                            <li class="breadcrumb-item active" aria-current="page">Schedules of Consultations</li>
                         </ol>
                     </nav>
                 </div>
@@ -39,7 +39,7 @@ $user = getCurrentUser($conn);
 
 
             <div class="row mb-4 shadow">
-                <div class="col-md-8 p-4">
+                <div class="col-md-6 p-4">
                     <div id="consultationsCalendar"></div>
                 </div>
             </div>

@@ -61,9 +61,10 @@ function getAppointmentsBySchedule($con_sched_id, $conn) {
     }
 }
 
-function getConsultationsBySchedule($con_sched_id, $conn) {
+function getUnscheduledConsultations($con_sched_id, $conn) {
     try {
         // SQL query to fetch data from consultations, residents, personal_information, and consultation_schedules tables
+        // Also checks that consultation has no appointment_id (NULL) and is not archived (isArchived = 0)
         $stmtConsultations = $conn->prepare(
             "SELECT c.*, r.resident_id, 
                     CONCAT(pi.lastname, ', ', pi.firstname, ' ', pi.middlename) AS resident_name,
@@ -73,7 +74,9 @@ function getConsultationsBySchedule($con_sched_id, $conn) {
             JOIN residents r ON c.resident_id = r.resident_id
             JOIN personal_information pi ON r.personal_info_id = pi.personal_info_id
             JOIN consultation_schedules cs ON c.sched_id = cs.con_sched_id
-            WHERE c.sched_id = ?"
+            WHERE c.sched_id = ? 
+              AND c.appointment_id IS NULL
+              AND c.isArchived = 0" // Ensure the consultation is not archived
         );
         
         $stmtConsultations->bind_param("i", $con_sched_id);
@@ -81,7 +84,40 @@ function getConsultationsBySchedule($con_sched_id, $conn) {
         $resultConsultations = $stmtConsultations->get_result();
         $consultations = $resultConsultations->fetch_all(MYSQLI_ASSOC);
 
-        // Return the consultations data
+        // Return the unscheduled consultations data
+        return $consultations;
+    } catch (mysqli_sql_exception $e) {
+        // Handle errors
+        return [
+            'error' => $e->getMessage()
+        ];
+    }
+}
+
+function getScheduledConsultations($con_sched_id, $conn) {
+    try {
+        // SQL query to fetch data from consultations, residents, personal_information, consultation_schedules, and appointments tables
+        $stmtConsultations = $conn->prepare(
+            "SELECT c.*, r.resident_id, 
+                    CONCAT(pi.lastname, ', ', pi.firstname, ' ', pi.middlename) AS resident_name,
+                    cs.con_sched_date AS consultation_schedule_date,
+                    cs.con_sched_id,
+                    a.appointment_id, a.tracking_code, a.priority_number, a.created_at, a.status AS appointment_status
+            FROM consultations c
+            JOIN residents r ON c.resident_id = r.resident_id
+            JOIN personal_information pi ON r.personal_info_id = pi.personal_info_id
+            JOIN consultation_schedules cs ON c.sched_id = cs.con_sched_id
+            JOIN appointments a ON c.appointment_id = a.appointment_id
+            WHERE c.sched_id = ? 
+              AND c.appointment_id IS NOT NULL"
+        );
+        
+        $stmtConsultations->bind_param("i", $con_sched_id);
+        $stmtConsultations->execute();
+        $resultConsultations = $stmtConsultations->get_result();
+        $consultations = $resultConsultations->fetch_all(MYSQLI_ASSOC);
+
+        // Return the consultations data with appointment info
         return $consultations;
     } catch (mysqli_sql_exception $e) {
         // Handle errors
@@ -138,13 +174,28 @@ function getPrescriptionsByConsultationId($consultation_id, $conn) {
     return $prescriptions;
 }
 
+function getAllResidents($conn) {
+    $sql = "SELECT 
+                r.resident_id,
+                r.isArchived,
+                pi.lastname,
+                pi.firstname,
+                pi.middlename,
+                pi.date_of_birth
+            FROM residents r
+            INNER JOIN personal_information pi ON r.personal_info_id = pi.personal_info_id";
+    
+    $result = $conn->query($sql);
 
-
-
-
-
-
-
-
+    if ($result->num_rows > 0) {
+        $residents = [];
+        while ($row = $result->fetch_assoc()) {
+            $residents[] = $row;
+        }
+        return $residents;
+    } else {
+        return [];
+    }
+}
 
 ?>
