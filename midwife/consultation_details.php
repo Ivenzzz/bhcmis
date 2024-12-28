@@ -99,7 +99,7 @@ $residents = getAllResidents($conn);
                                         <form action="../controllers/midwife_delete_resident_consultation.php" method="POST" style="display:inline;">
                                             <input type="hidden" name="consultation_id" value="<?= $consultation['consultation_id'] ?>">
                                             <input type="hidden" name="con_sched_id" value="<?= $consultation_schedule_id ?>">
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to archive this consultation?')">Delete</button>
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this consultation?')">Delete</button>
                                         </form>
                                     </td>
                                 </tr>

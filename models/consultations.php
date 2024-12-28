@@ -33,7 +33,7 @@ function getConsultationSchedules($conn) {
     }
 }
 
-function getAppointmentsBySchedule($con_sched_id, $conn) {
+function getAppointmentsBySchedule($conn, $con_sched_id) {
     try {
         // SQL query to fetch data from appointments, residents, personal_information, and consultation_schedules tables
         $stmtAppointments = $conn->prepare(
@@ -44,7 +44,8 @@ function getAppointmentsBySchedule($con_sched_id, $conn) {
             JOIN residents r ON a.resident_id = r.resident_id
             JOIN personal_information pi ON r.personal_info_id = pi.personal_info_id
             JOIN consultation_schedules cs ON a.sched_id = cs.con_sched_id
-            WHERE a.sched_id = ? AND a.isArchived = 0"
+            WHERE a.sched_id = ? AND a.isArchived = 0
+            ORDER BY priority_number ASC"
         );
         $stmtAppointments->bind_param("i", $con_sched_id); // "i" stands for integer
         $stmtAppointments->execute();
@@ -197,5 +198,6 @@ function getAllResidents($conn) {
         return [];
     }
 }
+
 
 ?>
