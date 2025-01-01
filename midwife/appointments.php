@@ -80,18 +80,35 @@ $residents = getAllResidents($conn);
                                             <?= htmlspecialchars(date('F j, Y | g:i A', strtotime($appointment['created_at']))); ?>
                                         </td>
                                         <td class="d-flex">
-                                            <?php if ($appointment['status'] !== 'Completed'): ?>
+                                            <?php if ($appointment['status'] !== 'Completed' && $appointment['status'] !== 'Cancelled'): ?>
                                                 <button class="btn btn-success btn-sm me-2" data-bs-toggle="modal" data-bs-target="#markCompletedModal<?= $appointment['appointment_id']; ?>">
                                                     Mark as Completed
                                                 </button>
-                                            <?php else: ?>
+                                            <?php elseif ($appointment['status'] === 'Completed'): ?>
                                                 <!-- Display View Consultation button if status is Completed -->
                                                 <a href="appointed_consultation_details.php?con_sched_id=<?= $consultation_schedule_id; ?>&search=<?= $appointment['tracking_code']; ?>" class="btn btn-info btn-sm me-2">
                                                     View Consultation
                                                 </a>
                                             <?php endif; ?>
-                                            <button class="btn btn-warning btn-sm me-2">Edit</button>
-                                            <button class="btn btn-danger btn-sm">Delete</button>
+
+                                            
+                                            <?php if ($appointment['status'] === 'Scheduled'): ?>
+                                                <form action="../controllers/midwife_update_appointment_status.php" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to mark this appointment as Cancelled?')">
+                                                    <input type="hidden" name="appointment_id" value="<?= $appointment['appointment_id']; ?>">
+                                                    <input type="hidden" name="status" value="Cancelled">
+                                                    <input type="hidden" name="con_sched_id" value="<?= $consultation_schedule_id; ?>">
+                                                    <button type="submit" class="btn btn-warning btn-sm me-2">
+                                                        Mark as Cancelled
+                                                    </button>
+                                                </form>
+                                            <?php endif; ?>
+
+                                            <!-- Delete Button Form -->
+                                            <form action="../controllers/midwife_delete_appointment.php" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this appointment?')">
+                                                <input type="hidden" name="appointment_id" value="<?= $appointment['appointment_id']; ?>">
+                                                <input type="hidden" name="con_sched_id" value="<?= $consultation_schedule_id; ?>">
+                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                            </form>
                                         </td>
                                     </tr>
 
@@ -99,6 +116,7 @@ $residents = getAllResidents($conn);
 
                                 <?php endforeach; ?>
                             </tbody>
+
                         </table>
                     <?php else: ?>
                         <p class="text-center text-muted">No appointments found for this schedule.</p>

@@ -99,7 +99,12 @@ $consultation_schedule_date = isset($consultations[0]['consultation_schedule_dat
                                     <td>
                                         <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal<?= $consultation['consultation_id'] ?>">Edit</button>
                                         <a href="prescriptions.php?consultation_id=<?= $consultation['consultation_id'] ?>&con_sched_id=<?= $consultation_schedule_id ?>" class="btn btn-info btn-sm">Show Prescriptions</a>
-                                        <button class="btn btn-danger btn-sm">Delete</button>
+                                        <!-- Delete Button with Form Submission -->
+                                        <form action="../controllers/midwife_delete_resident_consultation.php" method="POST" style="display:inline;">
+                                            <input type="hidden" name="consultation_id" value="<?= $consultation['consultation_id'] ?>">
+                                            <input type="hidden" name="con_sched_id" value="<?= $consultation_schedule_id ?>">
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this consultation?')">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
 

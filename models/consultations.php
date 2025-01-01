@@ -1,5 +1,21 @@
 <?php
 
+function getTotalConsultations($conn) {
+    // Prepare the SQL query
+    $query = "SELECT COUNT(*) AS total FROM consultations";
+    
+    if ($result = $conn->query($query)) {
+        // Fetch the result as an associative array
+        $row = $result->fetch_assoc();
+        // Return the total count
+        return $row['total'];
+    } else {
+        // Log the error if the query fails
+        error_log("Database error: " . $conn->error);
+        return false;
+    }
+}
+
 function getConsultationSchedules($conn) {
     // SQL query to retrieve all consultation schedules ordered by con_sched_date in descending order
     $sql = "

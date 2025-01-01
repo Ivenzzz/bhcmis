@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 14, 2024 at 06:53 AM
+-- Generation Time: Jan 01, 2025 at 06:13 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -183,11 +183,8 @@ CREATE TABLE `appointments` (
 --
 
 INSERT INTO `appointments` (`appointment_id`, `tracking_code`, `resident_id`, `sched_id`, `priority_number`, `status`, `isArchived`, `created_at`, `updated_at`) VALUES
-(1, 'HC467245364359PH', 4, 1, 1, 'Cancelled', 0, '2024-07-25 03:51:10', '2024-10-09 00:00:24'),
-(2, 'HC191823420527PH', 5, 1, 2, 'Scheduled', 0, '2024-07-25 03:51:10', '2024-10-07 06:01:33'),
-(33, 'HC813792096667PH', 4, 7, 1, 'Completed', 0, '2024-10-09 06:43:13', '2024-10-09 06:47:51'),
-(34, 'HC736135777798PH', 4, 2, 3, 'Scheduled', 0, '2024-10-09 06:47:04', '2024-10-09 06:47:04'),
-(35, 'HC882902703689PH', 4, 6, 1, 'Cancelled', 0, '2024-10-10 04:12:17', '2024-10-10 04:12:44');
+(42, '0D020BC13797077E', 4, 21, 1, 'Scheduled', 0, '2024-12-28 08:45:58', '2024-12-28 08:45:58'),
+(43, '6479673D4C3C3C53', 4, 9, 1, 'Completed', 0, '2024-12-29 14:14:17', '2024-12-29 14:14:17');
 
 -- --------------------------------------------------------
 
@@ -253,6 +250,7 @@ CREATE TABLE `consultations` (
   `cholesterol_level` varchar(100) DEFAULT NULL,
   `physical_findings` text DEFAULT NULL,
   `refer_to` varchar(255) DEFAULT NULL,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -261,12 +259,9 @@ CREATE TABLE `consultations` (
 -- Dumping data for table `consultations`
 --
 
-INSERT INTO `consultations` (`consultation_id`, `resident_id`, `appointment_id`, `reason_for_visit`, `sched_id`, `symptoms`, `weight_kg`, `temperature`, `heart_rate`, `respiratory_rate`, `blood_pressure`, `cholesterol_level`, `physical_findings`, `refer_to`, `created_at`, `updated_at`) VALUES
-(1, 4, 33, 'not feeling well', 1, 'diarrhea', 70.00, NULL, NULL, NULL, '120/80', 'Normal', 'Patient exhibits normal vital signs and overall health is satisfactory; no immediate concerns.', '', '2024-07-24 19:54:36', '2024-07-24 19:54:36'),
-(2, 5, NULL, 'not feeling well', NULL, 'sore throat, fever', 65.00, NULL, NULL, NULL, '110/70', 'Normal', 'Patient shows signs of mild hypertension; recommend lifestyle modifications and follow-up visit in 3 months', '', '2024-07-24 19:54:36', '2024-07-24 19:54:36'),
-(21, 4, NULL, 'nakagtan ka ido', NULL, 'fever, cough', 55.00, NULL, NULL, NULL, '120/70', 'Normal', 'Patient has a fever; initiate dietary adjustments.', '', '2024-07-25 08:39:43', '2024-07-25 08:39:43'),
-(22, 4, NULL, 'nabuno ka lapis', NULL, 'fatigue, weakness, fever', 58.00, NULL, NULL, NULL, '120/80', 'Normal', 'Patient\'s vital signs are normal; continue with current health regimen and routine check-ups.', '', '2024-07-25 08:42:04', '2024-07-25 08:42:04'),
-(23, 4, NULL, 'not feeling well', NULL, 'headache, sneeze, cough', 55.00, NULL, NULL, NULL, '120/70', 'Normal', 'Patient\'s health is stable with no new concerns; maintain current health plan and schedule next routine visit.', '', '2024-07-25 08:43:19', '2024-07-25 08:43:19');
+INSERT INTO `consultations` (`consultation_id`, `resident_id`, `appointment_id`, `reason_for_visit`, `sched_id`, `symptoms`, `weight_kg`, `temperature`, `heart_rate`, `respiratory_rate`, `blood_pressure`, `cholesterol_level`, `physical_findings`, `refer_to`, `isArchived`, `created_at`, `updated_at`) VALUES
+(22, 4, NULL, 'nabuno ka lapis', 9, 'lapsi, fever, vomiting', 58.00, '48', '120', 'None', '120/80', 'Normal', 'Patient\'s vital signs are normal; continue with current health regimen and routine check-ups.', 'Victorias Health Center', 0, '2024-07-25 08:42:04', '2024-07-25 08:42:04'),
+(29, 4, 43, 'nabuno ka lapis', 9, 'fever, sneeze', 55.00, '36', '', NULL, '', '', '', '', 0, '2024-12-29 14:14:44', '2024-12-29 14:14:44');
 
 -- --------------------------------------------------------
 
@@ -290,7 +285,8 @@ CREATE TABLE `consultations_prescriptions` (
 --
 
 INSERT INTO `consultations_prescriptions` (`medication_id`, `consultation_id`, `medicine_id`, `quantity`, `instructions`, `isArchived`, `created_at`, `updated_at`) VALUES
-(6, 2, 39, 2, '1 tablet after breakfast and 1 after dinner', 0, '2024-10-01 13:18:06', '2024-10-01 13:18:06');
+(7, 22, 27, 1, 'Before dinner', 0, '2024-12-22 21:32:52', '2024-12-22 21:32:52'),
+(8, 22, 34, 5, '3X a day', 0, '2024-12-24 18:57:15', '2024-12-24 18:57:15');
 
 -- --------------------------------------------------------
 
@@ -311,12 +307,18 @@ CREATE TABLE `consultation_schedules` (
 --
 
 INSERT INTO `consultation_schedules` (`con_sched_id`, `con_sched_date`, `isArchived`, `created_at`, `updated_at`) VALUES
-(1, '2024-10-05 08:00:00', 0, '2024-12-14 11:21:08', '2024-12-14 11:21:08'),
-(2, '2024-10-06 09:00:00', 0, '2024-12-14 11:21:08', '2024-12-14 11:21:08'),
-(3, '2024-10-16 09:00:00', 0, '2024-12-14 11:21:08', '2024-12-14 11:21:08'),
-(6, '2024-11-07 08:00:00', 0, '2024-12-14 11:21:08', '2024-12-14 11:21:08'),
-(7, '2024-10-03 08:00:00', 0, '2024-12-14 11:21:08', '2024-12-14 11:21:08'),
-(8, '2024-10-11 08:00:00', 0, '2024-12-14 11:21:08', '2024-12-14 11:21:08');
+(9, '2024-12-23 12:00:00', 0, '2024-12-19 22:59:53', '2024-12-19 22:59:53'),
+(10, '2025-01-07 12:00:00', 0, '2024-12-19 23:19:57', '2024-12-19 23:19:57'),
+(11, '2025-01-07 12:00:00', 1, '2024-12-19 23:20:05', '2024-12-23 02:26:08'),
+(12, '2025-01-09 12:00:00', 0, '2024-12-19 23:21:00', '2024-12-19 23:21:00'),
+(13, '2025-01-08 12:00:00', 0, '2024-12-19 23:22:16', '2024-12-19 23:22:16'),
+(14, '2024-12-12 12:00:00', 1, '2024-12-19 23:23:51', '2024-12-25 04:07:31'),
+(15, '2024-12-10 12:00:00', 0, '2024-12-19 23:25:49', '2024-12-19 23:25:49'),
+(16, '2024-12-04 12:00:00', 1, '2024-12-19 23:29:36', '2024-12-25 04:05:10'),
+(18, '2024-12-05 08:00:00', 1, '2024-12-23 02:15:58', '2024-12-23 02:25:05'),
+(19, '2024-12-14 07:31:00', 1, '2024-12-23 03:44:48', '2024-12-23 03:44:56'),
+(20, '2024-12-25 08:00:00', 0, '2024-12-25 04:05:29', '2024-12-25 04:05:29'),
+(21, '2024-12-28 12:00:00', 0, '2024-12-28 16:45:50', '2024-12-28 16:45:50');
 
 -- --------------------------------------------------------
 
@@ -362,9 +364,9 @@ CREATE TABLE `family_members` (
 --
 
 INSERT INTO `family_members` (`fmember_id`, `family_id`, `resident_id`, `role`, `isArchived`, `created_at`, `updated_at`) VALUES
-(1, 1001, 4, 'husband', 0, '2024-12-14 11:23:02', '2024-12-14 11:23:02'),
-(2, 1001, 5, 'wife', 0, '2024-12-14 11:23:02', '2024-12-14 11:23:02'),
-(56, 1001, 99, 'child', 0, '2024-12-14 11:23:02', '2024-12-14 11:23:02'),
+(1, 1001, 4, 'husband', 0, '2024-12-14 11:23:02', '2024-12-14 22:48:06'),
+(2, 1001, 5, 'wife', 0, '2024-12-14 11:23:02', '2024-12-14 23:17:49'),
+(56, 1001, 99, 'child', 0, '2024-12-14 11:23:02', '2024-12-14 23:28:03'),
 (58, 1002, 99, 'husband', 0, '2024-12-14 11:23:02', '2024-12-14 11:23:02');
 
 -- --------------------------------------------------------
@@ -542,21 +544,21 @@ INSERT INTO `medicines` (`medicine_id`, `batch_number`, `name`, `generic_name`, 
 (21, 'A1B2C3', 'Paracetamol', 'Paracetamol', '500 mg', 'Tablet', '2025-12-31', 200, 'Pain reliever and fever reducer', 0, '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
 (22, 'D4E5F6', 'Ibuprofen', 'Ibuprofen', '400 mg', 'Tablet', '2024-11-30', 150, 'Anti-inflammatory and pain relief', 0, '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
 (23, 'G7H8I9', 'Amoxicillin', 'Amoxicillin', '500 mg', 'Capsule', '2024-08-31', 100, 'Antibiotic used to treat infections', 0, '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
-(24, 'J1K2L3', 'Aspirin', 'Acetylsalicylic Acid', '100 mg', 'Tablet', '2025-03-15', 250, 'Pain relief and anti-inflammatory', 0, '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
+(24, 'J1K2L9', 'Aspirin', 'Acetylsalicylic Acid', '100 mg', 'Tablet', '2025-03-15', 250, 'Pain relief and anti-inflammatory', 0, '2024-07-25 01:23:05', '2024-12-17 21:52:29'),
 (25, 'M4N5O6', 'Loperamide', 'Loperamide', '2 mg', 'Capsule', '2024-10-01', 80, 'Anti-diarrheal', 0, '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
 (26, 'P7Q8R9', 'Cetirizine', 'Cetirizine', '10 mg', 'Tablet', '2025-05-20', 180, 'Antihistamine for allergies', 0, '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
 (27, 'S1T2U3', 'Metformin', 'Metformin', '500 mg', 'Tablet', '2024-12-31', 120, 'Medication for type 2 diabetes', 0, '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
 (28, 'V4W5X6', 'Cough Syrup', 'Dextromethorphan', '100 ml', 'Syrup', '2024-07-15', 90, 'Relieves cough and throat irritation', 0, '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
 (29, 'Y7Z8A9', 'Salbutamol', 'Salbutamol', '100 mcg', 'Inhaler', '2025-09-30', 70, 'Bronchodilator for asthma', 0, '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
 (30, 'B1C2D3', 'Omeprazole', 'Omeprazole', '20 mg', 'Capsule', '2025-01-10', 110, 'Reduces stomach acid production', 0, '2024-07-25 01:23:05', '2024-07-25 01:23:05'),
-(31, 'E4F5G6', 'Biogesic', 'Paracetamol', '500mg', 'Tablet', '2025-12-31', 100, 'For fever and mild to moderate pain relief.', 0, '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
+(31, 'E4F5G6', 'Biogesic', 'Paracetamol', '500mg', 'Tablet', '2025-12-31', 24, 'For fever and mild to moderate pain relief.', 0, '2024-09-22 12:15:55', '2024-12-28 01:57:46'),
 (32, 'H7I8J9', 'Alaxan FR', 'Ibuprofen + Paracetamol', '200mg + 325mg', 'Tablet', '2026-06-30', 80, 'For pain and inflammation relief.', 0, '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
 (33, 'K1L2M3', 'Amoxicillin', 'Amoxicillin', '500mg', 'Capsule', '2024-11-15', 50, 'Antibiotic for bacterial infections.', 0, '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
 (34, 'N4O5P6', 'Ascof Lagundi', 'Vitex Negundo', '300mg', 'Syrup', '2025-03-20', 30, 'Herbal cough remedy.', 0, '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
-(35, 'Q7R8S9', 'Bioflu', 'Phenylephrine HCl, Chlorphenamine Maleate, Paracetamol', '10mg/2mg/500mg', 'Tablet', '2025-07-12', 120, 'For flu and common cold symptoms.', 0, '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
+(35, 'Q7R8S9', 'Bioflu', 'Phenylephrine HCl, Chlorphenamine Maleate, Paracetamol', '10mg/2mg/500mg', 'Tablet', '2025-07-12', 115, 'For flu and common cold symptoms.', 0, '2024-09-22 12:15:55', '2024-12-28 08:26:15'),
 (36, 'T1U2V3', 'Neozep Forte', 'Phenylephrine HCl, Chlorphenamine Maleate, Paracetamol', '10mg/2mg/500mg', 'Tablet', '2024-09-15', 90, 'For colds, allergies, and headache relief.', 0, '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
-(37, 'W4X5Y6', 'Kremil-S', 'Aluminum Hydroxide + Magnesium Hydroxide + Simethicone', '178mg/233mg/30mg', 'Tablet', '2025-01-30', 60, 'For hyperacidity and indigestion.', 0, '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
-(38, 'Z7A8B9', 'Mefenamic Acid', 'Mefenamic Acid', '500mg', 'Tablet', '2026-08-10', 70, 'For pain relief such as headaches and dysmenorrhea.', 0, '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
+(37, 'W4X5Y9', 'Kremil-S', 'Aluminum Hydroxide + Magnesium Hydroxide + Simethicone', '178mg/233mg/30mg', 'Tablet', '2025-04-09', 60, 'For hyperacidity and indigestion.', 0, '2024-09-22 12:15:55', '2024-12-16 15:39:23'),
+(38, 'Z7A8B0', 'Mefenamic Acid', 'Mefenamic Acid', '500mg', 'Tablet', '2026-08-10', 70, 'For pain relief such as headaches and dysmenorrhea.', 0, '2024-09-22 12:15:55', '2024-12-17 21:54:37'),
 (39, 'C1D2E3', 'Cefalexin', 'Cefalexin', '500mg', 'Capsule', '2025-05-25', 40, 'Antibiotic for bacterial infections.', 0, '2024-09-22 12:15:55', '2024-09-22 12:15:55'),
 (40, 'F4G5H6', 'Salbutamol', 'Salbutamol', '2mg/5ml', 'Syrup', '2024-12-20', 45, 'For asthma and bronchospasm relief.', 0, '2024-09-22 12:15:55', '2024-09-22 12:15:55');
 
@@ -630,9 +632,9 @@ INSERT INTO `personal_information` (`personal_info_id`, `lastname`, `firstname`,
 (8, 'Cruz', 'Annie', 'Castro', '1973-01-10', 'Married', 'Highschool Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 8, 'male', '09881234567', 'annie.cruz@gmail.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-16 14:07:55'),
 (9, 'Morales', 'Elena', 'Garcia', '1999-04-20', 'Single', 'Highschool Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 9, 'male', '09991234567', 'elena.morales@example.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-07 08:42:29'),
 (10, 'Reyes', 'Gabriela', 'Santos', '1981-08-14', 'Married', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 10, 'male', '09182345678', 'gabriel.delosreyes@example.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-10 10:44:05'),
-(13, 'Araneta', 'Roy Marjohn', 'Catapang', '2001-01-03', 'Married', 'College Graduate', 'Businessman', 'Iglesia ni Cristo', 'Filipino', 6, 'male', '09308309530', 'royaraneta@gmail.com', NULL, 0, 0, 1, NULL, '2024-07-16 11:07:25', '2024-12-05 15:18:27'),
-(14, 'Angcona', 'Ruvy', 'Lakobalo', '2001-11-09', 'Married', 'College Undergraduate', 'Teacher', 'Roman Catholic', 'Filipino', 6, 'female', '09586789012', 'ruvyangcona@gmail.com', NULL, 0, 0, 1, NULL, '2024-07-16 11:07:25', '2024-09-10 03:31:46'),
-(67, 'Araneta', 'Roy Marjohn Jr.', 'Lakobalo', '2018-10-03', 'Single', NULL, NULL, 'Filipino', 'Roman Catholic', 6, 'male', NULL, NULL, NULL, 0, 0, 0, NULL, '2024-07-17 11:07:25', '2024-10-11 15:08:06');
+(13, 'Araneta', 'Roy Marjohn', 'Catapang', '2000-04-13', 'Single', 'Highschool Graduate', 'Drug Lord', 'Iglesia ni Cristo', 'Filipinos', 6, 'female', '09308309599', 'roymarjohnaraneta@gmail.com', NULL, 0, 0, 1, NULL, '2024-07-16 11:07:25', '2024-12-14 23:17:37'),
+(14, 'Angcona', 'Rovie', 'Ambot', '2002-03-04', 'Married', 'College Undergraduate', 'Businesswoman', 'Baptist', 'Filipino', 6, 'female', '09586789012', 'rovieangcona@gmail.com', NULL, 0, 0, 1, NULL, '2024-07-16 11:07:25', '2024-12-14 23:17:20'),
+(67, 'Araneta Jr.', 'Roy Marjohn', 'Lakobalo', '2015-08-05', 'Single', 'Elementary Graduate', 'Student', 'Filipino', 'Roman Catholic', 6, 'male', '', '', NULL, 0, 0, 0, NULL, '2024-07-17 11:07:25', '2024-12-14 23:40:34');
 
 -- --------------------------------------------------------
 
@@ -668,7 +670,6 @@ CREATE TABLE `prenatals` (
   `tracking_code` varchar(255) NOT NULL,
   `pregnancy_id` int(10) NOT NULL,
   `sched_id` int(10) NOT NULL,
-  `bhw_id` int(10) NOT NULL,
   `weight` decimal(10,2) DEFAULT NULL,
   `blood_pressure` varchar(255) DEFAULT NULL,
   `heart_lungs_condition` varchar(255) DEFAULT NULL,
@@ -687,8 +688,8 @@ CREATE TABLE `prenatals` (
 -- Dumping data for table `prenatals`
 --
 
-INSERT INTO `prenatals` (`prenatal_id`, `tracking_code`, `pregnancy_id`, `sched_id`, `bhw_id`, `weight`, `blood_pressure`, `heart_lungs_condition`, `abdominal_exam`, `fetal_heart_rate`, `fundal_height`, `fetal_movement`, `checkup_notes`, `refer_to`, `isArchived`, `created_at`, `updated_at`) VALUES
-(6, 'A1B2C3D4E5F6G7H8', 1, 1, 1, 65.50, '120/80', 'Normal', 'No abnormalities', 'Strong', '20 cm', 'Felt regularly', 'First visit checkup', NULL, 0, '2024-09-23 02:12:40', '2024-09-23 06:25:01');
+INSERT INTO `prenatals` (`prenatal_id`, `tracking_code`, `pregnancy_id`, `sched_id`, `weight`, `blood_pressure`, `heart_lungs_condition`, `abdominal_exam`, `fetal_heart_rate`, `fundal_height`, `fetal_movement`, `checkup_notes`, `refer_to`, `isArchived`, `created_at`, `updated_at`) VALUES
+(6, 'A1B2C3D4E5F6G7H8', 1, 1, 65.50, '120/80', 'Normal', 'No abnormalities', 'Strong', '20 cm', 'Felt regularly', 'First visit checkup', NULL, 0, '2024-09-23 02:12:40', '2024-09-23 06:25:01');
 
 -- --------------------------------------------------------
 
@@ -699,7 +700,6 @@ INSERT INTO `prenatals` (`prenatal_id`, `tracking_code`, `pregnancy_id`, `sched_
 CREATE TABLE `prenatal_schedules` (
   `sched_id` int(10) NOT NULL,
   `sched_date` datetime(6) NOT NULL,
-  `sched_note` varchar(255) NOT NULL,
   `isArchived` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
@@ -709,12 +709,12 @@ CREATE TABLE `prenatal_schedules` (
 -- Dumping data for table `prenatal_schedules`
 --
 
-INSERT INTO `prenatal_schedules` (`sched_id`, `sched_date`, `sched_note`, `isArchived`, `created_at`, `updated_at`) VALUES
-(1, '2024-11-03 10:00:00.000000', 'First prenatal checkup', 0, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
-(2, '2024-11-10 14:00:00.000000', 'Second trimester follow-up', 0, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
-(3, '2024-11-17 09:30:00.000000', 'Ultrasound appointment', 0, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
-(4, '2024-11-20 11:00:00.000000', 'Blood test and weight check', 0, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
-(5, '2024-11-28 13:00:00.000000', 'Final prenatal evaluation', 0, '2024-12-14 11:30:22', '2024-12-14 11:30:22');
+INSERT INTO `prenatal_schedules` (`sched_id`, `sched_date`, `isArchived`, `created_at`, `updated_at`) VALUES
+(1, '2024-11-03 10:00:00.000000', 0, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
+(2, '2024-11-10 14:00:00.000000', 0, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
+(3, '2024-11-17 09:30:00.000000', 0, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
+(4, '2024-11-20 11:00:00.000000', 0, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
+(5, '2024-11-28 13:00:00.000000', 0, '2024-12-14 11:30:22', '2024-12-14 11:30:22');
 
 -- --------------------------------------------------------
 
@@ -768,6 +768,29 @@ INSERT INTO `residents_medical_condition` (`rmc_id`, `resident_id`, `medical_con
 (22, 5, 2, '2024-11-27 12:33:58', 'Ongoing', 0, '2024-11-27 12:33:58', '2024-12-14 11:31:55'),
 (23, 4, 1, '2024-12-04 00:00:00', 'Ongoing', 0, '2024-12-04 16:41:55', '2024-12-14 11:31:55'),
 (26, 4, 30, '2024-12-12 00:00:00', 'Ongoing', 0, '2024-12-04 16:50:13', '2024-12-14 11:31:55');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `resident_prenatal_schedules`
+--
+
+CREATE TABLE `resident_prenatal_schedules` (
+  `resident_ps_id` int(10) NOT NULL,
+  `pregnancy_id` int(10) NOT NULL,
+  `sched_id` int(10) NOT NULL,
+  `status` enum('completed','cancelled','incoming') NOT NULL DEFAULT 'incoming',
+  `notes` text NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `resident_prenatal_schedules`
+--
+
+INSERT INTO `resident_prenatal_schedules` (`resident_ps_id`, `pregnancy_id`, `sched_id`, `status`, `notes`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, 'incoming', 'dfdfdf', '2025-01-01 13:09:53', '2025-01-01 13:09:53');
 
 -- --------------------------------------------------------
 
@@ -1001,7 +1024,6 @@ ALTER TABLE `pregnancy`
 ALTER TABLE `prenatals`
   ADD PRIMARY KEY (`prenatal_id`),
   ADD KEY `fk_prenatalsPregnancyId` (`pregnancy_id`),
-  ADD KEY `fk_prenatalBhwId` (`bhw_id`),
   ADD KEY `fk_prenatalsSchedId` (`sched_id`);
 
 --
@@ -1025,6 +1047,14 @@ ALTER TABLE `residents_medical_condition`
   ADD PRIMARY KEY (`rmc_id`),
   ADD KEY `fk_rmcResidentId` (`resident_id`),
   ADD KEY `fk_rmcConditionsId` (`medical_conditions_id`);
+
+--
+-- Indexes for table `resident_prenatal_schedules`
+--
+ALTER TABLE `resident_prenatal_schedules`
+  ADD PRIMARY KEY (`resident_ps_id`),
+  ADD KEY `fk_pSchedulePregnancyId` (`pregnancy_id`),
+  ADD KEY `fk_pScheduleSchedId` (`sched_id`);
 
 --
 -- Indexes for table `vaccinations`
@@ -1078,7 +1108,7 @@ ALTER TABLE `annual_population`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `appointment_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `appointment_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `bhw`
@@ -1096,19 +1126,19 @@ ALTER TABLE `conditions_prescriptions`
 -- AUTO_INCREMENT for table `consultations`
 --
 ALTER TABLE `consultations`
-  MODIFY `consultation_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `consultation_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `consultations_prescriptions`
 --
 ALTER TABLE `consultations_prescriptions`
-  MODIFY `medication_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `medication_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `consultation_schedules`
 --
 ALTER TABLE `consultation_schedules`
-  MODIFY `con_sched_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `con_sched_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `families`
@@ -1156,7 +1186,7 @@ ALTER TABLE `medical_conditions`
 -- AUTO_INCREMENT for table `medicines`
 --
 ALTER TABLE `medicines`
-  MODIFY `medicine_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `medicine_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `midwife`
@@ -1199,6 +1229,12 @@ ALTER TABLE `residents`
 --
 ALTER TABLE `residents_medical_condition`
   MODIFY `rmc_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT for table `resident_prenatal_schedules`
+--
+ALTER TABLE `resident_prenatal_schedules`
+  MODIFY `resident_ps_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `vaccinations`
@@ -1328,7 +1364,6 @@ ALTER TABLE `pregnancy`
 -- Constraints for table `prenatals`
 --
 ALTER TABLE `prenatals`
-  ADD CONSTRAINT `fk_prenatalBhwId` FOREIGN KEY (`bhw_id`) REFERENCES `bhw` (`bhw_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_prenatalsPregnancyId` FOREIGN KEY (`pregnancy_id`) REFERENCES `pregnancy` (`pregnancy_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_prenatalsSchedId` FOREIGN KEY (`sched_id`) REFERENCES `prenatal_schedules` (`sched_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -1345,6 +1380,13 @@ ALTER TABLE `residents`
 ALTER TABLE `residents_medical_condition`
   ADD CONSTRAINT `fk_rmcConditionsId` FOREIGN KEY (`medical_conditions_id`) REFERENCES `medical_conditions` (`medical_conditions_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_rmcResidentId` FOREIGN KEY (`resident_id`) REFERENCES `residents` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `resident_prenatal_schedules`
+--
+ALTER TABLE `resident_prenatal_schedules`
+  ADD CONSTRAINT `fk_pSchedulePregnancyId` FOREIGN KEY (`pregnancy_id`) REFERENCES `pregnancy` (`pregnancy_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_pScheduleSchedId` FOREIGN KEY (`sched_id`) REFERENCES `prenatal_schedules` (`sched_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `vaccinations`

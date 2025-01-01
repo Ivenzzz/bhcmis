@@ -21,7 +21,7 @@
         <span class="text ms-2">Consultations</span>
     </a>
     
-    <a href="prenatals.php" class="d-flex align-items-center <?= $current_page == 'prenatals.php' ? 'active' : '' ?>">
+    <a href="prenatals.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['prenatals.php', 'prenatals_list.php']) ? 'active' : '' ?>">
         <i class="icon fa-solid fa-baby text-warning"></i>
         <span class="text ms-2">Prenatals</span>
     </a>
