@@ -400,6 +400,10 @@ a {
 .mw-px-50 {max-width: 50px}
 .mw-px-100 {max-width: 100px}
 .mh-600 {max-height: 600px}
+.mw-rm-20 {max-width: 20rem}
+.mw-rm-10 {max-width: 10rem}
+.mw-rm-8 {max-width: 8rem}
+.mw-rm-4 {max-width: 4rem}
 
 
 
@@ -460,4 +464,14 @@ a {
 /* FullCalendar styles*/
 .fc-event-time {
     font-size: 0.7rem; /* Adjust this value to your desired font size */
+}
+
+.password-container input {
+    padding-right: 2.5rem; /* Space for the eye icon */
+}
+
+.password-container .eye-icon {
+    position: absolute;
+    right: 0.5rem;
+    cursor: pointer;
 }

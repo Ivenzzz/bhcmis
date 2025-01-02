@@ -1,11 +1,9 @@
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content dark-modal modal-sm">
-            <div class="modal-header mb-3 d-flex align-items-center position-relative">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header mb-3">
                 <h3 class="modal-title gradient-text" id="loginModalLabel">Login</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="error-login alert alert-danger d-none"></div>
@@ -28,8 +26,8 @@
                             <a href="#">Forgot Password?</a>
                         </div>
                     </div>
-                    <div class="mt-5 mb-3">
-                        <button class="btn btn-primary btn-full" type="button" id="loginButton">Login</button>
+                    <div class="mt-5 mb-3 d-flex justify-content-end">
+                        <button class="btn btn-primary" type="button" id="loginButton">Login</button>
                     </div>
                 </form>
             </div>
