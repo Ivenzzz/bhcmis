@@ -12,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$diagnosed_date) {
         die("Diagnosed date is required.");
     }
-
     // Process the medical condition
     if ($existing_condition) {
         // Use the selected existing condition

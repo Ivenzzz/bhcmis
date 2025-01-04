@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 01, 2025 at 06:13 AM
+-- Generation Time: Jan 03, 2025 at 12:47 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -689,7 +689,7 @@ CREATE TABLE `prenatals` (
 --
 
 INSERT INTO `prenatals` (`prenatal_id`, `tracking_code`, `pregnancy_id`, `sched_id`, `weight`, `blood_pressure`, `heart_lungs_condition`, `abdominal_exam`, `fetal_heart_rate`, `fundal_height`, `fetal_movement`, `checkup_notes`, `refer_to`, `isArchived`, `created_at`, `updated_at`) VALUES
-(6, 'A1B2C3D4E5F6G7H8', 1, 1, 65.50, '120/80', 'Normal', 'No abnormalities', 'Strong', '20 cm', 'Felt regularly', 'First visit checkup', NULL, 0, '2024-09-23 02:12:40', '2024-09-23 06:25:01');
+(11, 'LASJFLJSDLFJLDJF', 1, 7, 50.00, '120/50', 'Normal', 'No problem detected', '135 bpm', '20cm', 'Active', 'Follow up in 1 week', NULL, 0, '2025-01-01 08:04:17', '2025-01-02 23:19:39');
 
 -- --------------------------------------------------------
 
@@ -710,11 +710,11 @@ CREATE TABLE `prenatal_schedules` (
 --
 
 INSERT INTO `prenatal_schedules` (`sched_id`, `sched_date`, `isArchived`, `created_at`, `updated_at`) VALUES
-(1, '2024-11-03 10:00:00.000000', 0, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
-(2, '2024-11-10 14:00:00.000000', 0, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
-(3, '2024-11-17 09:30:00.000000', 0, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
-(4, '2024-11-20 11:00:00.000000', 0, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
-(5, '2024-11-28 13:00:00.000000', 0, '2024-12-14 11:30:22', '2024-12-14 11:30:22');
+(3, '2024-11-17 09:30:00.000000', 1, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
+(4, '2024-11-20 11:00:00.000000', 1, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
+(5, '2024-11-28 13:00:00.000000', 1, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
+(6, '2025-01-10 08:00:00.000000', 1, '2025-01-01 15:05:12', '2025-01-01 15:05:12'),
+(7, '2025-01-11 07:30:00.000000', 0, '2025-01-01 15:44:51', '2025-01-01 15:44:51');
 
 -- --------------------------------------------------------
 
@@ -765,7 +765,6 @@ INSERT INTO `residents_medical_condition` (`rmc_id`, `resident_id`, `medical_con
 (18, 4, 2, '2024-09-30 11:40:54', 'Ongoing', 0, '2024-09-30 11:40:54', '2024-12-14 11:31:55'),
 (20, 5, 2, '2024-11-27 12:33:45', 'Ongoing', 0, '2024-11-27 12:33:45', '2024-12-14 11:31:55'),
 (21, 99, 24, '2024-11-27 12:33:45', 'Ongoing', 0, '2024-11-27 12:33:45', '2024-12-14 11:31:55'),
-(22, 5, 2, '2024-11-27 12:33:58', 'Ongoing', 0, '2024-11-27 12:33:58', '2024-12-14 11:31:55'),
 (23, 4, 1, '2024-12-04 00:00:00', 'Ongoing', 0, '2024-12-04 16:41:55', '2024-12-14 11:31:55'),
 (26, 4, 30, '2024-12-12 00:00:00', 'Ongoing', 0, '2024-12-04 16:50:13', '2024-12-14 11:31:55');
 
@@ -784,13 +783,6 @@ CREATE TABLE `resident_prenatal_schedules` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `resident_prenatal_schedules`
---
-
-INSERT INTO `resident_prenatal_schedules` (`resident_ps_id`, `pregnancy_id`, `sched_id`, `status`, `notes`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 'incoming', 'dfdfdf', '2025-01-01 13:09:53', '2025-01-01 13:09:53');
 
 -- --------------------------------------------------------
 
@@ -1078,7 +1070,7 @@ ALTER TABLE `vaccines`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `account_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `account_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `address`
@@ -1198,7 +1190,7 @@ ALTER TABLE `midwife`
 -- AUTO_INCREMENT for table `personal_information`
 --
 ALTER TABLE `personal_information`
-  MODIFY `personal_info_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
+  MODIFY `personal_info_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT for table `pregnancy`
@@ -1210,19 +1202,19 @@ ALTER TABLE `pregnancy`
 -- AUTO_INCREMENT for table `prenatals`
 --
 ALTER TABLE `prenatals`
-  MODIFY `prenatal_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `prenatal_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `prenatal_schedules`
 --
 ALTER TABLE `prenatal_schedules`
-  MODIFY `sched_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `sched_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `residents`
 --
 ALTER TABLE `residents`
-  MODIFY `resident_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
+  MODIFY `resident_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
 
 --
 -- AUTO_INCREMENT for table `residents_medical_condition`

@@ -1,5 +1,7 @@
 initPrenatalCalendar();
 initPrenatalTable();
+initIncomingPrenatalsTable();
+initPregnancyTable();
 
 
 function initPrenatalCalendar() {
@@ -57,6 +59,21 @@ function initPrenatalTable() {
                 { orderable: false, targets: 0 } // Disable ordering on the Schedule ID column
             ]
         });
+    });  
+}
+
+function initIncomingPrenatalsTable() {
+    $(document).ready(function() {
+        $('#incomingPrenatalsTable').DataTable({
+            searching: false // Disable searching
+        });
     });
-    
+}
+
+function initPregnancyTable() {
+    $(document).ready(function() {
+        $('#pregnanciesTable').DataTable({
+            searching: false // Disable searching
+        });
+    });
 }

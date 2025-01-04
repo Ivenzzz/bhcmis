@@ -8,11 +8,9 @@ require '../partials/global_db_config.php';
 require '../models/get_current_user.php';
 require '../models/midwife.php';
 require '../models/get_all_bhws.php';
-require '../models/get_current_midwife.php';
 
 
 $midwives = getMidwives($conn);
-$current_midwife = getCurrentMidwife($conn);
 $bhws = getBHWs($conn);
 $user = getCurrentUser($conn);
 

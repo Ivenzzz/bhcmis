@@ -2,7 +2,7 @@
 
 session_start();
 
-$title = 'Prenatals';
+$title = 'Prenatals & Pregnancies';
 
 require '../partials/global_db_config.php';
 require '../models/get_current_user.php';
@@ -11,6 +11,7 @@ require '../models/pregnancies.php';
 $user = getCurrentUser($conn);
 $pregnant_residents = getPregnantResidents($conn);
 $prenatal_schedules = getPrenatalSchedules($conn);
+$incoming_prenatals = getThisWeeksIncomingPrenatals($conn);
 
 ?>
 <!DOCTYPE html>
@@ -32,7 +33,7 @@ $prenatal_schedules = getPrenatalSchedules($conn);
                 <div class="col-md-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item active" aria-current="page">Prenatal Schedules</li>
+                            <li class="breadcrumb-item active" aria-current="page">Prenatals & Pregnancies</li>
                         </ol>
                     </nav>
                 </div>
@@ -49,32 +50,37 @@ $prenatal_schedules = getPrenatalSchedules($conn);
                             Add Schedule <i class="fa-solid fa-plus"></i>
                         </button>
                     </div>                    
-                    <table id="prenatalSchedulesTable" class="display text-xs text-center">
-                        <thead>
+                    <?php require 'partials/table_prenatal_schedules.php'; ?>
+                </div>
+            </div>
+
+            <div class="row mb-4 shadow p-4">
+                <div class="col-md-6 shadow p-4">
+                    <h4 class="poppins-light mb-4">Incoming Prenatals</h4>
+                    <?php require 'partials/table_incoming_prenatals.php'; ?>
+                </div>
+                <div class="col-md-6 p-4">
+                    <h4 class="poppins-light mb-4">Pregnant Residents</h4>
+                    <table class="table table-bordered text-xs text-center" id="pregnanciesTable">
+                        <thead class="table-dark">
                             <tr>
-                                <th class="text-center">Date</th>
-                                <th class="text-center">Actions</th>
+                                <th class="text-center">Name</th>
+                                <th class="text-center">Address</th>
+                                <th class="text-center">Due Date</th>
+                                <th class="text-center"># of Prenatals Done</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php 
-                            foreach ($prenatal_schedules as $schedule): ?>
+                        <tbody class="table-primary">
+                            <?php foreach ($pregnant_residents as $resident): ?>
                                 <tr>
-                                    <td><?= htmlspecialchars(date('F j, Y, g:i A', strtotime($schedule['sched_date']))) ?></td>
-                                    <td>
-                                        <a href="prenatals_list.php?sched_id=<?= urlencode($schedule['sched_id']) ?>" class="btn btn-info btn-sm">
-                                            View Prenatals
-                                        </a>
-                                        <form action="../controllers/midwife_delete_prenatal_schedule.php" method="POST" style="display:inline;">
-                                            <input type="hidden" name="sched_id" value="<?= $schedule['sched_id'] ?>">
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this schedule?');">Delete</button>
-                                        </form>
-                                    </td>
+                                    <td><?= htmlspecialchars($resident['lastname'] . ', ' . $resident['firstname'] . ' ' . $resident['middlename']) ?></td>
+                                    <td><?= htmlspecialchars($resident['address_name']) ?></td>
+                                    <td><?= htmlspecialchars($resident['expected_due_date']) ?></td>
+                                    <td><?= htmlspecialchars($resident['prenatal_count']) ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-
                 </div>
             </div>
 

@@ -36,10 +36,4 @@
         <i class="icon fa fa-user-nurse text-red-500"></i>
         <span class="text">BHWs</span>
     </a>
-
-    <a href="events.php" class="<?= $current_page == 'events.php' ? 'active' : '' ?>">
-        <i class="icon fa fa-calendar-check text-slate-500"></i>
-        <span class="text">Events</span>
-    </a>
-
 </div>

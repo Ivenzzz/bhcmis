@@ -2,7 +2,7 @@
 
 session_start();
 
-$title = 'Prenatal List';
+$title = 'Prenatal Home';
 
 require '../partials/global_db_config.php';
 require '../models/get_current_user.php';
@@ -11,6 +11,7 @@ require '../models/pregnancies.php';
 $user = getCurrentUser($conn);
 $sched_id = $_GET['sched_id'];
 $prenatals = getPrenatalsByScheduleId($conn, $sched_id);
+$pregnant_residents = getPregnantResidents($conn);
 
 ?>
 
@@ -32,14 +33,25 @@ $prenatals = getPrenatalsByScheduleId($conn, $sched_id);
                 <div class="col-md-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="prenatals.php">Schedules</a></li>
+                            <li class="breadcrumb-item"><a href="prenatals.php">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Prenatal List</li>
                         </ol>
                     </nav>
                 </div>
             </div>
 
+            <div class="row mb-3">
+                <div class="col-12">
+                    <a href="prenatals_list.php?sched_id=<?= $sched_id ?>" class="btn btn-primary btn-sm">Completed Prenatals</a>
+                    <a href="scheduled_prenatals.php?sched_id=<?= $sched_id ?>" class="btn btn-secondary btn-sm">Scheduled Prenatals</a>
+                    <a href="incomplete_prenatals.php?sched_id=<?= $sched_id ?>" class="btn btn-secondary btn-sm">Incomplete Prenatals</a>
+                </div>
+            </div>
+
             <div class="row">
+                <div class="col-md-12 d-flex justify-content-end">
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addPrenatalRecordModal">Add Record <i class="fa-solid fa-plus"></i></button>
+                </div>
                 <div class="col-md-12 p-4 shadow">
                     <table id="prenatalTable" class="display text-xs text-center">
                         <thead>
@@ -76,9 +88,7 @@ $prenatals = getPrenatalsByScheduleId($conn, $sched_id);
                             <?php endforeach; ?>
 
                             <?php else: ?>
-                                <tr>
-                                    <td colspan="7">No prenatal records found for this schedule.</td>
-                                </tr>
+                                
                             <?php endif; ?>
                         </tbody>
                     </table>
@@ -88,6 +98,8 @@ $prenatals = getPrenatalsByScheduleId($conn, $sched_id);
         </div>
     </div>
 
+    <?php require 'partials/modal_add_prenatal_record.php'; ?>
+    
     <?php require '../partials/global_javascript_links.php'; ?>
     <script src="../public/js/global_logout.js"></script>
     <script>

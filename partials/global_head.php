@@ -20,5 +20,6 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.5/css/buttons.dataTables.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lumen/bootstrap.min.css">
+<link rel="stylesheet" href="https://unpkg.com/typography.css@1.0.0/dist/typography.min.css">
 <title><?php echo $title; ?></title>
 

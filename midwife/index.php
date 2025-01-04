@@ -44,80 +44,24 @@ $total_consultations = getTotalConsultations($conn);
                 </div>
             </div>
 
-            <div class="row mb-4 shadow">
-                <div class="col-md-3 mb-3">
-                    <div class="card bg-orange-500 text-white shadow-sm p-2">
-                        <div class="card-body text-center">
-                            <h5 class="card-title wrap">Total Consultations</h5>
-                            <p class="card-text fs-4"><?php echo $total_consultations; ?></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="card bg-sky-500 text-white shadow-sm p-2">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Today's Appointments</h5>
-                            <p class="card-text fs-4"><?php echo $total_todays_appointments; ?></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="card bg-green-700 text-white shadow-sm p-2">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Completed Appointments</h5>
-                            <p class="card-text fs-4"><?php echo $total_completed_appointments; ?></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="card bg-red-600 text-white shadow-sm p-2">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Cancelled Appointments</h5>
-                            <p class="card-text fs-4"><?php echo $total_cancelled_appointments; ?></p>
-                        </div>
-                    </div>
+            <?php require 'partials/cards_index_overview.php'; ?>
+            <?php require 'partials/table_todays_appointments.php'; ?>
+
+            <div class="row mb-4 shadow p-4">
+                <div class="col-md-7 p-4 shadow">
+                    <h5 class="poppins-light mb-4 text-center">Consultation Count per Month</h5>
+                    <canvas id="consultationChart"></canvas>
+                </div>  
+                <div class="col-md-5 p-4">
+                    <h5 class="poppins-light mb-4 text-center">Most Consultation Reasons</h5>
+                    <canvas id="reasonsChart" ></canvas> 
                 </div>
             </div>
 
-
-            <div class="row mb-4 shadow">
-                <div class="col-md-12 p-4">
-                    <!-- Container for today's appointments -->
-                    <h5 class="mb-3">Today's Appointments</h5>
-                    <?php if ($todays_appointments && count($todays_appointments) > 0): ?>
-                        <table class="table text-center text-sm">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>Tracking Code</th>
-                                    <th>Resident Name</th>
-                                    <th>Priority Number</th>
-                                    <th>Status</th>
-                                    <th>Created At</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-secondary">
-                                <?php foreach ($todays_appointments as $appointment): ?>
-                                    <tr>
-                                        <td><?php echo htmlspecialchars($appointment['tracking_code']); ?></td>
-                                        <td><?php echo htmlspecialchars($appointment['resident_name']); ?></td>
-                                        <td><?php echo htmlspecialchars($appointment['priority_number']); ?></td>
-                                        <td class="
-                                            <?php echo $appointment['status'] === 'Cancelled' ? 'text-danger' : 
-                                                   ($appointment['status'] === 'Completed' ? 'text-success' : 'text-warning'); ?>">
-                                            <?php echo htmlspecialchars($appointment['status']); ?>
-                                        </td>
-                                        <td><?php echo htmlspecialchars(date('F j, Y | g:i A', strtotime($appointment['appointment_created_at']))); ?></td>
-                                        <td>
-                                            <button class="btn btn-info btn-sm">View Info</button>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    <?php else: ?>
-                        <p class="text-center text-muted">No appointments for today.</p>
-                    <?php endif; ?>
+            <div class="row mb-4 shadow p-4">
+                <div class="col-md-4">
+                    <h5 class="poppins-light mb-4 text-center">Most Common Symptoms</h5>
+                    <canvas id="symptomDonutChart"></canvas>
                 </div>
             </div>
 
@@ -126,5 +70,75 @@ $total_consultations = getTotalConsultations($conn);
 
     <?php require '../partials/global_javascript_links.php'; ?>
     <script src="../public/js/global_logout.js"></script>
+    <script src="../public/js/midwife_statistics.js"></script>
+    <script>
+        // Fetch the data from the API that retrieves the most common symptoms
+        fetch('../api/consultations_most_symptoms.php')
+            .then(response => response.json())
+            .then(data => {
+                // Prepare the labels and data for the donut chart
+                const labels = [];
+                const counts = [];
+                
+                data.forEach(item => {
+                    labels.push(item.symptom);  // The symptom names will be the labels
+                    counts.push(item.count);  // The counts of symptoms will be the data values
+                });
+
+                // Set up the Chart.js donut chart
+                const ctx = document.getElementById('symptomDonutChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',  // Doughnut chart type
+                    data: {
+                        labels: labels,  // Labels (symptom names)
+                        datasets: [{
+                            data: counts,  // Counts (symptom occurrences)
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.6)',
+                                'rgba(255, 99, 132, 0.6)',
+                                'rgba(255, 159, 64, 0.6)',
+                                'rgba(75, 192, 192, 0.6)',
+                                'rgba(153, 102, 255, 0.6)',
+                                'rgba(255, 159, 64, 0.6)',
+                                'rgba(255, 99, 132, 0.6)',
+                                'rgba(54, 162, 235, 0.6)',
+                                'rgba(75, 192, 192, 0.6)',
+                                'rgba(153, 102, 255, 0.6)'
+                            ],  // Color array for each slice
+                            borderColor: 'white',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',  // Legend at the top
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        return tooltipItem.label + ': ' + tooltipItem.raw;  // Format tooltips
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));  // Error handling
+    </script>
 </body>
 </html>
+
+
+<!--
+Most Frequent Symptoms Reported
+Blood Pressure Distribution
+Referral Statistics
+ 
+
+
+
+
+-->
