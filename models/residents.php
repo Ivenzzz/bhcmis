@@ -113,4 +113,5 @@ function getResidentDetails($conn, $resident_id) {
     return $resident_details;
 }
 
+
 ?>

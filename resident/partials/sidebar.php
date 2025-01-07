@@ -11,14 +11,19 @@
         <span class="text ms-2">Resident's Page</span>
     </a>
 
-    <a href="index.php" class="d-flex align-items-center <?= $current_page == 'index' ? 'active' : '' ?>">
-        <i class="icon fa-solid fa-calendar-check text-info"></i>
+    <a href="index.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['index.php', 'consultation_details.php']) ? 'active' : '' ?>">
+        <i class="icon fa-solid fa-calendar-check text-success"></i>
         <span class="text ms-2">Appointments</span>
     </a>
 
     <a href="medical_history.php" class="d-flex align-items-center <?= $current_page == 'medical_history.php' ? 'active' : '' ?>">
-        <i class="icon fa-solid fa-clipboard-list text-amber"></i>
+        <i class="icon fa-solid fa-clipboard-list text-amber-500"></i>
         <span class="text ms-2">Medical History</span>
+    </a>
+
+    <a href="document_requests.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['document_requests.php']) ? 'active' : '' ?>">
+        <i class="icon fa-solid fa-file-contract text-red-500"></i>
+        <span class="text ms-2">Document Requests</span>
     </a>
 
 </div>
