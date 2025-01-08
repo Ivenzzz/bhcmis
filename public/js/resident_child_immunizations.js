@@ -1,4 +1,5 @@
 handleAddChildAppointment();
+handleCancelAppointment();
 
 function handleAddChildAppointment() {
     document.addEventListener('DOMContentLoaded', () => {
@@ -62,6 +63,69 @@ function handleAddChildAppointment() {
                     text: 'There was an issue with the request. Please try again later.',
                 });
             }
+        });
+    });
+}
+
+function handleCancelAppointment() {
+    document.addEventListener("DOMContentLoaded", function() {
+        // Select all cancel appointment buttons
+        const cancelButtons = document.querySelectorAll('.cancel-appointment-btn');
+    
+        cancelButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const appointmentId = this.getAttribute('data-appointment-id');
+                const trackingCode = this.getAttribute('data-tracking-code');
+    
+                // Show SweetAlert confirmation modal
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: `You are about to cancel appointment with tracking code: ${trackingCode}`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, cancel it!',
+                    cancelButtonText: 'No, keep it',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Send a POST request to cancel the appointment
+                        fetch('../controllers/resident_cancel_immunization_appointment.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ appointment_id: appointmentId })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire(
+                                    'Cancelled!',
+                                    'Your appointment has been cancelled.',
+                                    'success'
+                                ).then(() => {
+                                    // Reload the page after the modal closes
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Error!',
+                                    data.message || 'An error occurred while cancelling the appointment.',
+                                    'error'
+                                );
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error:", error); // Log any error for debugging
+                            Swal.fire(
+                                'Error!',
+                                'Something went wrong. Please try again later.',
+                                'error'
+                            );
+                        });
+                    }
+                });
+            });
         });
     });
 }

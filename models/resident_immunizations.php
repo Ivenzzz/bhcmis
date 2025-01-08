@@ -342,5 +342,62 @@ function getAppointmentsByResidentIds($conn, $residentIds) {
     return $appointments;
 }
 
+function getImmunizationDetailsByAppointmentId($conn, $appointment_id) {
+    // Validate the appointment_id input
+    if (empty($appointment_id) || !is_numeric($appointment_id)) {
+        return "Error: Invalid appointment ID.";
+    }
+
+    // SQL query to retrieve immunization details based on appointment_id
+    $query = "
+        SELECT 
+            ia.appointment_id,
+            ia.tracking_code,
+            ia.resident_id,
+            ia.sched_id,
+            ia.priority_number,
+            ia.status,
+            ia.isArchived AS appointment_isArchived,
+            isch.schedule_date,
+            i.immunization_id,
+            i.vaccine_id,
+            v.vaccine_name,  -- Add vaccine name here
+            i.dose_number,
+            i.adverse_reaction,
+            i.isArchived AS immunization_isArchived,
+            i.created_at AS immunization_created_at,
+            i.updated_at AS immunization_updated_at,
+            next_isch.schedule_date AS next_dose_schedule_date  -- Add next dose schedule date
+        FROM immunization_appointments ia
+        JOIN immunization_schedules isch ON ia.sched_id = isch.schedule_id
+        LEFT JOIN immunizations i ON ia.appointment_id = i.appointment_id
+        LEFT JOIN vaccines v ON i.vaccine_id = v.vaccine_id
+        LEFT JOIN immunization_schedules next_isch ON i.next_dose_due = next_isch.schedule_id  -- Join again for the next dose schedule
+        WHERE ia.appointment_id = ? AND ia.isArchived = 0 AND isch.isArchived = 0
+    ";
+
+    // Prepare the statement
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('i', $appointment_id);
+
+    // Execute the query
+    if ($stmt->execute()) {
+        $result = $stmt->get_result();
+
+        // Check if results are found
+        if ($result->num_rows > 0) {
+            // Fetch the results as an associative array
+            $immunization_details = $result->fetch_all(MYSQLI_ASSOC);
+            return $immunization_details;
+        } else {
+            return "No immunization details found for the specified appointment ID.";
+        }
+    } else {
+        return "Error executing query: " . $conn->error;
+    }
+}
+
+
+
 
 ?>

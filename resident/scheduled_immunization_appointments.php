@@ -50,7 +50,7 @@ $appointment_schedules = getImmunizationSchedules($conn);
 
             <div class="row mb-3 shadow p-4 gy-2">
                 <div class="col-md-6">
-                    <a href="immunization_appointments.php" class="btn btn-success btn-sm">Scheduled</a>
+                    <a href="scheduled_immunization_appointments.php" class="btn btn-success btn-sm">Scheduled</a>
                     <a href="completed_immunization_appointments.php" class="btn btn-secondary btn-sm">Completed</a>
                     <a href="cancelled_immunization_appointments.php" class="btn btn-secondary btn-sm">Canceled</a>
                     <a href="missed_immunization_appointments.php" class="btn btn-secondary btn-sm">Missed</a>
