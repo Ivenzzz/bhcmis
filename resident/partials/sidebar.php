@@ -11,9 +11,9 @@
         <span class="text ms-2">Resident's Page</span>
     </a>
 
-    <a href="index.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['index.php', 'consultation_details.php']) ? 'active' : '' ?>">
+    <a href="index.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['index.php', 'consultation_details.php', 'scheduled_immunization_appointments.php', 'children_immunization_appointments.php', 'completed_immunization_appointments.php', 'cancelled_immunization_appointments.php', 'missed_immunization_appointments.php']) ? 'active' : '' ?>">
         <i class="icon fa-solid fa-calendar-check text-success"></i>
-        <span class="text ms-2">Appointments</span>
+        <span class="text ms-2">Appointments</span> 
     </a>
 
     <a href="medical_history.php" class="d-flex align-items-center <?= $current_page == 'medical_history.php' ? 'active' : '' ?>">

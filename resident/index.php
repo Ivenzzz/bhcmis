@@ -39,7 +39,7 @@ $appointments = getResidentAppointmentsWithSchedule($conn);
                             <div class="collapse navbar-collapse" id="navbarNav">
                                 <div class="ms-auto">
                                     <a href="index.php" class="btn btn-primary me-2">Consultation Appointment</a>
-                                    <a href="immunization_appointments.php" class="btn btn-secondary">Immunization Appointment</a>
+                                    <a href="scheduled_immunization_appointments.php" class="btn btn-secondary">Immunization Appointment</a>
                                 </div>
                             </div>
                         </div>

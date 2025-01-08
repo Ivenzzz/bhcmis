@@ -68,4 +68,94 @@ function getCurrentUser($conn) {
     }
 }
 
+function getChildrenIds($conn, $resident_id) {
+    // Prepare the SQL query to retrieve children resident IDs
+    $query = "
+        SELECT fm.resident_id 
+        FROM family_members AS fm
+        WHERE fm.family_id = (
+            SELECT family_id 
+            FROM family_members 
+            WHERE resident_id = ? AND isArchived = 0
+        )
+        AND fm.role = 'child' 
+        AND fm.isArchived = 0
+    ";
+
+    // Prepare the statement
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $resident_id);
+    $stmt->execute();
+
+    // Fetch results
+    $result = $stmt->get_result();
+    $children_ids = [];
+    while ($row = $result->fetch_assoc()) {
+        $children_ids[] = $row['resident_id'];
+    }
+
+    // Close statement and return result
+    $stmt->close();
+    return $children_ids;
+}
+
+function getChildrenInfoByResidentIds($conn, $residentIds) {
+    // Ensure the input is an array
+    if (!is_array($residentIds)) {
+        return "Error: Input must be an array of resident IDs.";
+    }
+
+    // Sanitize the array to prevent SQL injection
+    $sanitizedResidentIds = array_map('intval', $residentIds);
+    $residentIdsString = implode(',', $sanitizedResidentIds);
+
+    // SQL query to retrieve personal information based on resident IDs
+    $query = "
+        SELECT 
+            r.resident_id,  -- Include resident_id
+            pi.personal_info_id, 
+            pi.lastname, 
+            pi.firstname, 
+            pi.middlename, 
+            pi.date_of_birth, 
+            pi.civil_status, 
+            pi.educational_attainment, 
+            pi.occupation, 
+            pi.religion, 
+            pi.citizenship, 
+            pi.address_id, 
+            pi.sex, 
+            pi.phone_number, 
+            pi.email, 
+            pi.id_picture, 
+            pi.isTransferred, 
+            pi.isDeceased, 
+            pi.isRegisteredVoter, 
+            pi.deceased_date, 
+            pi.created_at AS personal_info_created_at, 
+            pi.updated_at AS personal_info_updated_at
+        FROM personal_information pi
+        JOIN residents r ON pi.personal_info_id = r.personal_info_id
+        WHERE r.resident_id IN ($residentIdsString)
+        AND r.isArchived = 0
+    ";
+
+    // Execute the query
+    $result = $conn->query($query);
+
+    // Check if query was successful
+    if ($result === false) {
+        return "Error executing query: " . $conn->error;
+    }
+
+    // Fetch the results
+    $personalInformation = [];
+    while ($row = $result->fetch_assoc()) {
+        $personalInformation[] = $row;
+    }
+
+    // Return the retrieved personal information with resident_id
+    return $personalInformation;
+}
+
 ?>

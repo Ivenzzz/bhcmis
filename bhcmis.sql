@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 03, 2025 at 12:47 AM
+-- Generation Time: Jan 07, 2025 at 06:38 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -183,8 +183,11 @@ CREATE TABLE `appointments` (
 --
 
 INSERT INTO `appointments` (`appointment_id`, `tracking_code`, `resident_id`, `sched_id`, `priority_number`, `status`, `isArchived`, `created_at`, `updated_at`) VALUES
-(42, '0D020BC13797077E', 4, 21, 1, 'Scheduled', 0, '2024-12-28 08:45:58', '2024-12-28 08:45:58'),
-(43, '6479673D4C3C3C53', 4, 9, 1, 'Completed', 0, '2024-12-29 14:14:17', '2024-12-29 14:14:17');
+(42, '0D020BC13797077E', 4, 21, 1, 'Cancelled', 0, '2024-12-28 08:45:58', '2024-12-28 08:45:58'),
+(43, '6479673D4C3C3C53', 4, 9, 1, 'Completed', 0, '2024-12-29 14:14:17', '2024-12-29 14:14:17'),
+(46, 'HC426030764786PH', 4, 16, 1, 'Cancelled', 0, '2025-01-07 06:57:42', '2025-01-07 06:57:42'),
+(47, 'HC919870150989PH', 4, 12, 1, 'Scheduled', 0, '2025-01-07 07:03:46', '2025-01-07 07:03:46'),
+(48, 'HC689854855513PH', 4, 13, 1, 'Cancelled', 0, '2025-01-07 07:09:18', '2025-01-07 07:09:18');
 
 -- --------------------------------------------------------
 
@@ -217,21 +220,6 @@ INSERT INTO `bhw` (`bhw_id`, `account_id`, `personal_info_id`, `assigned_area`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `conditions_prescriptions`
---
-
-CREATE TABLE `conditions_prescriptions` (
-  `prescription_id` int(10) NOT NULL,
-  `medicine_id` int(10) NOT NULL,
-  `resident_condition_id` int(10) NOT NULL,
-  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `consultations`
 --
 
@@ -260,8 +248,8 @@ CREATE TABLE `consultations` (
 --
 
 INSERT INTO `consultations` (`consultation_id`, `resident_id`, `appointment_id`, `reason_for_visit`, `sched_id`, `symptoms`, `weight_kg`, `temperature`, `heart_rate`, `respiratory_rate`, `blood_pressure`, `cholesterol_level`, `physical_findings`, `refer_to`, `isArchived`, `created_at`, `updated_at`) VALUES
-(22, 4, NULL, 'nabuno ka lapis', 9, 'lapsi, fever, vomiting', 58.00, '48', '120', 'None', '120/80', 'Normal', 'Patient\'s vital signs are normal; continue with current health regimen and routine check-ups.', 'Victorias Health Center', 0, '2024-07-25 08:42:04', '2024-07-25 08:42:04'),
-(29, 4, 43, 'nabuno ka lapis', 9, 'fever, sneeze', 55.00, '36', '', NULL, '', '', '', '', 0, '2024-12-29 14:14:44', '2024-12-29 14:14:44');
+(22, 4, NULL, 'nabuno ka lapis', 9, 'headache, fever, vomiting', 58.00, '48', '120', 'None', '120/80', 'Normal', 'Patient\'s vital signs are normal; continue with current health regimen and routine check-ups.', 'Victorias Health Center', 0, '2024-07-25 08:42:04', '2024-07-25 08:42:04'),
+(29, 4, 43, 'nabuno ka lapis', 9, 'fever, sneeze', 55.00, '36', NULL, NULL, NULL, NULL, NULL, NULL, 0, '2024-12-29 14:14:44', '2024-12-29 14:14:44');
 
 -- --------------------------------------------------------
 
@@ -475,6 +463,79 @@ INSERT INTO `household_members` (`hm_id`, `household_id`, `family_id`, `isArchiv
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `immunizations`
+--
+
+CREATE TABLE `immunizations` (
+  `immunization_id` int(10) NOT NULL,
+  `appointment_id` int(10) NOT NULL,
+  `vaccine_id` int(10) NOT NULL,
+  `dose_number` tinyint(3) NOT NULL,
+  `next_dose_due` int(10) NOT NULL,
+  `adverse_reaction` text DEFAULT NULL,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `immunizations`
+--
+
+INSERT INTO `immunizations` (`immunization_id`, `appointment_id`, `vaccine_id`, `dose_number`, `next_dose_due`, `adverse_reaction`, `isArchived`, `created_at`, `updated_at`) VALUES
+(12, 1, 10, 1, 2, NULL, 0, '2025-01-08 01:37:14', '2025-01-08 01:37:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `immunization_appointments`
+--
+
+CREATE TABLE `immunization_appointments` (
+  `appointment_id` int(10) NOT NULL,
+  `tracking_code` varchar(100) NOT NULL,
+  `resident_id` int(10) NOT NULL,
+  `sched_id` int(10) NOT NULL,
+  `priority_number` int(100) NOT NULL,
+  `status` enum('Scheduled','Completed','Missed','Cancelled') NOT NULL DEFAULT 'Scheduled',
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `immunization_appointments`
+--
+
+INSERT INTO `immunization_appointments` (`appointment_id`, `tracking_code`, `resident_id`, `sched_id`, `priority_number`, `status`, `isArchived`, `created_at`, `updated_at`) VALUES
+(1, '6479673D4C3C3C49\r\n', 4, 1, 1, 'Scheduled', 0, '2025-01-07 17:21:57', '2025-01-07 17:21:57');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `immunization_schedules`
+--
+
+CREATE TABLE `immunization_schedules` (
+  `schedule_id` int(10) NOT NULL,
+  `schedule_date` datetime NOT NULL,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `immunization_schedules`
+--
+
+INSERT INTO `immunization_schedules` (`schedule_id`, `schedule_date`, `isArchived`, `created_at`, `updated_at`) VALUES
+(1, '2025-02-12 08:00:00', 0, '2025-01-07 14:33:51', '2025-01-07 14:33:51'),
+(2, '2025-02-17 10:00:00', 0, '2025-01-07 14:34:55', '2025-01-07 14:34:55'),
+(3, '2025-03-05 08:00:00', 0, '2025-01-08 01:35:45', '2025-01-08 01:35:45');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `medical_conditions`
 --
 
@@ -633,7 +694,7 @@ INSERT INTO `personal_information` (`personal_info_id`, `lastname`, `firstname`,
 (9, 'Morales', 'Elena', 'Garcia', '1999-04-20', 'Single', 'Highschool Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 9, 'male', '09991234567', 'elena.morales@example.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-07 08:42:29'),
 (10, 'Reyes', 'Gabriela', 'Santos', '1981-08-14', 'Married', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 10, 'male', '09182345678', 'gabriel.delosreyes@example.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-10 10:44:05'),
 (13, 'Araneta', 'Roy Marjohn', 'Catapang', '2000-04-13', 'Single', 'Highschool Graduate', 'Drug Lord', 'Iglesia ni Cristo', 'Filipinos', 6, 'female', '09308309599', 'roymarjohnaraneta@gmail.com', NULL, 0, 0, 1, NULL, '2024-07-16 11:07:25', '2024-12-14 23:17:37'),
-(14, 'Angcona', 'Rovie', 'Ambot', '2002-03-04', 'Married', 'College Undergraduate', 'Businesswoman', 'Baptist', 'Filipino', 6, 'female', '09586789012', 'rovieangcona@gmail.com', NULL, 0, 0, 1, NULL, '2024-07-16 11:07:25', '2024-12-14 23:17:20'),
+(14, 'Angcona', 'Rovie', 'Singua', '2002-03-04', 'Married', 'College Undergraduate', 'Businesswoman', 'Baptist', 'Filipino', 6, 'female', '09586789012', 'rovieangcona@gmail.com', NULL, 0, 0, 1, NULL, '2024-07-16 11:07:25', '2024-12-14 23:17:20'),
 (67, 'Araneta Jr.', 'Roy Marjohn', 'Lakobalo', '2015-08-05', 'Single', 'Elementary Graduate', 'Student', 'Filipino', 'Roman Catholic', 6, 'male', '', '', NULL, 0, 0, 0, NULL, '2024-07-17 11:07:25', '2024-12-14 23:40:34');
 
 -- --------------------------------------------------------
@@ -689,7 +750,9 @@ CREATE TABLE `prenatals` (
 --
 
 INSERT INTO `prenatals` (`prenatal_id`, `tracking_code`, `pregnancy_id`, `sched_id`, `weight`, `blood_pressure`, `heart_lungs_condition`, `abdominal_exam`, `fetal_heart_rate`, `fundal_height`, `fetal_movement`, `checkup_notes`, `refer_to`, `isArchived`, `created_at`, `updated_at`) VALUES
-(11, 'LASJFLJSDLFJLDJF', 1, 7, 50.00, '120/50', 'Normal', 'No problem detected', '135 bpm', '20cm', 'Active', 'Follow up in 1 week', NULL, 0, '2025-01-01 08:04:17', '2025-01-02 23:19:39');
+(11, 'LASJFLJSDLFJLDJF', 1, 7, 50.00, '120/50', 'Normal', 'No problem detected', '135 bpm', '20cm', 'Active', 'Follow up in 1 week', NULL, 0, '2025-01-01 08:04:17', '2025-01-02 23:19:39'),
+(12, 'D3CE951E9C764CBE', 1, 7, 57.00, '120/70', '', '', '', '', '', 'All Normal', '', 0, '2025-01-03 16:02:19', '2025-01-03 16:02:19'),
+(13, 'C183E0468CFCD4BB', 1, 7, 60.00, '119/18', 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-01-03 16:07:19', '2025-01-03 16:07:19');
 
 -- --------------------------------------------------------
 
@@ -710,11 +773,12 @@ CREATE TABLE `prenatal_schedules` (
 --
 
 INSERT INTO `prenatal_schedules` (`sched_id`, `sched_date`, `isArchived`, `created_at`, `updated_at`) VALUES
-(3, '2024-11-17 09:30:00.000000', 1, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
-(4, '2024-11-20 11:00:00.000000', 1, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
 (5, '2024-11-28 13:00:00.000000', 1, '2024-12-14 11:30:22', '2024-12-14 11:30:22'),
 (6, '2025-01-10 08:00:00.000000', 1, '2025-01-01 15:05:12', '2025-01-01 15:05:12'),
-(7, '2025-01-11 07:30:00.000000', 0, '2025-01-01 15:44:51', '2025-01-01 15:44:51');
+(7, '2025-01-11 07:30:00.000000', 0, '2025-01-01 15:44:51', '2025-01-01 15:44:51'),
+(8, '2025-01-04 13:54:00.000000', 1, '2025-01-04 11:55:00', '2025-01-04 11:55:00'),
+(9, '2025-02-04 13:00:00.000000', 0, '2025-01-04 11:56:36', '2025-01-04 11:56:36'),
+(10, '2025-01-07 08:00:00.000000', 0, '2025-01-05 01:38:41', '2025-01-05 01:38:41');
 
 -- --------------------------------------------------------
 
@@ -778,35 +842,21 @@ CREATE TABLE `resident_prenatal_schedules` (
   `resident_ps_id` int(10) NOT NULL,
   `pregnancy_id` int(10) NOT NULL,
   `sched_id` int(10) NOT NULL,
+  `priority_number` int(100) NOT NULL,
   `status` enum('completed','cancelled','incoming') NOT NULL DEFAULT 'incoming',
   `notes` text NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `vaccinations`
+-- Dumping data for table `resident_prenatal_schedules`
 --
 
-CREATE TABLE `vaccinations` (
-  `vaccination_id` int(10) NOT NULL,
-  `resident_id` int(10) NOT NULL,
-  `vaccine_id` int(10) NOT NULL,
-  `vaccination_date` date NOT NULL,
-  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `vaccinations`
---
-
-INSERT INTO `vaccinations` (`vaccination_id`, `resident_id`, `vaccine_id`, `vaccination_date`, `isArchived`, `created_at`, `updated_at`) VALUES
-(1, 4, 16, '2024-01-15', 0, '2024-12-14 11:33:10', '2024-12-14 11:33:10'),
-(2, 5, 16, '2024-02-20', 0, '2024-12-14 11:33:10', '2024-12-14 11:33:10');
+INSERT INTO `resident_prenatal_schedules` (`resident_ps_id`, `pregnancy_id`, `sched_id`, `priority_number`, `status`, `notes`, `created_at`, `updated_at`) VALUES
+(2, 1, 7, 1, 'incoming', 'fdfdfdf', '2025-01-04 00:30:17', '2025-01-04 00:30:17'),
+(3, 1, 7, 2, 'cancelled', 'fdfdfd', '2025-01-04 00:30:40', '2025-01-04 00:30:40'),
+(4, 1, 10, 1, 'incoming', 'dfswerer', '2025-01-05 01:40:28', '2025-01-05 01:40:28');
 
 -- --------------------------------------------------------
 
@@ -901,14 +951,6 @@ ALTER TABLE `bhw`
   ADD KEY `fk_bhwAssignedAreaId` (`assigned_area`);
 
 --
--- Indexes for table `conditions_prescriptions`
---
-ALTER TABLE `conditions_prescriptions`
-  ADD PRIMARY KEY (`prescription_id`),
-  ADD KEY `fk_cpresMedId` (`medicine_id`),
-  ADD KEY `fk_cpresRmcId` (`resident_condition_id`);
-
---
 -- Indexes for table `consultations`
 --
 ALTER TABLE `consultations`
@@ -975,6 +1017,29 @@ ALTER TABLE `household_members`
   ADD PRIMARY KEY (`hm_id`),
   ADD UNIQUE KEY `family_id` (`family_id`),
   ADD KEY `fk_hmHouseholdId` (`household_id`);
+
+--
+-- Indexes for table `immunizations`
+--
+ALTER TABLE `immunizations`
+  ADD PRIMARY KEY (`immunization_id`),
+  ADD KEY `fk_vaccinationVaccineId` (`vaccine_id`),
+  ADD KEY `fk_imNextDoseId` (`next_dose_due`),
+  ADD KEY `fk_imAppointmentId` (`appointment_id`);
+
+--
+-- Indexes for table `immunization_appointments`
+--
+ALTER TABLE `immunization_appointments`
+  ADD PRIMARY KEY (`appointment_id`),
+  ADD KEY `fk_iaResidentId` (`resident_id`),
+  ADD KEY `fk_iaSchedId` (`sched_id`);
+
+--
+-- Indexes for table `immunization_schedules`
+--
+ALTER TABLE `immunization_schedules`
+  ADD PRIMARY KEY (`schedule_id`);
 
 --
 -- Indexes for table `medical_conditions`
@@ -1049,14 +1114,6 @@ ALTER TABLE `resident_prenatal_schedules`
   ADD KEY `fk_pScheduleSchedId` (`sched_id`);
 
 --
--- Indexes for table `vaccinations`
---
-ALTER TABLE `vaccinations`
-  ADD PRIMARY KEY (`vaccination_id`),
-  ADD KEY `fk_vaccinationResidentId` (`resident_id`),
-  ADD KEY `fk_vaccinationVaccineId` (`vaccine_id`);
-
---
 -- Indexes for table `vaccines`
 --
 ALTER TABLE `vaccines`
@@ -1100,19 +1157,13 @@ ALTER TABLE `annual_population`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `appointment_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `appointment_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `bhw`
 --
 ALTER TABLE `bhw`
   MODIFY `bhw_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT for table `conditions_prescriptions`
---
-ALTER TABLE `conditions_prescriptions`
-  MODIFY `prescription_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `consultations`
@@ -1169,6 +1220,24 @@ ALTER TABLE `household_members`
   MODIFY `hm_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
+-- AUTO_INCREMENT for table `immunizations`
+--
+ALTER TABLE `immunizations`
+  MODIFY `immunization_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `immunization_appointments`
+--
+ALTER TABLE `immunization_appointments`
+  MODIFY `appointment_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `immunization_schedules`
+--
+ALTER TABLE `immunization_schedules`
+  MODIFY `schedule_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `medical_conditions`
 --
 ALTER TABLE `medical_conditions`
@@ -1202,13 +1271,13 @@ ALTER TABLE `pregnancy`
 -- AUTO_INCREMENT for table `prenatals`
 --
 ALTER TABLE `prenatals`
-  MODIFY `prenatal_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `prenatal_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `prenatal_schedules`
 --
 ALTER TABLE `prenatal_schedules`
-  MODIFY `sched_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `sched_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `residents`
@@ -1226,13 +1295,7 @@ ALTER TABLE `residents_medical_condition`
 -- AUTO_INCREMENT for table `resident_prenatal_schedules`
 --
 ALTER TABLE `resident_prenatal_schedules`
-  MODIFY `resident_ps_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `vaccinations`
---
-ALTER TABLE `vaccinations`
-  MODIFY `vaccination_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `resident_ps_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `vaccines`
@@ -1271,13 +1334,6 @@ ALTER TABLE `bhw`
   ADD CONSTRAINT `fk_bhwAccountId` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_bhwAssignedAreaId` FOREIGN KEY (`assigned_area`) REFERENCES `address` (`address_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_bhwPersonalInfoId` FOREIGN KEY (`personal_info_id`) REFERENCES `personal_information` (`personal_info_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `conditions_prescriptions`
---
-ALTER TABLE `conditions_prescriptions`
-  ADD CONSTRAINT `fk_cpresMedId` FOREIGN KEY (`medicine_id`) REFERENCES `medicines` (`medicine_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_cpresRmcId` FOREIGN KEY (`resident_condition_id`) REFERENCES `residents_medical_condition` (`rmc_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `consultations`
@@ -1334,6 +1390,21 @@ ALTER TABLE `household_members`
   ADD CONSTRAINT `fk_hmHouseholdId` FOREIGN KEY (`household_id`) REFERENCES `household` (`household_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `immunizations`
+--
+ALTER TABLE `immunizations`
+  ADD CONSTRAINT `fk_imAppointmentId` FOREIGN KEY (`appointment_id`) REFERENCES `immunization_appointments` (`appointment_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_imNextDoseId` FOREIGN KEY (`next_dose_due`) REFERENCES `immunization_schedules` (`schedule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_imVaccineId` FOREIGN KEY (`vaccine_id`) REFERENCES `vaccines` (`vaccine_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `immunization_appointments`
+--
+ALTER TABLE `immunization_appointments`
+  ADD CONSTRAINT `fk_iaResidentId` FOREIGN KEY (`resident_id`) REFERENCES `residents` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_iaSchedId` FOREIGN KEY (`sched_id`) REFERENCES `immunization_schedules` (`schedule_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `midwife`
 --
 ALTER TABLE `midwife`
@@ -1379,13 +1450,6 @@ ALTER TABLE `residents_medical_condition`
 ALTER TABLE `resident_prenatal_schedules`
   ADD CONSTRAINT `fk_pSchedulePregnancyId` FOREIGN KEY (`pregnancy_id`) REFERENCES `pregnancy` (`pregnancy_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_pScheduleSchedId` FOREIGN KEY (`sched_id`) REFERENCES `prenatal_schedules` (`sched_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `vaccinations`
---
-ALTER TABLE `vaccinations`
-  ADD CONSTRAINT `fk_vaccinationResidentId` FOREIGN KEY (`resident_id`) REFERENCES `residents` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_vaccinationVaccineId` FOREIGN KEY (`vaccine_id`) REFERENCES `vaccines` (`vaccine_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
