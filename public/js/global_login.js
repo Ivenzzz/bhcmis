@@ -77,7 +77,7 @@ function redirectToDashboard(role) {
             window.location.href = '../midwife/index.php';
             break;
         case 'residents':
-            window.location.href = '../resident/index.php';
+            window.location.href = '../resident/medical_history.php';
             break;
         case 'bhw':
             window.location.href = '../bhw/index.php';

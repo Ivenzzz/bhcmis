@@ -135,6 +135,104 @@ function getConsultationDetails($conn, $appointment_id) {
     return $consultation_details;
 }
 
+function getConsultationsByResidentId($conn, $resident_id) {
+    // Prepare the query
+    $query = "
+        SELECT 
+            consultation_id,
+            reason_for_visit,
+            symptoms,
+            weight_kg,
+            temperature,
+            heart_rate,
+            respiratory_rate,
+            blood_pressure,
+            cholesterol_level,
+            physical_findings,
+            refer_to,
+            DATE_FORMAT(created_at, '%M %d, %Y') AS formatted_date
+        FROM 
+            consultations
+        WHERE 
+            resident_id = ? 
+            AND isArchived = 0
+        ORDER BY 
+            created_at DESC;
+    ";
+
+    // Initialize the statement
+    if ($stmt = $conn->prepare($query)) {
+        // Bind parameters
+        $stmt->bind_param("i", $resident_id);
+
+        // Execute the query
+        if ($stmt->execute()) {
+            // Fetch results
+            $result = $stmt->get_result();
+
+            // Initialize data array
+            $consultations = [];
+            while ($row = $result->fetch_assoc()) {
+                $consultations[] = $row;
+            }
+
+            // Close the statement
+            $stmt->close();
+
+            // Return the consultations array directly
+            return $consultations;
+        } else {
+            // Error executing the query
+            return []; // Return an empty array in case of error
+        }
+    } else {
+        // Error preparing the query
+        return []; // Return an empty array in case of error
+    }
+}
+
+function getAllergiesByResidentId($conn, $resident_id) {
+    // Prepare SQL query to retrieve allergies
+    $sql = "SELECT * FROM allergies WHERE resident_id = ?";
+    
+    // Prepare statement
+    if ($stmt = $conn->prepare($sql)) {
+        // Bind the parameter
+        $stmt->bind_param("i", $resident_id);
+
+        // Execute the statement
+        $stmt->execute();
+
+        // Get the result
+        $result = $stmt->get_result();
+
+        // Check if there are any allergies for the resident
+        if ($result->num_rows > 0) {
+            $allergies = array();
+
+            // Fetch all allergies and store them in an array
+            while ($row = $result->fetch_assoc()) {
+                $allergies[] = $row;
+            }
+
+            // Return the allergies
+            return $allergies;
+        } else {
+            // No allergies found for the resident
+            return null;
+        }
+
+        // Close the statement
+        $stmt->close();
+    } else {
+        // Error preparing the query
+        return null;
+    }
+}
+
+
+
+
 
 
 ?>

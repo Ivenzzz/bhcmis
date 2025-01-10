@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 07, 2025 at 06:38 PM
+-- Generation Time: Jan 10, 2025 at 04:52 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -249,7 +249,7 @@ CREATE TABLE `consultations` (
 
 INSERT INTO `consultations` (`consultation_id`, `resident_id`, `appointment_id`, `reason_for_visit`, `sched_id`, `symptoms`, `weight_kg`, `temperature`, `heart_rate`, `respiratory_rate`, `blood_pressure`, `cholesterol_level`, `physical_findings`, `refer_to`, `isArchived`, `created_at`, `updated_at`) VALUES
 (22, 4, NULL, 'nabuno ka lapis', 9, 'headache, fever, vomiting', 58.00, '48', '120', 'None', '120/80', 'Normal', 'Patient\'s vital signs are normal; continue with current health regimen and routine check-ups.', 'Victorias Health Center', 0, '2024-07-25 08:42:04', '2024-07-25 08:42:04'),
-(29, 4, 43, 'nabuno ka lapis', 9, 'fever, sneeze', 55.00, '36', NULL, NULL, NULL, NULL, NULL, NULL, 0, '2024-12-29 14:14:44', '2024-12-29 14:14:44');
+(29, 4, 43, 'nabuno ka lapis', 9, 'fever, sneeze', 55.00, '36', NULL, NULL, '120/60', NULL, NULL, NULL, 0, '2024-12-29 14:14:44', '2024-12-29 14:14:44');
 
 -- --------------------------------------------------------
 
@@ -355,7 +355,8 @@ INSERT INTO `family_members` (`fmember_id`, `family_id`, `resident_id`, `role`, 
 (1, 1001, 4, 'husband', 0, '2024-12-14 11:23:02', '2024-12-14 22:48:06'),
 (2, 1001, 5, 'wife', 0, '2024-12-14 11:23:02', '2024-12-14 23:17:49'),
 (56, 1001, 99, 'child', 0, '2024-12-14 11:23:02', '2024-12-14 23:28:03'),
-(58, 1002, 99, 'husband', 0, '2024-12-14 11:23:02', '2024-12-14 11:23:02');
+(58, 1002, 99, 'husband', 0, '2024-12-14 11:23:02', '2024-12-14 11:23:02'),
+(59, 1001, 157, 'child', 0, '2025-01-09 02:09:15', '2025-01-09 02:09:15');
 
 -- --------------------------------------------------------
 
@@ -378,35 +379,7 @@ CREATE TABLE `health_information` (
 
 INSERT INTO `health_information` (`health_information_id`, `resident_id`, `blood_type`, `isArchived`, `created_at`, `updated_at`) VALUES
 (1, 4, 'B', 0, '2024-07-25 08:37:06', '2024-12-14 11:23:29'),
-(2, 5, 'B', 0, '2024-07-25 08:37:06', '2024-12-14 11:23:29'),
-(5, 5, 'B', 0, '2024-07-25 08:37:06', '2024-12-14 11:23:29'),
-(8, 4, 'B', 0, '2024-07-25 08:43:19', '2024-12-14 11:23:29');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `hospitalizations`
---
-
-CREATE TABLE `hospitalizations` (
-  `hospitalization_id` int(10) NOT NULL,
-  `resident_id` int(10) NOT NULL,
-  `hospital_name` varchar(255) NOT NULL,
-  `admission_date` date NOT NULL,
-  `discharge_date` date NOT NULL,
-  `reason_for_admission` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `hospitalizations`
---
-
-INSERT INTO `hospitalizations` (`hospitalization_id`, `resident_id`, `hospital_name`, `admission_date`, `discharge_date`, `reason_for_admission`) VALUES
-(1, 4, 'Corazon Montelibano Memorial Hospital', '2024-02-15', '2024-02-20', 'Appendicitis Surgery'),
-(2, 4, 'Dr. Ramon B. Gustillo Hospital', '2023-10-05', '2023-10-12', 'Pneumonia Treatment'),
-(3, 4, 'Teresita Lopez Jalandoni Provincial Hospital', '2023-07-01', '2023-07-10', 'Fractured Leg'),
-(4, 5, 'Cadiz District Hospital', '2024-01-10', '2024-01-15', 'Severe Asthma Attack'),
-(5, 5, 'Riverside Medical Center', '2023-09-20', '2023-09-25', 'Food Poisoning');
+(2, 5, 'B', 0, '2024-07-25 08:37:06', '2024-12-14 11:23:29');
 
 -- --------------------------------------------------------
 
@@ -508,7 +481,10 @@ CREATE TABLE `immunization_appointments` (
 --
 
 INSERT INTO `immunization_appointments` (`appointment_id`, `tracking_code`, `resident_id`, `sched_id`, `priority_number`, `status`, `isArchived`, `created_at`, `updated_at`) VALUES
-(1, '6479673D4C3C3C49\r\n', 4, 1, 1, 'Scheduled', 0, '2025-01-07 17:21:57', '2025-01-07 17:21:57');
+(1, '6479673D4C3C3C49\r\n', 4, 1, 1, 'Completed', 0, '2025-01-07 17:21:57', '2025-01-07 17:21:57'),
+(2, 'DJOWOIIUEOR12SDL', 99, 1, 2, 'Cancelled', 0, '2025-01-08 17:51:32', '2025-01-08 17:51:32'),
+(3, 'DWOWOERU1235AEAO', 157, 1, 3, 'Cancelled', 0, '2025-01-08 18:12:27', '2025-01-08 18:12:27'),
+(8, '62DF9847D98FF7A4', 99, 3, 1, 'Completed', 0, '2025-01-08 19:50:48', '2025-01-08 19:50:48');
 
 -- --------------------------------------------------------
 
@@ -531,7 +507,37 @@ CREATE TABLE `immunization_schedules` (
 INSERT INTO `immunization_schedules` (`schedule_id`, `schedule_date`, `isArchived`, `created_at`, `updated_at`) VALUES
 (1, '2025-02-12 08:00:00', 0, '2025-01-07 14:33:51', '2025-01-07 14:33:51'),
 (2, '2025-02-17 10:00:00', 0, '2025-01-07 14:34:55', '2025-01-07 14:34:55'),
-(3, '2025-03-05 08:00:00', 0, '2025-01-08 01:35:45', '2025-01-08 01:35:45');
+(3, '2025-03-05 08:00:00', 0, '2025-01-08 01:35:45', '2025-01-08 01:35:45'),
+(4, '2024-12-11 03:41:45', 0, '2025-01-09 03:41:52', '2025-01-09 03:41:52');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `medical_certificates`
+--
+
+CREATE TABLE `medical_certificates` (
+  `certificate_id` int(10) NOT NULL,
+  `resident_id` int(10) NOT NULL,
+  `other_receivers` text DEFAULT NULL,
+  `request_date` datetime DEFAULT current_timestamp(),
+  `issue_date` datetime DEFAULT NULL,
+  `purpose` text DEFAULT NULL,
+  `issued_by` varchar(100) DEFAULT NULL,
+  `diagnosis` text DEFAULT NULL,
+  `status` enum('Pending','Approved','Rejected') DEFAULT 'Pending',
+  `remarks` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `medical_certificates`
+--
+
+INSERT INTO `medical_certificates` (`certificate_id`, `resident_id`, `other_receivers`, `request_date`, `issue_date`, `purpose`, `issued_by`, `diagnosis`, `status`, `remarks`, `created_at`, `updated_at`) VALUES
+(1, 4, NULL, '2025-01-09 11:48:03', NULL, NULL, 'Midwife', 'no signs of health problems', 'Pending', 'All goods', '2025-01-09 03:47:03', '2025-01-09 03:47:03'),
+(2, 4, NULL, '2025-01-09 13:27:12', NULL, 'requirements in work', NULL, NULL, 'Pending', NULL, '2025-01-09 05:27:12', '2025-01-09 05:27:12');
 
 -- --------------------------------------------------------
 
@@ -695,7 +701,8 @@ INSERT INTO `personal_information` (`personal_info_id`, `lastname`, `firstname`,
 (10, 'Reyes', 'Gabriela', 'Santos', '1981-08-14', 'Married', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 10, 'male', '09182345678', 'gabriel.delosreyes@example.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-10 10:44:05'),
 (13, 'Araneta', 'Roy Marjohn', 'Catapang', '2000-04-13', 'Single', 'Highschool Graduate', 'Drug Lord', 'Iglesia ni Cristo', 'Filipinos', 6, 'female', '09308309599', 'roymarjohnaraneta@gmail.com', NULL, 0, 0, 1, NULL, '2024-07-16 11:07:25', '2024-12-14 23:17:37'),
 (14, 'Angcona', 'Rovie', 'Singua', '2002-03-04', 'Married', 'College Undergraduate', 'Businesswoman', 'Baptist', 'Filipino', 6, 'female', '09586789012', 'rovieangcona@gmail.com', NULL, 0, 0, 1, NULL, '2024-07-16 11:07:25', '2024-12-14 23:17:20'),
-(67, 'Araneta Jr.', 'Roy Marjohn', 'Lakobalo', '2015-08-05', 'Single', 'Elementary Graduate', 'Student', 'Filipino', 'Roman Catholic', 6, 'male', '', '', NULL, 0, 0, 0, NULL, '2024-07-17 11:07:25', '2024-12-14 23:40:34');
+(67, 'Araneta Jr.', 'Roy Marjohn', 'Lakobalo', '2015-08-05', 'Single', 'Elementary Graduate', 'Student', 'Filipino', 'Roman Catholic', 6, 'male', '', '', NULL, 0, 0, 0, NULL, '2024-07-17 11:07:25', '2024-12-14 23:40:34'),
+(124, 'Araneta', 'Jay-v', 'Madoles', '2015-01-08', 'Single', NULL, NULL, NULL, NULL, 1, 'male', NULL, NULL, NULL, 0, 0, 1, NULL, '2025-01-09 02:08:26', '2025-01-09 02:08:26');
 
 -- --------------------------------------------------------
 
@@ -783,6 +790,34 @@ INSERT INTO `prenatal_schedules` (`sched_id`, `sched_date`, `isArchived`, `creat
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `referral_slips`
+--
+
+CREATE TABLE `referral_slips` (
+  `referral_id` int(1) NOT NULL,
+  `resident_id` int(10) NOT NULL,
+  `request_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `referral_date` datetime DEFAULT NULL,
+  `referring_health_worker` varchar(255) DEFAULT NULL,
+  `referred_to` varchar(255) NOT NULL,
+  `reason_for_referral` text NOT NULL,
+  `diagnosis` text DEFAULT NULL,
+  `status` enum('Pending','Approved','Denied') DEFAULT 'Pending',
+  `remarks` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `referral_slips`
+--
+
+INSERT INTO `referral_slips` (`referral_id`, `resident_id`, `request_date`, `referral_date`, `referring_health_worker`, `referred_to`, `reason_for_referral`, `diagnosis`, `status`, `remarks`, `created_at`, `updated_at`) VALUES
+(3, 4, '2025-01-09 13:25:00', NULL, NULL, 'Victorias Health Center', 'Need advanced care for treatment of tuberculosis', NULL, 'Pending', NULL, '2025-01-09 05:25:00', '2025-01-09 05:25:00');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `residents`
 --
 
@@ -802,7 +837,8 @@ CREATE TABLE `residents` (
 INSERT INTO `residents` (`resident_id`, `account_id`, `personal_info_id`, `isArchived`, `created_at`, `updated_at`) VALUES
 (4, 13, 13, 0, '2024-12-14 11:31:22', '2024-12-14 11:31:22'),
 (5, 14, 14, 0, '2024-12-14 11:31:22', '2024-12-14 11:31:22'),
-(99, 50, 67, 0, '2024-12-14 11:31:22', '2024-12-14 11:31:22');
+(99, 50, 67, 0, '2024-12-14 11:31:22', '2024-12-14 11:31:22'),
+(157, NULL, 124, 0, '2025-01-09 02:08:49', '2025-01-09 02:08:49');
 
 -- --------------------------------------------------------
 
@@ -996,13 +1032,6 @@ ALTER TABLE `health_information`
   ADD KEY `fk_HealthInfoResidentId` (`resident_id`);
 
 --
--- Indexes for table `hospitalizations`
---
-ALTER TABLE `hospitalizations`
-  ADD PRIMARY KEY (`hospitalization_id`),
-  ADD KEY `fk_hospitalizationResId` (`resident_id`);
-
---
 -- Indexes for table `household`
 --
 ALTER TABLE `household`
@@ -1040,6 +1069,13 @@ ALTER TABLE `immunization_appointments`
 --
 ALTER TABLE `immunization_schedules`
   ADD PRIMARY KEY (`schedule_id`);
+
+--
+-- Indexes for table `medical_certificates`
+--
+ALTER TABLE `medical_certificates`
+  ADD PRIMARY KEY (`certificate_id`),
+  ADD KEY `resident_id` (`resident_id`);
 
 --
 -- Indexes for table `medical_conditions`
@@ -1088,6 +1124,13 @@ ALTER TABLE `prenatals`
 --
 ALTER TABLE `prenatal_schedules`
   ADD PRIMARY KEY (`sched_id`);
+
+--
+-- Indexes for table `referral_slips`
+--
+ALTER TABLE `referral_slips`
+  ADD PRIMARY KEY (`referral_id`),
+  ADD KEY `fk_referralResidentId` (`resident_id`);
 
 --
 -- Indexes for table `residents`
@@ -1193,19 +1236,13 @@ ALTER TABLE `families`
 -- AUTO_INCREMENT for table `family_members`
 --
 ALTER TABLE `family_members`
-  MODIFY `fmember_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `fmember_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `health_information`
 --
 ALTER TABLE `health_information`
   MODIFY `health_information_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `hospitalizations`
---
-ALTER TABLE `hospitalizations`
-  MODIFY `hospitalization_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `household`
@@ -1229,13 +1266,19 @@ ALTER TABLE `immunizations`
 -- AUTO_INCREMENT for table `immunization_appointments`
 --
 ALTER TABLE `immunization_appointments`
-  MODIFY `appointment_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `appointment_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `immunization_schedules`
 --
 ALTER TABLE `immunization_schedules`
-  MODIFY `schedule_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `schedule_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `medical_certificates`
+--
+ALTER TABLE `medical_certificates`
+  MODIFY `certificate_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `medical_conditions`
@@ -1259,7 +1302,7 @@ ALTER TABLE `midwife`
 -- AUTO_INCREMENT for table `personal_information`
 --
 ALTER TABLE `personal_information`
-  MODIFY `personal_info_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `personal_info_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 
 --
 -- AUTO_INCREMENT for table `pregnancy`
@@ -1280,10 +1323,16 @@ ALTER TABLE `prenatal_schedules`
   MODIFY `sched_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT for table `referral_slips`
+--
+ALTER TABLE `referral_slips`
+  MODIFY `referral_id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `residents`
 --
 ALTER TABLE `residents`
-  MODIFY `resident_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
+  MODIFY `resident_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=158;
 
 --
 -- AUTO_INCREMENT for table `residents_medical_condition`
@@ -1370,12 +1419,6 @@ ALTER TABLE `health_information`
   ADD CONSTRAINT `fk_HealthInfoResidentId` FOREIGN KEY (`resident_id`) REFERENCES `residents` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `hospitalizations`
---
-ALTER TABLE `hospitalizations`
-  ADD CONSTRAINT `fk_hospitalizationResId` FOREIGN KEY (`resident_id`) REFERENCES `residents` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `household`
 --
 ALTER TABLE `household`
@@ -1405,6 +1448,12 @@ ALTER TABLE `immunization_appointments`
   ADD CONSTRAINT `fk_iaSchedId` FOREIGN KEY (`sched_id`) REFERENCES `immunization_schedules` (`schedule_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `medical_certificates`
+--
+ALTER TABLE `medical_certificates`
+  ADD CONSTRAINT `medical_certificates_ibfk_1` FOREIGN KEY (`resident_id`) REFERENCES `residents` (`resident_id`);
+
+--
 -- Constraints for table `midwife`
 --
 ALTER TABLE `midwife`
@@ -1429,6 +1478,12 @@ ALTER TABLE `pregnancy`
 ALTER TABLE `prenatals`
   ADD CONSTRAINT `fk_prenatalsPregnancyId` FOREIGN KEY (`pregnancy_id`) REFERENCES `pregnancy` (`pregnancy_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_prenatalsSchedId` FOREIGN KEY (`sched_id`) REFERENCES `prenatal_schedules` (`sched_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `referral_slips`
+--
+ALTER TABLE `referral_slips`
+  ADD CONSTRAINT `fk_referralResidentId` FOREIGN KEY (`resident_id`) REFERENCES `residents` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `residents`
