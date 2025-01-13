@@ -31,8 +31,8 @@
         <span class="text ms-2">Medicines</span>
     </a>
     
-    <a href="vaccinations.php" class="d-flex align-items-center <?= $current_page == 'vaccinations.php' ? 'active' : '' ?>">
-        <i class="icon fa-solid fa-syringe text-slate-500"></i>
-        <span class="text ms-2">Vaccinations</span>
+    <a href="immunizations.php" class="d-flex align-items-center <?= $current_page == 'immunizations.php' ? 'active' : '' ?>">
+        <i class="icon fa-solid fa-syringe text-indigo-500"></i>
+        <span class="text ms-2">Immunizations</span>
     </a>
 </div>

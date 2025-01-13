@@ -11,10 +11,10 @@
         <span class="text ms-2">BHW Dashboard</span>
     </a>
 
-    <a href="index.php" class="d-flex align-items-center <?= $current_page == 'overview' ? 'active' : '' ?>">
+    <!-- <a href="index.php" class="d-flex align-items-center <?= $current_page == 'overview' ? 'active' : '' ?>">
         <i class="icon fa-solid fa-chart-area text-info"></i>
         <span class="text ms-2">Overview</span>
-    </a>
+    </a> -->
 
     <a href="household_records.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['household_records.php', 'families.php', 'family_members.php']) ? 'active' : '' ?>">
         <i class="icon fa-solid fa-file-alt text-green-500"></i>

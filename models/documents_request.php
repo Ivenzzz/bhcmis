@@ -1,38 +1,68 @@
 <?php 
 
-function getMedicalCertificatesByResidentId($conn, $resident_id) {
-    // SQL query to fetch medical certificates by resident_id
-    $sql = "SELECT * FROM medical_certificates WHERE resident_id = ? ORDER BY request_date DESC";
-
-    // Prepare the statement
-    $stmt = $conn->prepare($sql);
-    if (!$stmt) {
-        die("Failed to prepare SQL statement: " . $conn->error); // Error handling
+function getReferralRequestsByResidentId($conn, $resident_id) {
+    // Prepare the SQL query
+    $sql = "SELECT * FROM referral_requests WHERE resident_id = ? ORDER BY request_date";
+    
+    // Initialize an empty result
+    $referralRequests = [];
+    
+    if ($stmt = $conn->prepare($sql)) {
+        // Bind the resident_id parameter
+        $stmt->bind_param("i", $resident_id);
+        
+        // Execute the query
+        if ($stmt->execute()) {
+            // Get the result set
+            $result = $stmt->get_result();
+            
+            // Fetch all rows as an associative array
+            $referralRequests = $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            // Log the error if query execution fails
+            error_log("Error executing query: " . $stmt->error);
+        }
+        
+        // Close the statement
+        $stmt->close();
+    } else {
+        // Log the error if statement preparation fails
+        error_log("Error preparing statement: " . $conn->error);
     }
+    
+    // Return the result
+    return $referralRequests;
+}
 
-    // Bind the resident_id parameter to the query
-    $stmt->bind_param("i", $resident_id);
+function getAllReferralRequests($conn) {
+    // SQL query to retrieve all referral requests, joining with residents and personal_information tables
+    $sql = "SELECT rr.*,
+                   r.resident_id,
+                   pi.lastname, pi.firstname, pi.middlename
+            FROM referral_requests rr
+            JOIN residents r ON rr.resident_id = r.resident_id
+            JOIN personal_information pi ON r.personal_info_id = pi.personal_info_id
+            ORDER BY rr.request_date DESC"; // You can adjust the order as per your needs
 
     // Execute the query
-    $stmt->execute();
-
-    // Get the result
-    $result = $stmt->get_result();
-
-    // Check if any records are found
-    if ($result->num_rows > 0) {
-        // Fetch all medical certificates as an associative array
-        $certificates = [];
-        while ($row = $result->fetch_assoc()) {
-            $certificates[] = $row;
+    if ($result = $conn->query($sql)) {
+        // Check if there are any rows returned
+        if ($result->num_rows > 0) {
+            $referralRequests = [];
+            while ($row = $result->fetch_assoc()) {
+                $referralRequests[] = $row; // Store each row in an array
+            }
+            return $referralRequests; // Return the array of referral requests
+        } else {
+            return []; // No records found
         }
-        // Return the array of certificates
-        return $certificates;
     } else {
-        // No records found, return an empty array
-        return [];
+        // If there was an error with the query
+        die("Error retrieving referral requests: " . $conn->error);
     }
-
-    // Close the statement
-    $stmt->close();
 }
+
+
+
+
+?>

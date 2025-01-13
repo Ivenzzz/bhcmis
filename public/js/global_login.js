@@ -80,7 +80,7 @@ function redirectToDashboard(role) {
             window.location.href = '../resident/medical_history.php';
             break;
         case 'bhw':
-            window.location.href = '../bhw/index.php';
+            window.location.href = '../bhw/household_records.php';
             break;
     }
 }

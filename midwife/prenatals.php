@@ -60,7 +60,10 @@ $incoming_prenatals = getThisWeeksIncomingPrenatals($conn);
                     <?php require 'partials/table_incoming_prenatals.php'; ?>
                 </div>
                 <div class="col-md-6 p-4">
-                    <h4 class="poppins-light mb-4">Pregnant Residents</h4>
+                    <div class="d-flex justify-content-between">
+                        <h4 class="poppins-light">Pregnancies</h4>
+                        <button class="btn btn-primary btn-sm">Add Pregnancy Record</button>
+                    </div>
                     <table class="table table-bordered text-xs text-center" id="pregnanciesTable">
                         <thead class="table-dark">
                             <tr>

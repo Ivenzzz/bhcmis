@@ -1,4 +1,4 @@
-<div class="col-md-4 mx-auto">
+<div class="col-md-12 mx-auto mb-3">
     <div class="card text-center shadow bg-green-100 position-relative member-card">
         <div class="card-body">
             <h5 class="card-title text-info">Child</h5>

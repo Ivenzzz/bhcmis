@@ -36,4 +36,9 @@
         <i class="icon fa fa-user-nurse text-red-500"></i>
         <span class="text">BHWs</span>
     </a>
+
+    <a href="document_requests.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['document_requests.php']) ? 'active' : '' ?>">
+        <i class="icon fa-solid fa-file-contract text-red-500"></i>
+        <span class="text">Document Requests</span>
+    </a>
 </div>
