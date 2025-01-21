@@ -247,6 +247,76 @@ function getYearlyPopulationInfo($conn) {
     }
 }
 
+function getPerAreaStats($conn) {
+    // SQL query to retrieve population statistics by address
+    $sql = "
+        SELECT 
+            a.address_name, 
+            a.address_type, 
+            COUNT(DISTINCT h.household_id) AS total_households,
+            COUNT(DISTINCT f.family_id) AS total_families,
+            COUNT(DISTINCT r.resident_id) AS total_residents, -- Total residents per address
+            SUM(CASE WHEN p.sex = 'female' THEN 1 ELSE 0 END) AS total_females,
+            SUM(CASE WHEN p.sex = 'male' THEN 1 ELSE 0 END) AS total_males,
+            SUM(CASE WHEN TIMESTAMPDIFF(YEAR, p.date_of_birth, CURDATE()) >= 60 THEN 1 ELSE 0 END) AS total_seniors,
+            SUM(CASE WHEN TIMESTAMPDIFF(YEAR, p.date_of_birth, CURDATE()) <= 12 THEN 1 ELSE 0 END) AS total_children,
+            SUM(CASE WHEN p.isTransferred = 1 THEN 1 ELSE 0 END) AS total_transferred,
+            SUM(CASE WHEN p.isDeceased = 1 THEN 1 ELSE 0 END) AS total_deceased
+        FROM 
+            address a
+        LEFT JOIN 
+            household h ON a.address_id = h.address_id
+        LEFT JOIN 
+            household_members hm ON h.household_id = hm.household_id
+        LEFT JOIN 
+            families f ON hm.family_id = f.family_id
+        LEFT JOIN 
+            family_members fm ON f.family_id = fm.family_id
+        LEFT JOIN
+            residents r ON fm.resident_id = r.resident_id
+        LEFT JOIN 
+            personal_information p ON r.personal_info_id = p.personal_info_id
+        GROUP BY 
+            a.address_id
+        ORDER BY 
+            a.address_name;
+    ";
+
+    // Execute the query using mysqli
+    $result = $conn->query($sql);
+
+    // Check if the query was successful
+    if ($result && $result->num_rows > 0) {
+        // Initialize an array to store the results
+        $statistics = [];
+
+        // Fetch the data from the query result
+        while ($row = $result->fetch_assoc()) {
+            $statistics[] = [
+                'address_name' => $row['address_name'],
+                'address_type' => $row['address_type'],
+                'total_households' => $row['total_households'],
+                'total_families' => $row['total_families'],
+                'total_residents' => $row['total_residents'], // Added total residents
+                'total_females' => $row['total_females'],
+                'total_males' => $row['total_males'],
+                'total_seniors' => $row['total_seniors'],
+                'total_children' => $row['total_children'],
+                'total_transferred' => $row['total_transferred'],
+                'total_deceased' => $row['total_deceased']
+            ];
+        }
+
+        // Return the array of population statistics
+        return $statistics;
+    } else {
+        // Return an empty array if no results were found
+        return [];
+    }
+}
+
+
+
 
 
 

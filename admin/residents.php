@@ -10,6 +10,7 @@ require '../models/get_residents.php';
 
 $user = getCurrentUser($conn);
 $residents = getAllResidents($conn);
+$families = getFamiliesWithHeadAndAddress($conn);
 
 ?>
 
@@ -27,83 +28,42 @@ $residents = getAllResidents($conn);
         <?php require 'partials/header.php'; ?>
         
         <div class="container mt-4 px-5">
-            <div class="row mb-4">
+
+            <div class="row mb-2">
                 <div class="col-md-12 p-2">
-                    <!-- Breadcrumb Structure -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item active" aria-current="page">Residents List</li> <!-- Current page -->
+                            <li class="breadcrumb-item active" aria-current="page">Residents List</li>
                         </ol>
                     </nav>
                 </div>
             </div>
 
+            <div class="row mb-2">
+                <div class="col-md-12">
+                    <a href="residents.php" class="btn btn-success btn-sm">All</a>
+                    <a href="pending_residents.php" class="btn btn-secondary btn-sm">Pending Registration</a>
+                    <a href="rejected_residents.php" class="btn btn-secondary btn-sm">Rejected Registration</a>
+                </div>
+            </div>
+
             <div class="row mb-4">
-                <div class="col-md-12 shadow">
-                    <table id="residentsTable" class="table table-bordered text-center">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Address</th>
-                                <th>Age</th>
-                                <th>Gender</th>
-                                <th>Civil Status</th>
-                                <th>Registered Voter</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-
-                            // Check if there are any residents
-                            if (!empty($residents)) {
-                                foreach ($residents as $resident) {
-                            ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($resident['firstname']) . ' ' . htmlspecialchars($resident['lastname']); ?></td>
-                                    <td><?php echo htmlspecialchars($resident['address_name']); ?></td>
-                                    <td><?php echo htmlspecialchars($resident['age']); ?></td>
-                                    <td><?php echo htmlspecialchars($resident['sex']); ?></td>
-                                    <td><?php echo htmlspecialchars($resident['civil_status']); ?></td>
-                                    <td>
-                                        <?php 
-                                        // Check if the resident is a registered voter
-                                        if ($resident['isRegisteredVoter']) {
-                                            // Display a green check icon for registered voters
-                                            echo '<i class="fas fa-check-circle text-green-500"></i>';
-                                        } else {
-                                            // Display a red X icon for non-registered voters
-                                            echo '<i class="fas fa-times-circle text-red-500"></i>';
-                                        }
-                                        ?>
-                                    </td>                                    
-                                    <td>
-                                        <a href="resident_details.php?resident_id=<?php echo htmlspecialchars($resident['resident_id']); ?>" class="btn btn-info">More</a>
-                                    </td>
-
-                                </tr>
-                            <?php
-                                }
-                            } else {
-                                echo '<tr><td colspan="7">No residents found.</td></tr>';
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-
+                <div class="col-md-12 d-flex justify-content-end mb-2">
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createResidentModal">
+                        Create New Record <i class="fa-solid fa-user-plus"></i>
+                    </button>
+                </div>
+                <div class="col-md-12 shadow p-4">
+                    <?php require 'partials/table_all_residents.php'; ?>
                 </div>
             </div>
         </div>
     </div>
 
+    <?php require 'partials/modal_add_resident_record.php'; ?>
+
     <?php require '../partials/global_javascript_links.php'; ?>
     <script src="../public/js/global_logout.js"></script>
-
-    <!-- DataTables Initialization -->
-    <script>
-        $(document).ready(function() {
-            $('#residentsTable').DataTable(); // Initialize DataTable
-        });
-    </script>
+    <script src="../public/js/admin_residents.js"></script>
 </body>
 </html>

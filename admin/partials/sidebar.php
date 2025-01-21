@@ -11,12 +11,12 @@
         <span class="text ms-2">Admin Dashboard</span>
     </a>
 
-    <a href="index.php" class="d-flex align-items-center <?= $current_page == 'index' ? 'active' : '' ?>">
+    <a href="index.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['index.php', 'index_table_view.php']) ? 'active' : '' ?>">
         <i class="icon fa-solid fa-people-group text-indigo-500"></i>
         <span class="text ms-2">Population</span>
     </a>
 
-    <a href="residents.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['residents.php', 'resident_details.php']) ? 'active' : '' ?>">
+    <a href="residents.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['residents.php', 'resident_details.php', 'pending_residents.php', 'rejected_residents.php']) ? 'active' : '' ?>">
         <i class="icon fa-solid fa-person text-amber-500"></i>
         <span class="text">Residents</span>
     </a>

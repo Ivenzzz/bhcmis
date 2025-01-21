@@ -14,6 +14,7 @@ $households = getHouseholdsByBhwId($conn, $current_bhw_id);
 $addresses = getAllAddresses($conn);
 $title = 'Household Records of ' . $assigned_area['assigned_area_name'];
 
+
 ?>
 
 <!DOCTYPE html>

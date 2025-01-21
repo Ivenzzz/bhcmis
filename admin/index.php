@@ -35,9 +35,16 @@ $yearly_population = getYearlyPopulationInfo($conn);
 
             <nav aria-label="breadcrumb" class="mb-4">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item active" aria-current="page">Overview</li>
+                    <li class="breadcrumb-item active" aria-current="page">Graph View</li>
                 </ol>
-            </nav>    
+            </nav>
+            
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <a href="index.php" class="btn btn-sm btn-primary">Graph View</a>
+                    <a href="index_table_view.php" class="btn btn-sm btn-secondary">Table View</a>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-md-4 mb-2">
@@ -115,43 +122,6 @@ $yearly_population = getYearlyPopulationInfo($conn);
                 </div>
             </div>
 
-            <div class="row mb-4 shadow p-4">
-                <div class="col-md-12 p-2">
-                    <h5 class="text-center mb-4 poppins-extralight">Yearly Population</h5>
-                    <table id="yearlyPopulationTable" class="table table-bordered table-striped table-sm text-center">
-                        <thead>
-                            <tr>
-                                <th>Year</th>
-                                <th>Total Population</th>
-                                <th>Total Males</th>
-                                <th>Total Females</th>
-                                <th>Deceased Count</th>
-                                <th>Transferred Count</th>
-                                <th>Growth Rate</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (!empty($yearly_population)): ?>
-                                <?php foreach ($yearly_population as $record): ?>
-                                    <tr>
-                                        <td><?php echo $record['year']; ?></td>
-                                        <td><?php echo number_format($record['total_population']); ?></td>
-                                        <td><?php echo number_format($record['total_males']); ?></td>
-                                        <td><?php echo number_format($record['total_females']); ?></td>
-                                        <td><?php echo number_format($record['deceased_count']); ?></td>
-                                        <td><?php echo number_format($record['transferred_count']); ?></td>
-                                        <td><?php echo number_format($record['growth_rate'], 2) . '%'; ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <tr>
-                                    <td colspan="8" class="text-center">No population records found.</td>
-                                </tr>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
 
             <div class="row mb-4 shadow p-4">
                 <div class="col-md-5 p-2 shadow">
@@ -164,18 +134,10 @@ $yearly_population = getYearlyPopulationInfo($conn);
                 </div>
             </div>
 
-            <div class="row mb-4 d-flex justify-content-center">
-                <div class="col-md-6 p-3 shadow">
+            <div class="row mb-4">
+                <div class="col-md-4 p-3 shadow">
                     <h5 class="text-center poppins-extralight">Top 5 Diseases/Medical Conditions</h5>
                     <canvas id="diseasesChart"></canvas>
-                </div>
-            </div>
-
-
-            <div class="row mb-4 p-4">
-                <div class="col-md-12 d-flex justify-content-end">
-                    <button class="btn btn-primary me-2">Save</button>
-                    <a href="print_population_details.php" target="_blank"><button class="btn btn-success">Print Population Info</button></a>
                 </div>
             </div>
 

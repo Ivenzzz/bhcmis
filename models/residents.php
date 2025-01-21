@@ -1,32 +1,18 @@
 <?php
 
 function getResidentDetails($conn, $resident_id) {
-    // Prepare the SQL query to retrieve resident details and family/household information
+    // Prepare the SQL query to retrieve resident details, family/household information, and account details
     $sql = "
         SELECT 
             r.resident_id, 
             r.account_id, 
-            p.lastname, 
-            p.firstname, 
-            p.middlename, 
-            p.date_of_birth, 
-            p.civil_status, 
-            p.educational_attainment, 
-            p.occupation, 
-            p.religion, 
-            p.citizenship, 
-            p.address_id, 
-            p.sex, 
-            p.phone_number, 
-            p.email,  
-            p.isTransferred, 
-            p.isRegisteredVoter,
-            p.isDeceased,
+            p.*,
             h.household_id,
             f.family_id,
             f.parent_family_id,
             f.4PsMember,
-            fm.role AS family_role
+            fm.role AS family_role,
+            a.*
         FROM 
             residents r
         JOIN 
@@ -39,6 +25,8 @@ function getResidentDetails($conn, $resident_id) {
             family_members fm ON hm.family_id = fm.family_id AND fm.resident_id = r.resident_id
         LEFT JOIN 
             families f ON fm.family_id = f.family_id
+        JOIN 
+            accounts a ON r.account_id = a.account_id  -- Join with the accounts table
         WHERE 
             r.resident_id = ?";
     
@@ -109,9 +97,10 @@ function getResidentDetails($conn, $resident_id) {
     $stmt->close();
     $stmt_medical->close();
 
-    // Return the resident details with medical conditions
+    // Return the resident details with medical conditions and account details
     return $resident_details;
 }
+
 
 
 ?>

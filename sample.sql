@@ -1,12 +1,52 @@
-CREATE TABLE `referral_requests` (
-  `referral_id` int(1) NOT NULL,
+CREATE TABLE `address` (
+  `address_id` int(10) NOT NULL,
+  `address_name` varchar(255) NOT NULL,
+  `address_type` enum('hda','sitio') NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE `household` (
+  `household_id` int(10) NOT NULL,
+  `address_id` int(10) NOT NULL,
+  `year_resided` year(4) DEFAULT NULL,
+  `housing_type` enum('Owned','Rented','Other') NOT NULL,
+  `construction_materials` enum('light','strong') NOT NULL,
+  `lighting_facilities` enum('electricity','kerosene') NOT NULL,
+  `water_source` enum('Point Source','Communal Faucet','Individual Connection','OTHERS') NOT NULL,
+  `toilet_facility` enum('Pointflush type','Ventilated Pit','Overhung Latrine','Without toilet') NOT NULL,
+  `recorded_by` int(10) NOT NULL,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE `household_members` (
+  `hm_id` int(10) NOT NULL,
+  `household_id` int(10) NOT NULL,
+  `family_id` int(10) NOT NULL,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE `families` (
+  `family_id` int(10) NOT NULL,
+  `parent_family_id` int(10) DEFAULT NULL,
+  `4PsMember` tinyint(1) NOT NULL DEFAULT 0,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE `family_members` (
+  `fmember_id` int(10) NOT NULL,
+  `family_id` int(10) NOT NULL,
   `resident_id` int(10) NOT NULL,
-  `purpose` varchar(100) DEFAULT NULL,
-  `request_date` datetime NOT NULL DEFAULT current_timestamp(),
-  `resolved_date` date DEFAULT NULL,
-  `status` enum('Pending','Approved','Denied') DEFAULT 'Pending',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `role` enum('husband','wife','child') NOT NULL,
+  `isArchived` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 CREATE TABLE `residents` (
@@ -29,7 +69,6 @@ CREATE TABLE `personal_information` (
   `occupation` varchar(255) DEFAULT NULL,
   `religion` varchar(100) DEFAULT NULL,
   `citizenship` varchar(100) DEFAULT NULL,
-  `address_id` int(10) DEFAULT NULL,
   `sex` enum('male','female') NOT NULL,
   `phone_number` varchar(20) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,

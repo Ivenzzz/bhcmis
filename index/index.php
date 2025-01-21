@@ -22,8 +22,8 @@ $addresses = getAllAddresses($conn);
 
         <header class="row p-5 bg-info bg-gradient">
             <div class="col d-flex align-items-center justify-content-center text-center">
-                <img src="../public/images/punta_mesa_logo.png" class="mw-rm-10 me-2 ms-5 shadow rounded-circle opacity-75" alt="Punta Mesa Logo">
-                <h1 class="text-slate-700 poppins-semibold">Brgy. Punta Mesa Healthcare Management and Information System</h1>
+                <img src="../public/images/punta_mesa_logo.png" class="mw-rm-6 me-2 ms-5 shadow rounded-circle opacity-75" alt="Punta Mesa Logo">
+                <h1 class="text-slate-700 poppins-bold">Brgy. Punta Mesa Healthcare Management and Information System</h1>
             </div>
         </header>
 
