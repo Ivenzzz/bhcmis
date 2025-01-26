@@ -16,8 +16,10 @@ function getPopulationGrowth($conn) {
     // Query to get the current population
     $sql_current_population = "
         SELECT COUNT(*) AS current_population 
-        FROM personal_information 
-        WHERE isTransferred = 0 AND deceased_date IS NULL";
+            FROM residents r
+            INNER JOIN personal_information pi ON r.personal_info_id = pi.personal_info_id
+            WHERE pi.isTransferred = 0 AND pi.deceased_date IS NULL
+        ";
 
     $result_current = $conn->query($sql_current_population);
 
@@ -52,7 +54,7 @@ function getPopulationGrowth($conn) {
     if ($previous_population > 0) {
         $growth_rate = (($current_population - $previous_population) / $previous_population) * 100;
     } else {
-        $growth_rate = 0; // No data for the previous year, so no growth rate
+        $growth_rate = 0;
     }
 
     // Return the results

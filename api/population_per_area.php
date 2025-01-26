@@ -8,21 +8,32 @@ header("Access-Control-Allow-Methods: GET");
 require '../partials/global_db_config.php'; // Adjust the path to your database connection file
 
 try {
-    // Query to get the population count grouped by address_name, including areas with no population
+    // Query to get the total residents grouped by address_name, based on households
     $query = "
         SELECT 
-            a.address_name,
-            COUNT(p.personal_info_id) AS population_count
+            a.address_name, 
+            COUNT(DISTINCT r.resident_id) AS total_residents -- Total residents per address
         FROM 
             address a
         LEFT JOIN 
-            personal_information p ON a.address_id = p.address_id
-            AND p.isTransferred = 0 
+            household h ON a.address_id = h.address_id
+        LEFT JOIN 
+            household_members hm ON h.household_id = hm.household_id
+        LEFT JOIN 
+            families f ON hm.family_id = f.family_id
+        LEFT JOIN 
+            family_members fm ON f.family_id = fm.family_id
+        LEFT JOIN
+            residents r ON fm.resident_id = r.resident_id
+        LEFT JOIN 
+            personal_information p ON r.personal_info_id = p.personal_info_id
+        WHERE 
+            p.isTransferred = 0 
             AND p.deceased_date IS NULL
         GROUP BY 
-            a.address_name
+            a.address_id
         ORDER BY 
-            population_count DESC
+            a.address_name;
     ";
 
     // Execute the query
@@ -34,14 +45,14 @@ try {
         while ($row = $result->fetch_assoc()) {
             $data[] = [
                 'address_name' => $row['address_name'],
-                'population_count' => $row['population_count']
+                'total_residents' => $row['total_residents']
             ];
         }
 
         // Send success response
         echo json_encode([
             "status" => "success",
-            "message" => "Population per area retrieved successfully.",
+            "message" => "Total residents per area retrieved successfully.",
             "data" => $data
         ]);
     } else {

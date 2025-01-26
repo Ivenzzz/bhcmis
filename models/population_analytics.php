@@ -2,8 +2,9 @@
 
 function getTotalResidents($conn) {
     $sql = "SELECT COUNT(*) AS total_residents 
-            FROM personal_information 
-            WHERE isTransferred = 0 AND deceased_date IS NULL";
+            FROM residents r
+            INNER JOIN personal_information pi ON r.personal_info_id = pi.personal_info_id
+            WHERE pi.isTransferred = 0 AND pi.deceased_date IS NULL";
     $result = $conn->query($sql);
 
     if ($result && $result->num_rows > 0) {
@@ -77,176 +78,6 @@ function getTotalDeceasedResidents($conn) {
     }
 }
 
-function getPopulationPerArea($conn) {
-    // SQL query to get population count per area, including areas with no population
-    $sql = "
-        SELECT 
-            a.address_name,
-            COUNT(p.personal_info_id) AS population_count
-        FROM 
-            address a
-        LEFT JOIN 
-            personal_information p ON a.address_id = p.address_id
-            AND p.isTransferred = 0 
-            AND p.deceased_date IS NULL
-        GROUP BY 
-            a.address_name
-        ORDER BY 
-            population_count DESC
-    ";
-
-    // Execute the query
-    $result = $conn->query($sql);
-
-    // Check if the query was successful and return data
-    if ($result) {
-        $populationPerArea = [];
-        while ($row = $result->fetch_assoc()) {
-            $populationPerArea[] = [
-                'address_name' => $row['address_name'],
-                'population_count' => $row['population_count']
-            ];
-        }
-
-        // Return the population data or an empty array if no results
-        return $populationPerArea;
-    } else {
-        // Return an empty array if the query failed
-        return [];
-    }
-}
-
-function getGenderDistribution($conn) {
-    // SQL query to count males and females excluding transferred and deceased individuals
-    $sql = "
-        SELECT 
-            sex, 
-            COUNT(personal_info_id) AS count 
-        FROM 
-            personal_information 
-        WHERE 
-            isTransferred = 0 AND deceased_date IS NULL
-        GROUP BY 
-            sex
-    ";
-
-    // Execute the query
-    $result = $conn->query($sql);
-
-    // Prepare the gender data array with default values
-    $genderData = [
-        'male' => 0,
-        'female' => 0,
-    ];
-
-    // Process the query result
-    if ($result) {
-        while ($row = $result->fetch_assoc()) {
-            // Convert the sex to lowercase and store the count in the genderData array
-            $genderData[strtolower($row['sex'])] = (int)$row['count'];
-        }
-    }
-
-    // Return the gender data or an empty array if no results
-    return $genderData;
-}
-
-function getPopulationGrowthRate($conn) {
-    // Get the current year
-    $currentYear = date("Y");
-    $previousYear = $currentYear - 1;
-
-    // Query to get the current population
-    $sql_current_population = "
-        SELECT COUNT(*) AS current_population 
-        FROM personal_information 
-        WHERE isTransferred = 0 AND deceased_date IS NULL";
-
-    $result_current = $conn->query($sql_current_population);
-
-    // Check if the query was successful and retrieve the current population
-    if ($result_current && $row_current = $result_current->fetch_assoc()) {
-        $current_population = $row_current['current_population'];
-    } else {
-        return [
-            "status" => "error", 
-            "message" => "Failed to fetch current population."
-        ];
-    }
-
-    // Query to get the previous year's population from annual_population table
-    $sql_previous_population = "
-        SELECT total_population AS previous_population 
-        FROM annual_population 
-        WHERE year = ?";
-    
-    $stmt = $conn->prepare($sql_previous_population);
-    if ($stmt === false) {
-        return [
-            "status" => "error", 
-            "message" => "Failed to prepare statement for previous population."
-        ];
-    }
-
-    $stmt->bind_param("i", $previousYear);
-    $stmt->execute();
-    $result_previous = $stmt->get_result();
-    
-    // Check if the query was successful and retrieve the previous population
-    if ($result_previous && $row_previous = $result_previous->fetch_assoc()) {
-        $previous_population = $row_previous['previous_population'];
-    } else {
-        $previous_population = 0; // Default to 0 if no record for the previous year
-    }
-
-    // Calculate the population growth rate
-    if ($previous_population > 0) {
-        $growth_rate = (($current_population - $previous_population) / $previous_population) * 100;
-    } else {
-        $growth_rate = 0; // No data for the previous year, so no growth rate
-    }
-
-    // Return the results
-    return [
-        "status" => "success",
-        "current_year" => $currentYear,
-        "previous_year" => $previousYear,
-        "current_population" => $current_population,
-        "previous_population" => $previous_population,
-        "growth_rate" => $growth_rate,
-        "message" => "Population growth retrieved successfully."
-    ];
-}
-
-function getYearlyPopulationInfo($conn) {
-    // SQL query to retrieve all records
-    $sql = "SELECT 
-                population_id, 
-                year, 
-                total_population, 
-                growth_rate,
-                total_males, 
-                total_females, 
-                deceased_count, 
-                transferred_count, 
-                created_at, 
-                updated_at 
-            FROM annual_population 
-            ORDER BY year ASC"; // Order by year, ascending
-
-    // Execute the query
-    $result = $conn->query($sql);
-
-    // Check if any data was returned
-    if ($result->num_rows > 0) {
-        // Fetch all data as an associative array
-        $yearly_population = $result->fetch_all(MYSQLI_ASSOC);
-        return $yearly_population; // Return all population records
-    } else {
-        return []; // Return an empty array if no records found
-    }
-}
-
 function getPerAreaStats($conn) {
     // SQL query to retrieve population statistics by address
     $sql = "
@@ -255,13 +86,13 @@ function getPerAreaStats($conn) {
             a.address_type, 
             COUNT(DISTINCT h.household_id) AS total_households,
             COUNT(DISTINCT f.family_id) AS total_families,
-            COUNT(DISTINCT r.resident_id) AS total_residents, -- Total residents per address
-            SUM(CASE WHEN p.sex = 'female' THEN 1 ELSE 0 END) AS total_females,
-            SUM(CASE WHEN p.sex = 'male' THEN 1 ELSE 0 END) AS total_males,
-            SUM(CASE WHEN TIMESTAMPDIFF(YEAR, p.date_of_birth, CURDATE()) >= 60 THEN 1 ELSE 0 END) AS total_seniors,
-            SUM(CASE WHEN TIMESTAMPDIFF(YEAR, p.date_of_birth, CURDATE()) <= 12 THEN 1 ELSE 0 END) AS total_children,
-            SUM(CASE WHEN p.isTransferred = 1 THEN 1 ELSE 0 END) AS total_transferred,
-            SUM(CASE WHEN p.isDeceased = 1 THEN 1 ELSE 0 END) AS total_deceased
+            COUNT(DISTINCT r.resident_id) AS total_residents,
+            COUNT(DISTINCT CASE WHEN p.sex = 'female' THEN r.resident_id END) AS total_females,
+            COUNT(DISTINCT CASE WHEN p.sex = 'male' THEN r.resident_id END) AS total_males,
+            COUNT(DISTINCT CASE WHEN TIMESTAMPDIFF(YEAR, p.date_of_birth, CURDATE()) >= 60 THEN r.resident_id END) AS total_seniors,
+            COUNT(DISTINCT CASE WHEN TIMESTAMPDIFF(YEAR, p.date_of_birth, CURDATE()) <= 12 THEN r.resident_id END) AS total_children,
+            SUM(DISTINCT CASE WHEN p.isTransferred = 1 THEN 1 ELSE 0 END) AS total_transferred,
+            SUM(DISTINCT CASE WHEN p.isDeceased = 1 THEN 1 ELSE 0 END) AS total_deceased
         FROM 
             address a
         LEFT JOIN 
@@ -287,17 +118,14 @@ function getPerAreaStats($conn) {
 
     // Check if the query was successful
     if ($result && $result->num_rows > 0) {
-        // Initialize an array to store the results
         $statistics = [];
-
-        // Fetch the data from the query result
         while ($row = $result->fetch_assoc()) {
             $statistics[] = [
                 'address_name' => $row['address_name'],
                 'address_type' => $row['address_type'],
                 'total_households' => $row['total_households'],
                 'total_families' => $row['total_families'],
-                'total_residents' => $row['total_residents'], // Added total residents
+                'total_residents' => $row['total_residents'],
                 'total_females' => $row['total_females'],
                 'total_males' => $row['total_males'],
                 'total_seniors' => $row['total_seniors'],
@@ -306,12 +134,94 @@ function getPerAreaStats($conn) {
                 'total_deceased' => $row['total_deceased']
             ];
         }
-
-        // Return the array of population statistics
         return $statistics;
     } else {
-        // Return an empty array if no results were found
         return [];
+    }
+}
+
+function getTransferredResidents($conn) {
+    try {
+        $transferredResidents = [];
+        
+        $sql = "SELECT 
+                r.resident_id,
+                p.lastname,
+                p.firstname,
+                p.middlename,
+                p.date_of_birth,
+                p.sex,
+                p.isTransferred,
+                p.updated_at AS transfer_date
+                FROM residents r
+                INNER JOIN personal_information p 
+                ON r.personal_info_id = p.personal_info_id
+                WHERE p.isTransferred = 1
+                AND r.isArchived = 0
+                ORDER BY p.updated_at DESC";
+
+        $stmt = $conn->prepare($sql);
+        
+        if (!$stmt) {
+            throw new Exception("Error preparing statement: " . $conn->error);
+        }
+        
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        while ($row = $result->fetch_assoc()) {
+            $transferredResidents[] = $row;
+        }
+        
+        $stmt->close();
+        return $transferredResidents;
+        
+    } catch (Exception $e) {
+        // Handle error (you might want to log this instead)
+        throw new Exception("Error fetching transferred residents: " . $e->getMessage());
+    }
+}
+
+function getDeceasedResidents($conn) {
+    try {
+        $deceasedResidents = [];
+        
+        $sql = "SELECT 
+                r.resident_id,
+                p.lastname,
+                p.firstname,
+                p.middlename,
+                p.date_of_birth,
+                p.sex,
+                p.isDeceased,
+                p.deceased_date,
+                p.updated_at AS deceased_updated_at
+                FROM residents r
+                INNER JOIN personal_information p 
+                ON r.personal_info_id = p.personal_info_id
+                WHERE p.isDeceased = 1
+                AND r.isArchived = 0
+                ORDER BY p.deceased_date DESC";
+
+        $stmt = $conn->prepare($sql);
+        
+        if (!$stmt) {
+            throw new Exception("Error preparing statement: " . $conn->error);
+        }
+        
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        while ($row = $result->fetch_assoc()) {
+            $deceasedResidents[] = $row;
+        }
+        
+        $stmt->close();
+        return $deceasedResidents;
+        
+    } catch (Exception $e) {
+        // Handle error (you might want to log this instead)
+        throw new Exception("Error fetching deceased residents: " . $e->getMessage());
     }
 }
 

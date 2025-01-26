@@ -14,7 +14,6 @@ $totalHouseholds = getTotalHouseholds($conn);
 $totalFamilies = getTotalFamilies($conn);
 $transferredResidents = getTotalTransferredResidents($conn);
 $deceasedResidents = getTotalDeceasedResidents($conn);
-$yearly_population = getYearlyPopulationInfo($conn);
 
 ?>
 
@@ -35,14 +34,15 @@ $yearly_population = getYearlyPopulationInfo($conn);
 
             <nav aria-label="breadcrumb" class="mb-4">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item active" aria-current="page">Graph View</li>
+                    <li class="breadcrumb-item active" aria-current="page">Overview</li>
                 </ol>
             </nav>
             
             <div class="row mb-4">
                 <div class="col-md-12">
-                    <a href="index.php" class="btn btn-sm btn-primary">Graph View</a>
-                    <a href="index_table_view.php" class="btn btn-sm btn-secondary">Table View</a>
+                    <a href="index.php" class="btn btn-sm btn-primary">Overview</a>
+                    <a href="index_table_view.php" class="btn btn-sm btn-secondary">Population Table</a>
+                    <a href="clinical_info.php" class="btn btn-sm btn-secondary">Clinical Info</a>
                 </div>
             </div>
 
@@ -78,22 +78,25 @@ $yearly_population = getYearlyPopulationInfo($conn);
 
             <div class="row mb-4 p-4">
                 <div class="col-md-6 mb-2">
-                    <div class="card text-center p-3 shadow">
+                    <a href="transferred_residents.php" class="card text-center p-3 shadow bg-amber-100 text-decoration-none hover:shadow-lg transition-shadow">
                         <div class="card-body">
                             <i class="fa-solid fa-person-walking-luggage fa-2x mb-3 text-orange-500"></i>
                             <h5 class="card-title display-6"><?= $transferredResidents; ?></h5>
                             <p class="card-text poppins-light">Transferred</p>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-md-6 mb-2">
-                    <div class="card text-center p-3 shadow">
-                        <div class="card-body">
-                            <i class="fa-regular fa-face-dizzy fa-2x mb-3 text-red-500"></i>
-                            <h5 class="card-title display-6"><?= $deceasedResidents; ?></h5>
-                            <p class="card-text poppins-light">Deceased</p> 
+                    <a href="deceased_residents.php" class="text-decoration-none">
+                        <div class="card text-center p-3 shadow bg-red-100 hover-shadow hover-bg-red-200 transition-all" 
+                            style="cursor: pointer;">
+                            <div class="card-body">
+                                <i class="fa-regular fa-face-dizzy fa-2x mb-3 text-red-500"></i>
+                                <h5 class="card-title display-6"><?= $deceasedResidents; ?></h5>
+                                <p class="card-text poppins-light">Deceased</p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
 
@@ -111,7 +114,7 @@ $yearly_population = getYearlyPopulationInfo($conn);
 
             <div class="row mb-4 shadow p-4">
                 <div class="col-md-5 p-2">
-                    <h5 class="text-center mb-3 poppins-extralight">Population Per Year</h5>
+                    <h5 class="text-center mb-3 poppins-extralight">Previous Years Population</h5>
                     <canvas id="populationLineChart"></canvas>
                 </div>
                 <div class="col-md-7 p-2 shadow">
@@ -134,10 +137,17 @@ $yearly_population = getYearlyPopulationInfo($conn);
                 </div>
             </div>
 
-            <div class="row mb-4">
-                <div class="col-md-4 p-3 shadow">
+            <!-- In your HTML -->
+            <div class="row mb-4 shadow p-3">
+                <div class="col-md-6 p-3 shadow">
                     <h5 class="text-center poppins-extralight">Top 5 Diseases/Medical Conditions</h5>
                     <canvas id="diseasesChart"></canvas>
+                </div>
+                <div class="col-md-6 p-3">
+                    <h5 class="text-center poppins-extralight mb-4">Voter Registration Status</h5>
+                    <div class="chart-container">
+                        <canvas id="voterChart"></canvas>
+                    </div>
                 </div>
             </div>
 
@@ -147,9 +157,5 @@ $yearly_population = getYearlyPopulationInfo($conn);
     <?php require '../partials/global_javascript_links.php'; ?>
     <script src="../public/js/global_logout.js"></script>
     <script src="../public/js/admin_population_analytics.js"></script>
-    <script>
-    
-</script>
-
 </body>
 </html>

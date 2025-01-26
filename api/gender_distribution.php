@@ -11,14 +11,17 @@ try {
     // Query to count males and females excluding transferred and deceased individuals
     $query = "
         SELECT 
-            sex, 
-            COUNT(personal_info_id) AS count 
+            p.sex, 
+            COUNT(r.resident_id) AS count 
         FROM 
-            personal_information 
+            residents r
+        INNER JOIN 
+            personal_information p ON r.personal_info_id = p.personal_info_id
         WHERE 
-            isTransferred = 0 AND deceased_date IS NULL
+            p.isTransferred = 0 
+            AND p.deceased_date IS NULL
         GROUP BY 
-            sex
+            p.sex
     ";
 
     // Execute the query

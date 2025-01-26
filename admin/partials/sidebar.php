@@ -11,7 +11,7 @@
         <span class="text ms-2">Admin Dashboard</span>
     </a>
 
-    <a href="index.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['index.php', 'index_table_view.php']) ? 'active' : '' ?>">
+    <a href="index.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['index.php', 'index_table_view.php', 'clinical_info.php', 'transferred_residents.php', 'deceased_residents.php']) ? 'active' : '' ?>">
         <i class="icon fa-solid fa-people-group text-indigo-500"></i>
         <span class="text ms-2">Population</span>
     </a>

@@ -6,6 +6,7 @@ initAgeDistribution();
 initGenderDistribution();
 initYearlyPopulationTable();
 initTopDiseasesPie();
+initVotersPercentage();
 
 function initPopulationGrowth() {
     document.addEventListener("DOMContentLoaded", function () {
@@ -69,6 +70,76 @@ function initPopulationGrowth() {
                 }
             })
             .catch((error) => console.error("Error fetching the API:", error));
+    });
+}
+
+function initVotersPercentage() {
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('../api/voter_stats.php')
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    throw new Error(data.error || 'Failed to fetch voter data');
+                }
+    
+                const voterData = data.data;
+                const unregistered = voterData.total_residents - voterData.registered_voters;
+    
+                const ctx = document.getElementById('voterChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Registered Voters', 'Unregistered Residents'],
+                        datasets: [{
+                            data: [voterData.registered_voters, unregistered],
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.8)',
+                                'rgba(255, 99, 132, 0.8)'
+                            ],
+                            borderColor: [
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 99, 132, 1)'
+                            ],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false, // Important for fixed container
+                        plugins: {
+                            title: {
+                                display: false // Removed title since we have card header
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const label = context.label || '';
+                                        const value = context.raw || 0;
+                                        const percentage = ((value / voterData.total_residents) * 100).toFixed(1);
+                                        return `${label}: ${value} (${percentage}%)`;
+                                    }
+                                }
+                            },
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    font: {
+                                        size: 12 // Reduced font size
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('voterChart').closest('.card').innerHTML = `
+                    <div class="alert alert-danger m-3">
+                        Error loading voter data: ${error.message}
+                    </div>
+                `;
+            });
     });
 }
 
@@ -166,10 +237,14 @@ function initPopulationPerArea() {
         fetch('../api/population_per_area.php')
             .then(response => response.json())
             .then(data => {
+                console.log("API Response:", data); // Debugging: Log the API response
                 if (data.status === "success") {
                     // Extract labels and data for the chart
                     const labels = data.data.map(area => area.address_name);
-                    const populationCounts = data.data.map(area => area.population_count);
+                    const populationCounts = data.data.map(area => parseInt(area.total_residents)); // Use `total_residents` and convert to integer
+
+                    console.log("Labels:", labels); // Debugging: Log the labels
+                    console.log("Population Counts:", populationCounts); // Debugging: Log the population counts
 
                     // Render the horizontal bar chart
                     const ctx = document.getElementById("populationPerAreaChart").getContext("2d");
@@ -227,6 +302,7 @@ function initPopulationPerArea() {
             .catch(error => console.error("Error fetching population per area data:", error));
     });
 }
+
 
 function initAgeDistribution() {
     document.addEventListener("DOMContentLoaded", function () {

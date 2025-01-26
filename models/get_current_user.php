@@ -8,11 +8,7 @@ function getCurrentUser($conn) {
         // Prepare the SQL statement with conditional joins based on role
         $stmt = $conn->prepare("
             SELECT 
-                a.account_id, 
-                a.username, 
-                a.role, 
-                a.profile_picture, 
-                a.isArchived,
+                a.*,
                 r.resident_id,
                 m.midwife_id,
                 b.bhw_id,
@@ -162,26 +158,8 @@ function getAdminInformation($conn, $admin_id) {
     // Prepare the SQL query to fetch admin information
     $query = "
         SELECT 
-            a.admin_id,
-            pi.lastname,
-            pi.firstname,
-            pi.middlename,
-            pi.date_of_birth,
-            pi.civil_status,
-            pi.educational_attainment,
-            pi.occupation,
-            pi.religion,
-            pi.citizenship,
-            pi.sex,
-            pi.phone_number,
-            pi.email,
-            pi.id_picture,
-            pi.isTransferred,
-            pi.isDeceased,
-            pi.isRegisteredVoter,
-            pi.deceased_date,
-            pi.created_at,
-            pi.updated_at
+            a.*,
+            pi.*
         FROM admin a
         INNER JOIN personal_information pi 
             ON a.personal_information_id = pi.personal_info_id
@@ -206,5 +184,34 @@ function getAdminInformation($conn, $admin_id) {
     }
 }
 
+function getResidentInformation($conn, $resident_id) {
+    // Prepare the SQL query to fetch admin information
+    $query = "
+        SELECT 
+            r.*,
+            pi.*
+        FROM residents r
+        INNER JOIN personal_information pi 
+            ON r.personal_info_id = pi.personal_info_id
+        WHERE r.resident_id = ?";
+
+    // Prepare and execute the query
+    if ($stmt = $conn->prepare($query)) {
+        $stmt->bind_param("i", $resident_id); // Bind the admin_id as an integer
+        $stmt->execute();
+
+        // Fetch the result
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            // Return the fetched row as an associative array
+            return $result->fetch_assoc();
+        } else {
+            return null; // No admin found with the given ID
+        }
+    } else {
+        // Handle query preparation errors
+        die("Query failed: " . $conn->error);
+    }
+}
 
 ?>

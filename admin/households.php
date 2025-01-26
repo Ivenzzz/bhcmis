@@ -41,8 +41,8 @@ $addresses = getAllAddresses($conn);
             </div>
 
             <div class="row mb-4">
-                <div class="col-md-12 shadow">
-                    <table id="householdsTable" class="table table-striped table-bordered text-center text-sm align-middle">
+                <div class="col-md-12 shadow p-4">
+                    <table id="householdsTable" class="display text-center text-sm align-middle">
                         <thead>
                             <tr>
                                 <th>Household Number</th>

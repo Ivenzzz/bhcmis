@@ -166,7 +166,6 @@ function getFamilyMembersByFamilyId($conn, $family_id) {
     }
 }
 
-
 function getHouseholdsByBhwId($conn, $bhw_id) {
     $query = "
         SELECT 
