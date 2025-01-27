@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 13, 2025 at 02:05 AM
+-- Generation Time: Jan 27, 2025 at 09:47 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -34,26 +34,29 @@ CREATE TABLE `accounts` (
   `role` enum('admin','midwife','bhw','residents') NOT NULL,
   `profile_picture` varchar(255) DEFAULT NULL,
   `isArchived` tinyint(1) NOT NULL DEFAULT 0,
-  `isValid` tinyint(1) NOT NULL DEFAULT 1
+  `isRejected` tinyint(1) NOT NULL DEFAULT 0,
+  `isValid` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `accounts`
 --
 
-INSERT INTO `accounts` (`account_id`, `username`, `password`, `role`, `profile_picture`, `isArchived`, `isValid`) VALUES
-(1, 'admin', '$2y$10$wSO7df3nhx9QF06QISRIT.1YNjfANjoIqR3q4X8GWKXT897uTeVly', 'admin', '/bhcmis/storage/uploads/avatar-admin.png', 0, 1),
-(2, 'BHW1', '$2y$10$Fp06K.3nimzVrtsC.VQMs.mkYrm0vpq5rYhDvktMiIY7SZbWbkozW', 'bhw', '/bhcmis/storage/uploads/avatar-girl1.png', 0, 1),
-(6, 'BHW2', '$2y$10$jo2g7gXKJXysuLCE.WEMo.ZdWhAjO6/ORu4kcGZ75HlMkyfWau4OS', 'bhw', '/bhcmis/storage/uploads/avatar-woman1.png', 0, 1),
-(7, 'BHW3', '$2y$10$R4JsPDggEqrbXeMxjdwFNOQOM2t.AhDm4mkX8auBE2jnHrI8z0B9a', 'bhw', '/bhcmis/storage/uploads/avatar-woman2.png', 0, 1),
-(8, 'BHW4', '$2y$10$R4JsPDggEqrbXeMxjdwFNOQOM2t.AhDm4mkX8auBE2jnHrI8z0B9a', 'bhw', '/bhcmis/storage/uploads/avatar-woman3.png', 0, 1),
-(9, 'BHW5', '$2y$10$R4JsPDggEqrbXeMxjdwFNOQOM2t.AhDm4mkX8auBE2jnHrI8z0B9a', 'bhw', '/bhcmis/storage/uploads/avatar-woman4.png', 0, 1),
-(10, 'BHW6', '$2y$10$R4JsPDggEqrbXeMxjdwFNOQOM2t.AhDm4mkX8auBE2jnHrI8z0B9a', 'bhw', '/bhcmis/storage/uploads/avatar-woman2.png', 0, 1),
-(11, 'BHW7', '$2y$10$R4JsPDggEqrbXeMxjdwFNOQOM2t.AhDm4mkX8auBE2jnHrI8z0B9a', 'bhw', '/bhcmis/storage/uploads/avatar-woman1.png', 0, 1),
-(12, 'Midwife1', '$2y$10$mHv3MxPW3CnlJ0m0Fp//LeShjQqYgttV40fklrqpW.3MEBweZChqi', 'midwife', '/bhcmis/storage/uploads/midwife-1.jpg', 0, 1),
-(13, 'Resident1', '$2y$10$PhtFVyI7r3nW3J3KRIaxLuwPT5GDuqKt1lahofGd0VeCEOk8tMDIW', 'residents', '/bhcmis/storage/uploads/avatar-woman2.png', 0, 1),
-(14, 'Resident2', '$2y$10$PhtFVyI7r3nW3J3KRIaxLuwPT5GDuqKt1lahofGd0VeCEOk8tMDIW', 'residents', '/bhcmis/storage/uploads/avatar-woman2.png', 0, 1),
-(50, 'Resident3', '$2y$10$PhtFVyI7r3nW3J3KRIaxLuwPT5GDuqKt1lahofGd0VeCEOk8tMDIW', 'residents', NULL, 0, 1);
+INSERT INTO `accounts` (`account_id`, `username`, `password`, `role`, `profile_picture`, `isArchived`, `isRejected`, `isValid`, `created_at`, `updated_at`) VALUES
+(1, 'Admin', '$2y$10$nHxsF.YcSQ59AyCImzYSHeinz6BJ9w0MfHDWKhgItsLRf4xM1Vo52', 'admin', '/bhcmis/storage/uploads/679694e6da868.png', 0, 0, 1, '2025-01-27 03:30:52', '2025-01-27 04:32:07'),
+(2, 'BHW1', '$2y$10$Fp06K.3nimzVrtsC.VQMs.mkYrm0vpq5rYhDvktMiIY7SZbWbkozW', 'bhw', '/bhcmis/storage/uploads/avatar-girl1.png', 0, 0, 1, '2025-01-27 03:30:52', '2025-01-27 03:31:19'),
+(6, 'BHW2', '$2y$10$jo2g7gXKJXysuLCE.WEMo.ZdWhAjO6/ORu4kcGZ75HlMkyfWau4OS', 'bhw', '/bhcmis/storage/uploads/avatar-woman1.png', 0, 0, 1, '2025-01-27 03:30:52', '2025-01-27 03:31:19'),
+(7, 'BHW3', '$2y$10$R4JsPDggEqrbXeMxjdwFNOQOM2t.AhDm4mkX8auBE2jnHrI8z0B9a', 'bhw', '/bhcmis/storage/uploads/avatar-woman2.png', 0, 0, 1, '2025-01-27 03:30:52', '2025-01-27 03:31:19'),
+(8, 'BHW4', '$2y$10$R4JsPDggEqrbXeMxjdwFNOQOM2t.AhDm4mkX8auBE2jnHrI8z0B9a', 'bhw', '/bhcmis/storage/uploads/avatar-woman3.png', 0, 0, 1, '2025-01-27 03:30:52', '2025-01-27 03:31:19'),
+(9, 'BHW5', '$2y$10$R4JsPDggEqrbXeMxjdwFNOQOM2t.AhDm4mkX8auBE2jnHrI8z0B9a', 'bhw', '/bhcmis/storage/uploads/avatar-woman4.png', 0, 0, 1, '2025-01-27 03:30:52', '2025-01-27 03:31:19'),
+(10, 'BHW6', '$2y$10$R4JsPDggEqrbXeMxjdwFNOQOM2t.AhDm4mkX8auBE2jnHrI8z0B9a', 'bhw', '/bhcmis/storage/uploads/avatar-woman2.png', 0, 0, 1, '2025-01-27 03:30:52', '2025-01-27 03:31:19'),
+(11, 'BHW7', '$2y$10$R4JsPDggEqrbXeMxjdwFNOQOM2t.AhDm4mkX8auBE2jnHrI8z0B9a', 'bhw', '/bhcmis/storage/uploads/avatar-woman1.png', 0, 0, 1, '2025-01-27 03:30:52', '2025-01-27 03:31:19'),
+(12, 'Midwife1', '$2y$10$mHv3MxPW3CnlJ0m0Fp//LeShjQqYgttV40fklrqpW.3MEBweZChqi', 'midwife', '/bhcmis/storage/uploads/midwife-1.jpg', 0, 0, 1, '2025-01-27 03:30:52', '2025-01-27 03:31:19'),
+(13, 'Resident1', '$2y$10$LBxc.zjA0Y2yXxw1040jVugv1.PZ30nY7ERBrlsgqkAflHdL8BQmy', 'residents', '/bhcmis/storage/uploads/6796a3a6e253c.jpg', 0, 0, 1, '2025-01-27 03:30:52', '2025-01-27 05:05:42'),
+(14, 'Resident2', '$2y$10$PhtFVyI7r3nW3J3KRIaxLuwPT5GDuqKt1lahofGd0VeCEOk8tMDIW', 'residents', '/bhcmis/storage/uploads/avatar-woman2.png', 0, 0, 1, '2025-01-27 03:30:52', '2025-01-27 03:31:19'),
+(50, 'Resident3', '$2y$10$PhtFVyI7r3nW3J3KRIaxLuwPT5GDuqKt1lahofGd0VeCEOk8tMDIW', 'residents', NULL, 0, 0, 1, '2025-01-27 03:30:52', '2025-01-27 03:31:19');
 
 -- --------------------------------------------------------
 
@@ -96,15 +99,16 @@ INSERT INTO `address` (`address_id`, `address_name`, `address_type`, `created_at
 CREATE TABLE `admin` (
   `admin_id` int(10) NOT NULL,
   `account_id` int(10) NOT NULL,
-  `personal_information_id` int(10) NOT NULL
+  `personal_information_id` int(10) NOT NULL,
+  `signature_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`admin_id`, `account_id`, `personal_information_id`) VALUES
-(1, 1, 1);
+INSERT INTO `admin` (`admin_id`, `account_id`, `personal_information_id`, `signature_id`) VALUES
+(1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -202,6 +206,7 @@ CREATE TABLE `bhw` (
   `assigned_area` int(10) NOT NULL,
   `date_started` date NOT NULL DEFAULT current_timestamp(),
   `employment_status` enum('active','inactive','on_leave') NOT NULL DEFAULT 'active',
+  `signature_id` int(10) DEFAULT NULL,
   `isArchived` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
@@ -211,11 +216,11 @@ CREATE TABLE `bhw` (
 -- Dumping data for table `bhw`
 --
 
-INSERT INTO `bhw` (`bhw_id`, `account_id`, `personal_info_id`, `assigned_area`, `date_started`, `employment_status`, `isArchived`, `created_at`, `updated_at`) VALUES
-(1, 2, 4, 6, '2024-08-07', 'on_leave', 0, '2024-12-14 11:13:16', '2024-12-14 11:13:16'),
-(2, 6, 6, 1, '2024-09-16', 'active', 0, '2024-12-14 11:13:16', '2024-12-14 11:13:16'),
-(3, 7, 8, 3, '2024-09-16', 'active', 0, '2024-12-14 11:13:16', '2024-12-14 11:13:16'),
-(4, 8, 10, 4, '2024-09-16', 'active', 0, '2024-12-14 11:13:16', '2024-12-14 11:13:16');
+INSERT INTO `bhw` (`bhw_id`, `account_id`, `personal_info_id`, `assigned_area`, `date_started`, `employment_status`, `signature_id`, `isArchived`, `created_at`, `updated_at`) VALUES
+(1, 2, 4, 6, '2024-08-07', 'on_leave', NULL, 0, '2024-12-14 11:13:16', '2024-12-14 11:13:16'),
+(2, 6, 6, 1, '2024-09-16', 'active', NULL, 0, '2024-12-14 11:13:16', '2024-12-14 11:13:16'),
+(3, 7, 8, 3, '2024-09-16', 'active', NULL, 0, '2024-12-14 11:13:16', '2024-12-14 11:13:16'),
+(4, 8, 10, 4, '2024-09-16', 'active', NULL, 0, '2024-12-14 11:13:16', '2024-12-14 11:13:16');
 
 -- --------------------------------------------------------
 
@@ -614,6 +619,7 @@ CREATE TABLE `midwife` (
   `employment_status` enum('active','inactive') NOT NULL DEFAULT 'active',
   `employment_date` date NOT NULL DEFAULT current_timestamp(),
   `license_number` varchar(100) DEFAULT NULL,
+  `signature_id` int(10) DEFAULT NULL,
   `isArchived` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
@@ -623,8 +629,8 @@ CREATE TABLE `midwife` (
 -- Dumping data for table `midwife`
 --
 
-INSERT INTO `midwife` (`midwife_id`, `account_id`, `personal_info_id`, `employment_status`, `employment_date`, `license_number`, `isArchived`, `created_at`, `updated_at`) VALUES
-(1, 12, 2, 'active', '2024-03-05', '12345', 0, '2024-12-14 11:27:58', '2024-12-14 11:27:58');
+INSERT INTO `midwife` (`midwife_id`, `account_id`, `personal_info_id`, `employment_status`, `employment_date`, `license_number`, `signature_id`, `isArchived`, `created_at`, `updated_at`) VALUES
+(1, 12, 2, 'active', '2024-03-05', '12345', NULL, 0, '2024-12-14 11:27:58', '2024-12-14 11:27:58');
 
 -- --------------------------------------------------------
 
@@ -661,7 +667,7 @@ CREATE TABLE `personal_information` (
 --
 
 INSERT INTO `personal_information` (`personal_info_id`, `lastname`, `firstname`, `middlename`, `date_of_birth`, `civil_status`, `educational_attainment`, `occupation`, `religion`, `citizenship`, `address_id`, `sex`, `phone_number`, `email`, `id_picture`, `isTransferred`, `isDeceased`, `isRegisteredVoter`, `deceased_date`, `created_at`, `updated_at`) VALUES
-(1, 'Victorino', 'Amiel Jose', 'Lakobalo', '2002-04-09', 'Single', 'College Graduate', 'Brgy. Secretary', 'Roman Catholic', 'Filipino', 6, 'male', '09171234567', 'amieljosevictorino@gmail.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-07-25 11:07:25'),
+(1, 'Victorino', 'Amiel Jose', 'Lacsi', '2002-03-06', 'Married', 'College Graduate', 'Brgy. Secretary', 'Stairway to Heaven', 'Filipino', 6, 'male', '09308309699', 'amieljosevictorino@gmail.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2025-01-27 04:29:22'),
 (2, 'Singua', 'Reyna Jane', 'Gasparillo', '1994-03-09', 'Married', 'College Graduate', 'Brgy. Midwife', 'Roman Catholic', 'Filipino', 6, 'female', '09851354580', 'reynasorilla@puntamesa.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-12-07 01:53:39'),
 (3, 'Gonzales', 'Ann', 'Ramos', '1978-11-15', 'Married', 'College Undergraduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 3, 'male', '09331234567', 'anngonzales@gmail.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-16 12:56:54'),
 (4, 'Perez', 'Grace', 'Santos', '1985-07-16', 'Married', 'College Undergraduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 4, 'female', '09441234500', 'graceperez@gmail.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-16 14:08:19'),
@@ -671,7 +677,7 @@ INSERT INTO `personal_information` (`personal_info_id`, `lastname`, `firstname`,
 (8, 'Cruz', 'Annie', 'Castro', '1973-01-10', 'Married', 'Highschool Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 8, 'male', '09881234567', 'annie.cruz@gmail.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-16 14:07:55'),
 (9, 'Morales', 'Elena', 'Garcia', '1999-04-20', 'Single', 'Highschool Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 9, 'male', '09991234567', 'elena.morales@example.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-07 08:42:29'),
 (10, 'Reyes', 'Gabriela', 'Santos', '1981-08-14', 'Married', 'College Graduate', 'Barangay Health Worker', 'Roman Catholic', 'Filipino', 10, 'male', '09182345678', 'gabriel.delosreyes@example.com', NULL, 0, 0, 1, NULL, '2023-07-25 11:07:25', '2024-09-10 10:44:05'),
-(13, 'Araneta', 'Roy Marjohn', 'Catapang', '2000-04-13', 'Single', 'Highschool Graduate', 'Drug Lord', 'Iglesia ni Cristo', 'Filipinos', 6, 'female', '09308309599', 'roymarjohnaraneta@gmail.com', NULL, 0, 0, 1, NULL, '2024-07-16 11:07:25', '2024-12-14 23:17:37'),
+(13, 'Araneta', 'Roy Marjohn', 'Catapang', '2000-04-13', 'Single', 'Highschool Graduate', 'Drug Lord', 'Iglesia ni Cristo', 'Filipinos', 6, 'male', '09308309599', 'roymarjohnaraneta@gmail.com', NULL, 0, 0, 1, NULL, '2024-07-16 11:07:25', '2024-12-14 23:17:37'),
 (14, 'Angcona', 'Rovie', 'Singua', '2002-03-04', 'Married', 'College Undergraduate', 'Businesswoman', 'Baptist', 'Filipino', 6, 'female', '09586789012', 'rovieangcona@gmail.com', NULL, 0, 0, 1, NULL, '2024-07-16 11:07:25', '2024-12-14 23:17:20'),
 (67, 'Araneta Jr.', 'Roy Marjohn', 'Perez', '2015-08-05', 'Single', 'Elementary Graduate', 'Student', 'Filipino', 'Roman Catholic', 6, 'male', '', '', NULL, 0, 0, 0, NULL, '2024-07-17 11:07:25', '2024-12-14 23:40:34'),
 (124, 'Araneta', 'Jay-v', 'Madoles', '2015-01-08', 'Single', NULL, NULL, NULL, NULL, 1, 'male', NULL, NULL, NULL, 0, 0, 1, NULL, '2025-01-09 02:08:26', '2025-01-09 02:08:26');
@@ -768,11 +774,19 @@ INSERT INTO `prenatal_schedules` (`sched_id`, `sched_date`, `isArchived`, `creat
 CREATE TABLE `referral_requests` (
   `referral_id` int(1) NOT NULL,
   `resident_id` int(10) NOT NULL,
+  `isEmergency` tinyint(1) NOT NULL DEFAULT 0,
   `purpose` varchar(100) DEFAULT NULL,
+  `child_id` int(10) DEFAULT NULL,
+  `referring_physician` varchar(100) DEFAULT NULL,
+  `referring_to_facility` varchar(100) DEFAULT NULL,
+  `chief_complaint_brief_history` text DEFAULT NULL,
+  `diagnosis` varchar(100) DEFAULT NULL,
+  `action_taken` text DEFAULT NULL,
   `request_date` datetime NOT NULL DEFAULT current_timestamp(),
   `resolved_date` date DEFAULT NULL,
   `status` enum('Pending','Approved','Denied') DEFAULT 'Pending',
   `document_path` varchar(100) DEFAULT NULL,
+  `consultation_id` int(10) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -781,9 +795,9 @@ CREATE TABLE `referral_requests` (
 -- Dumping data for table `referral_requests`
 --
 
-INSERT INTO `referral_requests` (`referral_id`, `resident_id`, `purpose`, `request_date`, `resolved_date`, `status`, `document_path`, `created_at`, `updated_at`) VALUES
-(3, 4, NULL, '2025-01-09 13:25:00', NULL, 'Pending', NULL, '2025-01-09 05:25:00', '2025-01-09 05:25:00'),
-(4, 4, 'Consultation on Victorias Health Center', '2025-01-13 05:06:19', NULL, 'Pending', NULL, '2025-01-12 21:06:19', '2025-01-12 21:06:19');
+INSERT INTO `referral_requests` (`referral_id`, `resident_id`, `isEmergency`, `purpose`, `child_id`, `referring_physician`, `referring_to_facility`, `chief_complaint_brief_history`, `diagnosis`, `action_taken`, `request_date`, `resolved_date`, `status`, `document_path`, `consultation_id`, `created_at`, `updated_at`) VALUES
+(3, 4, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-09 13:25:00', NULL, 'Pending', NULL, NULL, '2025-01-09 05:25:00', '2025-01-09 05:25:00'),
+(4, 4, 0, 'Consultation on Victorias Health Center', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-13 05:06:19', NULL, 'Pending', NULL, NULL, '2025-01-12 21:06:19', '2025-01-12 21:06:19');
 
 -- --------------------------------------------------------
 
@@ -867,6 +881,29 @@ INSERT INTO `resident_prenatal_schedules` (`resident_ps_id`, `pregnancy_id`, `sc
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `signatures`
+--
+
+CREATE TABLE `signatures` (
+  `signature_id` int(10) NOT NULL,
+  `signature_path` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `signatures`
+--
+
+INSERT INTO `signatures` (`signature_id`, `signature_path`) VALUES
+(1, '/bhcmis/storage/signatures/sg1.png'),
+(2, '/bhcmis/storage/signatures/sg2.png'),
+(3, '/bhcmis/storage/signatures/sg3.png'),
+(4, '/bhcmis/storage/signatures/sg4.png'),
+(5, '/bhcmis/storage/signatures/sg5.png'),
+(6, '/bhcmis/storage/signatures/sg6.png');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `vaccines`
 --
 
@@ -924,7 +961,8 @@ ALTER TABLE `address`
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`admin_id`),
   ADD KEY `fk_adminAccountId` (`account_id`),
-  ADD KEY `fk_adminPersonalInfoId` (`personal_information_id`);
+  ADD KEY `fk_adminPersonalInfoId` (`personal_information_id`),
+  ADD KEY `fk_signatureId` (`signature_id`);
 
 --
 -- Indexes for table `allergies`
@@ -1121,6 +1159,12 @@ ALTER TABLE `resident_prenatal_schedules`
   ADD KEY `fk_pScheduleSchedId` (`sched_id`);
 
 --
+-- Indexes for table `signatures`
+--
+ALTER TABLE `signatures`
+  ADD PRIMARY KEY (`signature_id`);
+
+--
 -- Indexes for table `vaccines`
 --
 ALTER TABLE `vaccines`
@@ -1305,6 +1349,12 @@ ALTER TABLE `resident_prenatal_schedules`
   MODIFY `resident_ps_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `signatures`
+--
+ALTER TABLE `signatures`
+  MODIFY `signature_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `vaccines`
 --
 ALTER TABLE `vaccines`
@@ -1319,7 +1369,8 @@ ALTER TABLE `vaccines`
 --
 ALTER TABLE `admin`
   ADD CONSTRAINT `fk_adminAccountId` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_adminPersonalInfoId` FOREIGN KEY (`personal_information_id`) REFERENCES `personal_information` (`personal_info_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_adminPersonalInfoId` FOREIGN KEY (`personal_information_id`) REFERENCES `personal_information` (`personal_info_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_signatureId` FOREIGN KEY (`signature_id`) REFERENCES `signatures` (`signature_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `allergies`

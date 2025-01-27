@@ -214,4 +214,37 @@ function getResidentInformation($conn, $resident_id) {
     }
 }
 
+function getMidwifeInformation($conn, $midwife_id) {
+    // Prepare the SQL query to fetch midwife information including signature
+    $query = "
+        SELECT 
+            m.*,
+            pi.*,
+            s.*
+        FROM midwife m
+        INNER JOIN personal_information pi 
+            ON m.personal_info_id = pi.personal_info_id
+        LEFT JOIN signatures s 
+            ON m.signature_id = s.signature_id
+        WHERE m.midwife_id = ?";
+
+    // Prepare and execute the query
+    if ($stmt = $conn->prepare($query)) {
+        $stmt->bind_param("i", $midwife_id); // Bind the midwife_id as an integer
+        $stmt->execute();
+
+        // Fetch the result
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            // Return the fetched row as an associative array
+            return $result->fetch_assoc();
+        } else {
+            return null; // No midwife found with the given ID
+        }
+    } else {
+        // Handle query preparation errors
+        die("Query failed: " . $conn->error);
+    }
+}
+
 ?>
