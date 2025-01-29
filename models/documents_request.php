@@ -35,14 +35,18 @@ function getReferralRequestsByResidentId($conn, $resident_id) {
 }
 
 function getAllReferralRequests($conn) {
-    // SQL query to retrieve all referral requests, joining with residents and personal_information tables
-    $sql = "SELECT rr.*,
-                   r.resident_id,
-                   pi.lastname, pi.firstname, pi.middlename
-            FROM referral_requests rr
-            JOIN residents r ON rr.resident_id = r.resident_id
-            JOIN personal_information pi ON r.personal_info_id = pi.personal_info_id
-            ORDER BY rr.request_date DESC"; // You can adjust the order as per your needs
+    // SQL query to retrieve referral requests with residents, personal_information, and consultations
+    $sql = "
+        SELECT rr.*,
+               r.resident_id,
+               pi.lastname, pi.firstname, pi.middlename,
+               c.*
+        FROM referral_requests rr
+        JOIN residents r ON rr.resident_id = r.resident_id
+        JOIN personal_information pi ON r.personal_info_id = pi.personal_info_id
+        LEFT JOIN consultations c ON rr.consultation_id = c.consultation_id
+        ORDER BY rr.request_date DESC
+    ";
 
     // Execute the query
     if ($result = $conn->query($sql)) {
@@ -61,6 +65,7 @@ function getAllReferralRequests($conn) {
         die("Error retrieving referral requests: " . $conn->error);
     }
 }
+
 
 
 

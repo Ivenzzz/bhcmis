@@ -247,4 +247,81 @@ function getMidwifeInformation($conn, $midwife_id) {
     }
 }
 
+function getBhwInformation($conn, $bhw_id) {
+    // Prepare the SQL query to fetch midwife information including signature
+    $query = "
+        SELECT 
+            b.*,
+            pi.*,
+            s.*
+        FROM bhw b
+        INNER JOIN personal_information pi 
+            ON b.personal_info_id = pi.personal_info_id
+        LEFT JOIN signatures s 
+            ON b.signature_id = b.signature_id
+        WHERE b.bhw_id = ?";
+
+    // Prepare and execute the query
+    if ($stmt = $conn->prepare($query)) {
+        $stmt->bind_param("i", $bhw_id);
+        $stmt->execute();
+
+        // Fetch the result
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            // Return the fetched row as an associative array
+            return $result->fetch_assoc();
+        } else {
+            return null; // No midwife found with the given ID
+        }
+    } else {
+        // Handle query preparation errors
+        die("Query failed: " . $conn->error);
+    }
+}
+
+function getBrgyCaptainDetails($conn, $brgy_captain_id) {
+    // Prepare the SQL query to join `brgy_captain` and `signatures` tables
+    $sql = "
+        SELECT bc.brgy_captain_id, bc.full_name, s.signature_path
+        FROM brgy_captain bc
+        LEFT JOIN signatures s ON bc.signature_id = s.signature_id
+        WHERE bc.brgy_captain_id = ?";
+    
+    // Prepare the statement
+    if ($stmt = $conn->prepare($sql)) {
+        // Bind the brgy_captain_id parameter to the query
+        $stmt->bind_param("i", $brgy_captain_id);
+        
+        // Execute the query
+        $stmt->execute();
+        
+        // Bind the result variables
+        $stmt->bind_result($brgy_captain_id, $full_name, $signature_path);
+        
+        // Fetch the result
+        if ($stmt->fetch()) {
+            // Store the result in an associative array
+            $captainDetails = [
+                'brgy_captain_id' => $brgy_captain_id,
+                'full_name' => $full_name,
+                'signature_path' => $signature_path
+            ];
+            
+            // Close the statement
+            $stmt->close();
+            
+            return $captainDetails;
+        } else {
+            // If no result is found
+            return null;
+        }
+    } else {
+        // If the query preparation fails
+        return null;
+    }
+}
+
+
+
 ?>

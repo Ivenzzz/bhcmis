@@ -50,7 +50,7 @@ $referral_request = getReferralRequestsByResidentId($conn, $resident_id);
             <div class="row mb-4 p-4 shadow">
                 <div class="col-md-12">
                     <h4 class="poppins-light">Referral Requests</h4>
-                    <table class="table table-bordered table-primary text-center">
+                    <table class="table table-primary text-center">
                         <thead class="table-dark">
                             <tr>
                                 <th>Request Date</th>
@@ -69,9 +69,33 @@ $referral_request = getReferralRequestsByResidentId($conn, $resident_id);
                                         <td><?php echo $referral['resolved_date'] ? htmlspecialchars($referral['resolved_date']) : 'Not Issued Yet'; ?></td>
                                         <td><?php echo htmlspecialchars($referral['status']); ?></td>
                                         <td>
-                                            <button class="btn btn-info">View Document</button>
+                                            <!-- View Document button triggers modal -->
+                                            <?php if ($referral['status'] == 'Approved' && !empty($referral['document_path'])): ?>
+                                                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#pdfModal<?= $referral['referral_id'] ?>">View Document</button>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
+
+                                    <!-- Dynamic Modal for PDF preview -->
+                                    <?php if ($referral['status'] == 'Approved' && !empty($referral['document_path'])): ?>
+                                        <div class="modal fade" id="pdfModal<?= $referral['referral_id'] ?>" tabindex="-1" aria-labelledby="pdfModalLabel<?= $referral['referral_id'] ?>" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="pdfModalLabel<?= $referral['referral_id'] ?>">Referral Form #<?= htmlspecialchars($referral['referral_id']) ?></h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body p-0">
+                                                        <iframe src="<?= htmlspecialchars($referral['document_path']) ?>" style="width: 100%; height: 80vh;" frameborder="0" allowfullscreen></iframe>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>

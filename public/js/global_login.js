@@ -35,11 +35,16 @@ function prefillFieldsFromCookies() {
 }
 
 
-// Function to add event listener for the login button
+// Function to add event listeners for login (button click and Enter key)
 function addLoginButtonListener() {
-    document.getElementById('loginButton').addEventListener('click', async function() {
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+    const loginButton = document.getElementById('loginButton');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+
+    // Shared handler function
+    const handleLogin = async () => {
+        const username = usernameInput.value;
+        const password = passwordInput.value;
         const rememberMe = document.getElementById('remember_me').checked;
         const formData = new FormData();
 
@@ -56,7 +61,6 @@ function addLoginButtonListener() {
             const data = await response.json();
 
             if (data.status === 'success') {
-                // Redirect based on role
                 redirectToDashboard(data.role);
             } else {
                 displayErrorMessage(data.message);
@@ -64,7 +68,22 @@ function addLoginButtonListener() {
         } catch (error) {
             console.error('Error:', error);
         }
-    });
+    };
+
+    // Click event for button
+    loginButton.addEventListener('click', handleLogin);
+
+    // Enter key event for form inputs
+    const handleEnterKey = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent form submission if in a <form>
+            handleLogin();
+        }
+    };
+
+    // Add to both input fields
+    usernameInput.addEventListener('keydown', handleEnterKey);
+    passwordInput.addEventListener('keydown', handleEnterKey);
 }
 
 // Function to redirect based on user role

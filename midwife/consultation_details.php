@@ -53,7 +53,7 @@ $residents = getAllResidents($conn);
             </div>
 
             <div class="row mb-4">
-                <div class="col-md-12 shadow p-5 mb-3">
+                <div class="col-md-12 shadow p-3 mb-3">
                     <table id="consultationsTable" class="display text-sm">
                         <thead>
                             <tr>
@@ -101,6 +101,7 @@ $residents = getAllResidents($conn);
                                             <input type="hidden" name="con_sched_id" value="<?= $consultation_schedule_id ?>">
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this consultation?')">Delete</button>
                                         </form>
+                                        <a href="create_referral_form.php?consultation_id=<?= $consultation['consultation_id'] ?>&con_sched_id=<?= $consultation_schedule_id ?>" class="btn bg-indigo-500 text-slate-50 btn-primary btn-sm">Create Referral Form</a>
                                     </td>
                                 </tr>
                                 <?php require 'partials/modal_update_consultation.php'; ?>

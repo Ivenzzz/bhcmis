@@ -16,7 +16,7 @@
         <span class="text ms-2">Overview</span>
     </a>
 
-    <a href="consultations.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['consultations.php', 'consultation_details.php', 'prescriptions.php', 'appointed_consultation_details.php', 'appointments.php']) ? 'active' : '' ?>">
+    <a href="consultations.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['consultations.php', 'consultation_details.php', 'prescriptions.php', 'appointed_consultation_details.php', 'appointments.php', 'create_referral_form.php']) ? 'active' : '' ?>">
         <i class="icon fa-solid fa-calendar-check text-green-500"></i>
         <span class="text ms-2">Consultation Schedules</span>
     </a>
