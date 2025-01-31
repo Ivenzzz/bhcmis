@@ -9,7 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $current_midwife_id = $_POST['current_midwife_id']; // Get the current midwife ID from POST
     $employment_status = $_POST['employment_status'];  // "active" for the new midwife
     $employment_date = $_POST['employment_date'];
-    $license_number = $_POST['license_number'];
 
     // Fetch BHW's personal info ID and account ID
     $getBHWInfoSQL = "
@@ -41,12 +40,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Insert new midwife record
         $insertMidwifeSQL = "
-            INSERT INTO midwife (account_id, personal_info_id, employment_status, employment_date, license_number)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO midwife (account_id, personal_info_id, employment_status, employment_date)
+            VALUES (?, ?, ?, ?)
         ";
 
         $stmt = $conn->prepare($insertMidwifeSQL);
-        $stmt->bind_param('issss', $account_id, $personal_info_id, $employment_status, $employment_date, $license_number);
+        $stmt->bind_param('isss', $account_id, $personal_info_id, $employment_status, $employment_date);
         $stmt->execute();
 
         // Redirect or show success message

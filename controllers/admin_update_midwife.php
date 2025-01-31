@@ -11,7 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lastname = $_POST['lastname'];
     $employment_status = $_POST['employment_status'];
     $employment_date = $_POST['employment_date'];
-    $license_number = $_POST['license_number'];
     $phone_number = $_POST['phone_number'];
     $email = $_POST['email'];
     $civil_status = $_POST['civil_status'];
@@ -55,17 +54,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             UPDATE midwife
             SET 
                 employment_status = ?, 
-                employment_date = ?, 
-                license_number = ?
+                employment_date = ?
             WHERE midwife_id = ?
         ";
 
         $stmtMidwife = $conn->prepare($updateMidwifeSQL);
         $stmtMidwife->bind_param(
-            'sssi',
+            'ssi',
             $employment_status,
             $employment_date,
-            $license_number,
             $midwife_id
         );
         $stmtMidwife->execute();

@@ -1,10 +1,22 @@
 <?php 
 
 function getTotalResidents($conn) {
-    $sql = "SELECT COUNT(*) AS total_residents 
+    // Join residents, personal_information, family_members, families, household_members, and household tables
+    $sql = "SELECT COUNT(DISTINCT r.resident_id) AS total_residents
             FROM residents r
             INNER JOIN personal_information pi ON r.personal_info_id = pi.personal_info_id
-            WHERE pi.isTransferred = 0 AND pi.deceased_date IS NULL";
+            INNER JOIN family_members fm ON r.resident_id = fm.resident_id
+            INNER JOIN families f ON fm.family_id = f.family_id
+            INNER JOIN household_members hm ON f.family_id = hm.family_id
+            INNER JOIN household h ON hm.household_id = h.household_id
+            WHERE r.isArchived = 0
+              AND fm.isArchived = 0
+              AND f.isArchived = 0
+              AND hm.isArchived = 0
+              AND h.isArchived = 0
+              AND pi.isTransferred = 0
+              AND pi.deceased_date IS NULL";
+
     $result = $conn->query($sql);
 
     if ($result && $result->num_rows > 0) {
@@ -16,7 +28,8 @@ function getTotalResidents($conn) {
 }
 
 function getTotalHouseholds($conn) {
-    $sql = "SELECT COUNT(*) AS total_households FROM household";
+    // Modify the SQL query to exclude archived households
+    $sql = "SELECT COUNT(*) AS total_households FROM household WHERE isArchived = 0";
     $result = $conn->query($sql);
 
     if ($result && $result->num_rows > 0) {
@@ -28,7 +41,14 @@ function getTotalHouseholds($conn) {
 }
 
 function getTotalFamilies($conn) {
-    $sql = "SELECT COUNT(*) AS total_families FROM families";
+    // Join the families, household_members, and household tables, and exclude archived records
+    $sql = "SELECT COUNT(DISTINCT f.family_id) AS total_families
+            FROM families f
+            JOIN household_members hm ON f.family_id = hm.family_id
+            JOIN household h ON hm.household_id = h.household_id
+            WHERE f.isArchived = 0
+              AND hm.isArchived = 0
+              AND h.isArchived = 0";
 
     $result = $conn->query($sql);
 
@@ -79,7 +99,7 @@ function getTotalDeceasedResidents($conn) {
 }
 
 function getPerAreaStats($conn) {
-    // SQL query to retrieve population statistics by address
+    // SQL query to retrieve population statistics by address, excluding archived records
     $sql = "
         SELECT 
             a.address_name, 
@@ -96,13 +116,13 @@ function getPerAreaStats($conn) {
         FROM 
             address a
         LEFT JOIN 
-            household h ON a.address_id = h.address_id
+            household h ON a.address_id = h.address_id AND h.isArchived = 0
         LEFT JOIN 
-            household_members hm ON h.household_id = hm.household_id
+            household_members hm ON h.household_id = hm.household_id AND hm.isArchived = 0
         LEFT JOIN 
-            families f ON hm.family_id = f.family_id
+            families f ON hm.family_id = f.family_id AND f.isArchived = 0
         LEFT JOIN 
-            family_members fm ON f.family_id = fm.family_id
+            family_members fm ON f.family_id = fm.family_id AND fm.isArchived = 0
         LEFT JOIN
             residents r ON fm.resident_id = r.resident_id
         LEFT JOIN 

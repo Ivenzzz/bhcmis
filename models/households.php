@@ -12,7 +12,8 @@ function getAllHouseholds($conn) {
             h.construction_materials, 
             h.lighting_facilities, 
             h.water_source, 
-            h.toilet_facility, 
+            h.toilet_facility,
+            h.isArchived,
             CONCAT(p.firstname, ' ', p.lastname) AS bhw_name,  -- BHW full name
             COUNT(DISTINCT CASE WHEN f.isArchived = 0 THEN hm.family_id END) AS number_of_families  -- Count families that are not archived
         FROM 

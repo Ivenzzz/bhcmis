@@ -31,7 +31,7 @@
         <span class="text ms-2">Medicines</span>
     </a>
     
-    <a href="immunizations.php" class="d-flex align-items-center <?= $current_page == 'immunizations.php' ? 'active' : '' ?>">
+    <a href="immunizations.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['immunizations.php', 'immunization_appointments.php']) ? 'active' : '' ?>">
         <i class="icon fa-solid fa-syringe text-indigo-500"></i>
         <span class="text ms-2">Immunizations</span>
     </a>

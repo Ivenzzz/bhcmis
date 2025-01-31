@@ -8,18 +8,27 @@ header("Access-Control-Allow-Methods: GET");
 require '../partials/global_db_config.php'; // Adjust the path to your DB config
 
 try {
-    // Query to count males and females excluding transferred and deceased individuals
+    // Query to count gender distribution based on household structure
     $query = "
         SELECT 
             p.sex, 
-            COUNT(r.resident_id) AS count 
+            COUNT(DISTINCT r.resident_id) AS count 
         FROM 
             residents r
         INNER JOIN 
             personal_information p ON r.personal_info_id = p.personal_info_id
+        INNER JOIN 
+            family_members fm ON r.resident_id = fm.resident_id AND fm.isArchived = 0
+        INNER JOIN 
+            families f ON fm.family_id = f.family_id AND f.isArchived = 0
+        INNER JOIN 
+            household_members hm ON f.family_id = hm.family_id AND hm.isArchived = 0
+        INNER JOIN 
+            household h ON hm.household_id = h.household_id AND h.isArchived = 0
         WHERE 
             p.isTransferred = 0 
             AND p.deceased_date IS NULL
+            AND r.isArchived = 0
         GROUP BY 
             p.sex
     ";

@@ -36,10 +36,6 @@
                             <label for="employment_date" class="form-label">Employment Date</label>
                             <input type="date" class="form-control" name="employment_date" required>
                         </div>
-                        <div class="col-md-6">
-                            <label for="license_number" class="form-label">License Number</label>
-                            <input type="text" class="form-control" name="license_number" required>
-                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

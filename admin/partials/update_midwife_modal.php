@@ -30,10 +30,6 @@
                                 <option value="inactive" <?= $midwife['employment_status'] === 'inactive' ? 'selected' : '' ?>>Inactive</option>
                             </select>
                         </div>
-                        <div class="col-md-6">
-                            <label for="license_number" class="form-label">License Number</label>
-                            <input type="text" class="form-control" name="license_number" value="<?= htmlspecialchars($midwife['license_number']) ?>">
-                        </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">

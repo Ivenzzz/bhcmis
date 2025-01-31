@@ -8,7 +8,6 @@ function getMidwives($conn) {
             m.personal_info_id,
             m.employment_status,
             m.employment_date,
-            m.license_number,
             p.lastname,
             p.firstname,
             p.middlename,
@@ -75,8 +74,7 @@ function getCurrentMidwife($conn) {
                                     p.phone_number, 
                                     p.email, 
                                     p.sex, 
-                                    m.employment_status, 
-                                    m.license_number 
+                                    m.employment_status
                                 FROM 
                                     accounts a
                                 LEFT JOIN 

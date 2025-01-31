@@ -8,7 +8,7 @@ header("Access-Control-Allow-Methods: GET");
 require '../partials/global_db_config.php'; // Adjust the path to your database connection file
 
 try {
-    // Query to get the total residents grouped by address_name, based on households
+    // Query to get the total residents grouped by address_name, based on households, excluding archived records
     $query = "
         SELECT 
             a.address_name, 
@@ -16,15 +16,15 @@ try {
         FROM 
             address a
         LEFT JOIN 
-            household h ON a.address_id = h.address_id
+            household h ON a.address_id = h.address_id AND h.isArchived = 0
         LEFT JOIN 
-            household_members hm ON h.household_id = hm.household_id
+            household_members hm ON h.household_id = hm.household_id AND hm.isArchived = 0
         LEFT JOIN 
-            families f ON hm.family_id = f.family_id
+            families f ON hm.family_id = f.family_id AND f.isArchived = 0
         LEFT JOIN 
-            family_members fm ON f.family_id = fm.family_id
+            family_members fm ON f.family_id = fm.family_id AND fm.isArchived = 0
         LEFT JOIN
-            residents r ON fm.resident_id = r.resident_id
+            residents r ON fm.resident_id = r.resident_id AND r.isArchived = 0
         LEFT JOIN 
             personal_information p ON r.personal_info_id = p.personal_info_id
         WHERE 

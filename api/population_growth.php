@@ -13,13 +13,19 @@ function getPopulationGrowth($conn) {
     $currentYear = date("Y");
     $previousYear = $currentYear - 1;
 
-    // Query to get the current population
+    // Query to get the current population, excluding archived records
     $sql_current_population = "
-        SELECT COUNT(*) AS current_population 
-            FROM residents r
-            INNER JOIN personal_information pi ON r.personal_info_id = pi.personal_info_id
-            WHERE pi.isTransferred = 0 AND pi.deceased_date IS NULL
-        ";
+        SELECT COUNT(DISTINCT r.resident_id) AS current_population
+        FROM residents r
+        INNER JOIN personal_information pi ON r.personal_info_id = pi.personal_info_id
+        INNER JOIN family_members fm ON r.resident_id = fm.resident_id AND fm.isArchived = 0
+        INNER JOIN families f ON fm.family_id = f.family_id AND f.isArchived = 0
+        INNER JOIN household_members hm ON f.family_id = hm.family_id AND hm.isArchived = 0
+        INNER JOIN household h ON hm.household_id = h.household_id AND h.isArchived = 0
+        WHERE pi.isTransferred = 0 
+          AND pi.deceased_date IS NULL
+          AND r.isArchived = 0;
+    ";
 
     $result_current = $conn->query($sql_current_population);
 

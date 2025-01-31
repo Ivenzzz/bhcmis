@@ -10,6 +10,7 @@ require '../models/immunizations.php';
 
 $user = getCurrentUser($conn);
 $immunization_appointments = getImmunizationAppointments($conn);
+$immunization_schedules = getImmunizationSchedules($conn);
 
 ?>
 
@@ -39,65 +40,40 @@ $immunization_appointments = getImmunizationAppointments($conn);
             </div>
 
             <div class="row mb-4 p-4 shadow">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div id="immunizationSchedulescalendar"></div>
                 </div>
-            </div>
-
-            <div class="row mb-4 p-4 shadow">
-                <div class="col-md-12">
-                    <table id="appointmentsTable" class="display text-center text-sm">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Tracking Code</th>
-                                <th>Priority Number</th>
-                                <th>Vaccine Name</th>
-                                <th>Status</th>
-                                <th>Schedule Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            if (is_array($immunization_appointments)) :
-                                foreach ($immunization_appointments as $appointment) :    
-                            ?>
-                            <tr>
-                                <td><?= $appointment['lastname'] . ', ' . $appointment['firstname'] . ' ' .$appointment['middlename'] ?></td>
-                                <td><?= $appointment['tracking_code'] ?></td>
-                                <td><?= $appointment['priority_number'] ?></td>
-                                <td><?= $appointment['vaccine_name'] ?></td>
-                                <td>
-                                    <?php if ($appointment['status'] === 'Cancelled'): ?>
-                                        <span class="badge bg-danger">Cancelled</span>
-                                    <?php elseif ($appointment['status'] === 'Scheduled'): ?>
-                                        <span class="badge bg-warning text-dark">Scheduled</span>
-                                    <?php elseif ($appointment['status'] === 'Completed'): ?>
-                                        <span class="badge bg-success">Completed</span>
-                                    <?php elseif ($appointment['status'] === 'Missed'): ?>
-                                        <span class="badge bg-danger">Missed</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td><?= htmlspecialchars((new DateTime($appointment['schedule_date']))->format('F j, Y | h:i A')) ?></td>
-                                <td class="d-flex justify-content-center">
-                                    <button class="btn btn-warning btn-sm">Mark as Completed</button>
-                                    <button class="btn btn-info btn-sm">View Result</button>
-                                </td>
-                            </tr>
-                            <?php
-                                endforeach;
-                            else :
-                            ?>
-                            <tr>
-                                <td colspan="8">No appointments found.</td>
-                            </tr>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
+                <div class="col-md-6">
+                    <div class="display text-xs">
+                        <table id="immunizationTable" class="display text-center">
+                            <thead>
+                                <tr>
+                                    <th>Schedule Date</th>
+                                    <th>Vaccine</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (!empty($immunization_schedules)): ?>
+                                    <?php foreach ($immunization_schedules as $schedule): ?>
+                                        <tr>
+                                            <td><?php echo date("F j, Y | g:i A", strtotime($schedule['schedule_date'])); ?></td>
+                                            <td><?php echo htmlspecialchars($schedule['vaccine_name']); ?></td>
+                                            <td>
+                                                <a href="immunization_appointments.php?schedule_id=<?php echo $schedule['schedule_id']; ?>" class="btn btn-primary btn-sm">View Appointments</a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="5" class="text-center">No schedules found.</td>
+                                    </tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-
         </div>
   </div>
 
@@ -108,6 +84,14 @@ $immunization_appointments = getImmunizationAppointments($conn);
         // Initialize DataTable
         $(document).ready(function() {
             $('#appointmentsTable').DataTable();
+        });
+    </script>
+   <script>
+        $(document).ready(function () {
+            $('#immunizationTable').DataTable({
+                responsive: true,
+                pageLength: 10
+            });
         });
     </script>
     <script>

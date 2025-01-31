@@ -292,6 +292,11 @@ function getAppointmentsByResidentIds($conn, $residentIds) {
         return "Error: Input must be an array of resident IDs.";
     }
 
+    // If the array is empty, return an empty result set
+    if (empty($residentIds)) {
+        return [];
+    }
+
     // Sanitize the array to prevent SQL injection
     $sanitizedResidentIds = array_map('intval', $residentIds);
     $residentIdsString = implode(',', $sanitizedResidentIds);
@@ -341,6 +346,7 @@ function getAppointmentsByResidentIds($conn, $residentIds) {
     // Return the retrieved appointments with resident names, age, and schedule date
     return $appointments;
 }
+
 
 function getImmunizationDetailsByAppointmentId($conn, $appointment_id) {
     // Validate the appointment_id input

@@ -101,6 +101,11 @@ function getChildrenInfoByResidentIds($conn, $residentIds) {
         return "Error: Input must be an array of resident IDs.";
     }
 
+    // If the array is empty, return an empty result set
+    if (empty($residentIds)) {
+        return [];
+    }
+
     // Sanitize the array to prevent SQL injection
     $sanitizedResidentIds = array_map('intval', $residentIds);
     $residentIdsString = implode(',', $sanitizedResidentIds);
@@ -153,6 +158,7 @@ function getChildrenInfoByResidentIds($conn, $residentIds) {
     // Return the retrieved personal information with resident_id
     return $personalInformation;
 }
+
 
 function getAdminInformation($conn, $admin_id) {
     // Prepare the SQL query to fetch admin information

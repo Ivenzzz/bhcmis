@@ -20,6 +20,7 @@ if (isset($_GET['family_id'])) {
 }
 
 $household_id = $_GET['household_id'];
+$family_id = $_GET['family_id'];
 
 
 ?>
@@ -44,7 +45,7 @@ $household_id = $_GET['household_id'];
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="households.php">Households</a></li>
-                            <li class="breadcrumb-item"><a href="families.php?household_id=<?php echo $family_id;?>">Families</a></li>
+                            <li class="breadcrumb-item"><a href="families.php?household_id=<?php echo $household_id;?>">Families</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Members</li>
                         </ol>
                     </nav>

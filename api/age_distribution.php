@@ -8,33 +8,43 @@ header("Access-Control-Allow-Methods: GET");
 require '../partials/global_db_config.php'; // Adjust the path to your database connection file
 
 try {
-    // Query to calculate age distribution
+    // Query to calculate age distribution based on household, household_members, families, and family_members
     $query = "
-        SELECT 
-            SUM(CASE 
-                WHEN TIMESTAMPDIFF(YEAR, p.date_of_birth, CURDATE()) BETWEEN 0 AND 12 THEN 1 
-                ELSE 0 
-            END) AS child,
-            SUM(CASE 
-                WHEN TIMESTAMPDIFF(YEAR, p.date_of_birth, CURDATE()) BETWEEN 13 AND 17 THEN 1 
-                ELSE 0 
-            END) AS minor,
-            SUM(CASE 
-                WHEN TIMESTAMPDIFF(YEAR, p.date_of_birth, CURDATE()) BETWEEN 18 AND 59 THEN 1 
-                ELSE 0 
-            END) AS adult,
-            SUM(CASE 
-                WHEN TIMESTAMPDIFF(YEAR, p.date_of_birth, CURDATE()) >= 60 THEN 1 
-                ELSE 0 
-            END) AS senior
-        FROM 
-            residents r
-        INNER JOIN 
-            personal_information p ON r.personal_info_id = p.personal_info_id
-        WHERE 
-            p.isTransferred = 0 
-            AND p.deceased_date IS NULL;
-    ";
+    SELECT 
+        COUNT(DISTINCT CASE 
+            WHEN TIMESTAMPDIFF(YEAR, p.date_of_birth, CURDATE()) BETWEEN 0 AND 12 THEN r.resident_id 
+            ELSE NULL 
+        END) AS child,
+        COUNT(DISTINCT CASE 
+            WHEN TIMESTAMPDIFF(YEAR, p.date_of_birth, CURDATE()) BETWEEN 13 AND 17 THEN r.resident_id 
+            ELSE NULL 
+        END) AS minor,
+        COUNT(DISTINCT CASE 
+            WHEN TIMESTAMPDIFF(YEAR, p.date_of_birth, CURDATE()) BETWEEN 18 AND 59 THEN r.resident_id 
+            ELSE NULL 
+        END) AS adult,
+        COUNT(DISTINCT CASE 
+            WHEN TIMESTAMPDIFF(YEAR, p.date_of_birth, CURDATE()) >= 60 THEN r.resident_id 
+            ELSE NULL 
+        END) AS senior
+    FROM 
+        residents r
+    INNER JOIN 
+        personal_information p ON r.personal_info_id = p.personal_info_id
+    INNER JOIN 
+        family_members fm ON r.resident_id = fm.resident_id AND fm.isArchived = 0
+    INNER JOIN 
+        families f ON fm.family_id = f.family_id AND f.isArchived = 0
+    INNER JOIN 
+        household_members hm ON f.family_id = hm.family_id AND hm.isArchived = 0
+    INNER JOIN 
+        household h ON hm.household_id = h.household_id AND h.isArchived = 0
+    WHERE 
+        p.isTransferred = 0 
+        AND p.deceased_date IS NULL
+        AND r.isArchived = 0;
+";
+
 
     // Execute the query
     $result = $conn->query($query);
