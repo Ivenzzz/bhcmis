@@ -12,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
-<<<<<<< HEAD
 
         // Check if the user is a resident and if their account is valid or rejected
         if (isset($user['isValid']) && $user['isValid'] == 0) {
@@ -28,9 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Verify the password if account is valid and not rejected
-=======
-        
->>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
         if (password_verify($password, $user['password'])) {
             // Store user session data
             $_SESSION['username'] = $username;
