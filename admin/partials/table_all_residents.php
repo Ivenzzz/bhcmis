@@ -21,9 +21,15 @@
                             echo '<span class="badge bg-success position-absolute top-0 start-0">New</span>';
                         }
                         ?>
+<<<<<<< HEAD
                         <?= htmlspecialchars($resident['lastname'] ?? 'None') . ', ' . htmlspecialchars($resident['firstname'] ?? 'None') ?>
                     </td>
                     <td><?= htmlspecialchars($resident['household_address_name'] ?? 'None') ?></td>
+=======
+                        <?= htmlspecialchars($resident['firstname'] ?? 'None') . ' ' . htmlspecialchars($resident['lastname'] ?? 'None') ?>
+                    </td>
+                    <td><?= htmlspecialchars($resident['address_name'] ?? 'None') ?></td>
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
                     <td><?= htmlspecialchars($resident['age'] ?? 'Not Provided') ?></td>
                     <td><?= htmlspecialchars($resident['sex'] ?? 'None') ?></td>
                     <td><?= htmlspecialchars($resident['civil_status'] ?? 'None') ?></td>

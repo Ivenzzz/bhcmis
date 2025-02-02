@@ -11,7 +11,10 @@ require '../models/immunizations.php';
 $user = getCurrentUser($conn);
 $sched_id = $_GET['schedule_id'];
 $immunization_appointments = getImmunizationAppointmentsBySchedId($conn, $sched_id);
+<<<<<<< HEAD
 $schedules = getImmunizationSchedules($conn);
+=======
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
 
 ?>
 
@@ -42,6 +45,7 @@ $schedules = getImmunizationSchedules($conn);
             <!-- DataTable for Immunization Appointments -->
             <div class="row mb-4 p-4 shadow">
                 <div class="col-md-12">
+<<<<<<< HEAD
                     <table id="immunizationAppointmentsTable" class="display text-xs text-center open-sans-regular" cellspacing="0" width="100%">
                         <thead>
                             <tr>
@@ -51,6 +55,16 @@ $schedules = getImmunizationSchedules($conn);
                                 <th class="text-center">Vaccine</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">Actions</th>
+=======
+                    <table id="immunizationAppointmentsTable" class="display table table-bordered text-center" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Priority Number</th>
+                                <th>Tracking Code</th>
+                                <th>Resident ID</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
                             </tr>
                         </thead>
                         <tbody>
@@ -58,6 +72,7 @@ $schedules = getImmunizationSchedules($conn);
                                 <?php foreach ($immunization_appointments as $appointment): ?>
                                     <tr>
                                         <td><?php echo $appointment['priority_number']; ?></td>
+<<<<<<< HEAD
                                         <td><?php echo htmlspecialchars($appointment['tracking_code']) ?: 'None'; ?></td>
                                         <td><?php echo $appointment['full_name'] ?: 'None'; ?></td>
                                         <td><?php echo $appointment['vaccine_name'] ?: 'None'; ?></td>
@@ -137,6 +152,20 @@ $schedules = getImmunizationSchedules($conn);
                                 </div>
                                 <?php endforeach; ?>
                             <?php else: ?>
+=======
+                                        <td><?php echo htmlspecialchars($appointment['tracking_code']); ?></td>
+                                        <td><?php echo $appointment['resident_id']; ?></td>
+                                        <td><?php echo $appointment['status']; ?></td>
+                                        <td>
+                                            <a href="appointment_details.php?appointment_id=<?php echo $appointment['appointment_id']; ?>" class="btn btn-info btn-sm">View</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="6" class="text-center">No appointments found.</td>
+                                </tr>
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
                             <?php endif; ?>
                         </tbody>
                     </table>
@@ -146,23 +175,36 @@ $schedules = getImmunizationSchedules($conn);
     </div>
 
     <?php require '../partials/global_javascript_links.php'; ?>
+<<<<<<< HEAD
     <script src="../public/js/midwife_immunization_appointments.js"></script>
     <script>
         $(document).ready(function() {
             // Initialize DataTable with state saving
+=======
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTable
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
             $('#immunizationAppointmentsTable').DataTable({
                 responsive: true, // Optional: if you want the table to be responsive
                 paging: true,     // Enable pagination
                 searching: true,  // Enable search functionality
                 ordering: true,   // Enable sorting functionality
+<<<<<<< HEAD
                 info: true,       // Show information about the table
                 language: {
                     emptyTable: "No appointments available." // Custom message when the table is empty
                 },
                 stateSave: true   // Save the table state on page reload
+=======
+                info: true        // Show information about the table
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
             });
         });
     </script>
 </body>
 </html>
+<<<<<<< HEAD
 
+=======
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf

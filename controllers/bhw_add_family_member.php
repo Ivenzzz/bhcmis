@@ -1,5 +1,8 @@
 <?php
+<<<<<<< HEAD
 
+=======
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
 // Include the database connection file
 require '../partials/global_db_config.php';
 
@@ -27,6 +30,7 @@ try {
         throw new Exception("Missing required fields.");
     }
 
+<<<<<<< HEAD
     // Retrieve the address_id from the household table
     $stmt = $conn->prepare("SELECT address_id FROM household WHERE household_id = ?");
     $stmt->bind_param('i', $household_id);
@@ -39,6 +43,8 @@ try {
         throw new Exception("Invalid household ID. Address not found.");
     }
 
+=======
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
     // Check if the role "Husband" or "Wife" already exists in the family
     if (in_array($role, ['husband', 'wife'])) {
         $stmt = $conn->prepare("SELECT COUNT(*) FROM family_members WHERE family_id = ? AND role = ?");
@@ -53,6 +59,7 @@ try {
         }
     }
 
+<<<<<<< HEAD
     // Insert into personal_information with address_id
     $stmt = $conn->prepare(
         "INSERT INTO personal_information 
@@ -62,6 +69,17 @@ try {
     );
     $stmt->bind_param(
         'ssssssssssi',
+=======
+    // Insert into personal_information
+    $stmt = $conn->prepare(
+        "INSERT INTO personal_information 
+         (firstname, lastname, middlename, date_of_birth, civil_status, educational_attainment, 
+          occupation, religion, citizenship, sex) 
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    );
+    $stmt->bind_param(
+        'ssssssssss',
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
         $firstname,
         $lastname,
         $middlename,
@@ -71,8 +89,12 @@ try {
         $occupation,
         $religion,
         $citizenship,
+<<<<<<< HEAD
         $sex,
         $address_id
+=======
+        $sex
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
     );
     $stmt->execute();
     $personal_info_id = $stmt->insert_id;

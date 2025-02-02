@@ -12,7 +12,11 @@ function getResidentDetails($conn, $resident_id) {
             f.parent_family_id,
             f.4PsMember,
             fm.role AS family_role,
+<<<<<<< HEAD
             a.*  -- Include account details (if available)
+=======
+            a.*
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
         FROM 
             residents r
         JOIN 
@@ -25,11 +29,19 @@ function getResidentDetails($conn, $resident_id) {
             family_members fm ON hm.family_id = fm.family_id AND fm.resident_id = r.resident_id
         LEFT JOIN 
             families f ON fm.family_id = f.family_id
+<<<<<<< HEAD
         LEFT JOIN  -- LEFT JOIN for accounts to handle residents without accounts
             accounts a ON r.account_id = a.account_id  
         WHERE 
             r.resident_id = ?";
 
+=======
+        JOIN 
+            accounts a ON r.account_id = a.account_id  -- Join with the accounts table
+        WHERE 
+            r.resident_id = ?";
+    
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
     // Prepare the statement
     $stmt = $conn->prepare($sql);
 
@@ -51,6 +63,7 @@ function getResidentDetails($conn, $resident_id) {
         return false;
     }
 
+<<<<<<< HEAD
     // Only include account details if the resident has an account
     if ($resident_details['account_id'] === null) {
         // Remove account details if no account exists
@@ -58,6 +71,8 @@ function getResidentDetails($conn, $resident_id) {
         unset($resident_details['account_*']); // If there are other specific account-related fields
     }
 
+=======
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
     // Now fetch the medical conditions for the resident
     $sql_medical_conditions = "
         SELECT
@@ -71,7 +86,11 @@ function getResidentDetails($conn, $resident_id) {
             medical_conditions m ON rmc.medical_conditions_id = m.medical_conditions_id
         WHERE 
             rmc.resident_id = ?";
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
     // Prepare the statement for medical conditions
     $stmt_medical = $conn->prepare($sql_medical_conditions);
 
@@ -104,7 +123,11 @@ function getResidentDetails($conn, $resident_id) {
     $stmt->close();
     $stmt_medical->close();
 
+<<<<<<< HEAD
     // Return the resident details with medical conditions (and account details if available)
+=======
+    // Return the resident details with medical conditions and account details
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
     return $resident_details;
 }
 
@@ -112,6 +135,9 @@ function getResidentDetails($conn, $resident_id) {
 
 
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
 ?>

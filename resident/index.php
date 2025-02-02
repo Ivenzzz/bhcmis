@@ -7,11 +7,17 @@ $title = 'Appointments';
 require '../partials/global_db_config.php';
 require '../models/get_current_user.php';
 require '../models/resident_appointments.php';
+<<<<<<< HEAD
 require '../models/resident_prenatals.php';
 
 $user = getCurrentUser($conn);
 $appointments = getResidentAppointmentsWithSchedule($conn);
 $resident_prenatals = getResidentPrenatalSchedules($conn, $user['resident_id']);
+=======
+
+$user = getCurrentUser($conn);
+$appointments = getResidentAppointmentsWithSchedule($conn);
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
 
 ?>
 
@@ -20,6 +26,7 @@ $resident_prenatals = getResidentPrenatalSchedules($conn, $user['resident_id']);
 <head>
     <?php require '../partials/global_head.php'; ?>
     <link rel="stylesheet" href="../public/css/main.css">
+<<<<<<< HEAD
     <style>
     /* Custom Card Styling */
     .card {
@@ -102,6 +109,8 @@ $resident_prenatals = getResidentPrenatalSchedules($conn, $user['resident_id']);
         }
     }
 </style>
+=======
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
 </head>
 <body class="poppins-regular">
     <?php require 'partials/sidebar.php'; ?>
@@ -147,7 +156,11 @@ $resident_prenatals = getResidentPrenatalSchedules($conn, $user['resident_id']);
             </div>
 
             <!-- Appointments Cards Section -->
+<<<<<<< HEAD
             <div class="row mb-4 shadow p-4">
+=======
+            <div class="row mb-4">
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
                 <div class="col-md-12 px-5">
                     <?php require 'partials/appointment_cards.php';?>
                 </div>
@@ -162,6 +175,7 @@ $resident_prenatals = getResidentPrenatalSchedules($conn, $user['resident_id']);
                 </div>
             </div>
 
+<<<<<<< HEAD
             <div class="row mb-4 shadow p-4">
                 <h5 class="text-center">Prenatal Schedules</h5>
                 <?php if ($resident_prenatals !== null): ?>
@@ -196,6 +210,8 @@ $resident_prenatals = getResidentPrenatalSchedules($conn, $user['resident_id']);
                 <?php endif; ?>
             </div>
 
+=======
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
         </div>
   </div>
 

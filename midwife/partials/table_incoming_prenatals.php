@@ -20,6 +20,12 @@
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
+<<<<<<< HEAD
+=======
+            <tr>
+                <td colspan="7">No incoming prenatals scheduled this week.</td>
+            </tr>
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
         <?php endif; ?>
     </tbody>
 </table>

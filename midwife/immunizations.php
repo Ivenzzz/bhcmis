@@ -7,11 +7,15 @@ $title = 'Immunizations';
 require '../partials/global_db_config.php';
 require '../models/get_current_user.php';
 require '../models/immunizations.php';
+<<<<<<< HEAD
 require '../models/vaccines.php';
+=======
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
 
 $user = getCurrentUser($conn);
 $immunization_appointments = getImmunizationAppointments($conn);
 $immunization_schedules = getImmunizationSchedules($conn);
+<<<<<<< HEAD
 $vaccines = getVaccines($conn);
 
 // Set the default date and time to the current timestamp in the format "YYYY-MM-DDTHH:MM"
@@ -19,6 +23,8 @@ date_default_timezone_set('Asia/Manila'); // Set timezone to your region
 $currentDateTime = date('Y-m-d\TH:i');
 $vaccine_list = getAllVaccines($conn);
 
+=======
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
 
 ?>
 
@@ -48,12 +54,16 @@ $vaccine_list = getAllVaccines($conn);
             </div>
 
             <div class="row mb-4 p-4 shadow">
+<<<<<<< HEAD
                 <div class="col-md-12 d-flex justify-content-end mb-2">
                     <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addScheduleModal">
                         Add Schedule
                     </button>
                 </div>
                 <div class="col-md-6 shadow p-4">
+=======
+                <div class="col-md-6">
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
                     <div id="immunizationSchedulescalendar"></div>
                 </div>
                 <div class="col-md-6">
@@ -87,6 +97,7 @@ $vaccine_list = getAllVaccines($conn);
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
 
             <div class="row mb-4 p-4 shadow">
                 <div class="col-md-12 d-flex justify-content-end">
@@ -206,25 +217,38 @@ $vaccine_list = getAllVaccines($conn);
         </div>
     </div>
 
+=======
+        </div>
+  </div>
+
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
 
     <?php require '../partials/global_javascript_links.php'; ?>
     <script src="../public/js/global_logout.js"></script>
     <script>
         // Initialize DataTable
         $(document).ready(function() {
+<<<<<<< HEAD
             $('#appointmentsTable').DataTable({
                 responsive: true,
                 pageLength: 10,
                 stateSave: true
             });
+=======
+            $('#appointmentsTable').DataTable();
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
         });
     </script>
    <script>
         $(document).ready(function () {
             $('#immunizationTable').DataTable({
                 responsive: true,
+<<<<<<< HEAD
                 pageLength: 10,
                 stateSave: true
+=======
+                pageLength: 10
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
             });
         });
     </script>
@@ -252,6 +276,7 @@ $vaccine_list = getAllVaccines($conn);
             calendar.render();
         });
     </script>
+<<<<<<< HEAD
     <script>
         document.getElementById("addScheduleForm").addEventListener("submit", async function (e) {
             e.preventDefault(); // Prevent default form submission
@@ -363,5 +388,7 @@ $vaccine_list = getAllVaccines($conn);
             });
         });
     </script>
+=======
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
 </body>
 </html>

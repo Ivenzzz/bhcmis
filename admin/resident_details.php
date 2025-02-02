@@ -14,8 +14,11 @@ $resident_details = getResidentDetails($conn, $resident_id);
 $medical_conditions = getMedicalConditions($conn);
 $user = getCurrentUser($conn);
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
 ?>
 
 <!DOCTYPE html>
@@ -50,6 +53,13 @@ $user = getCurrentUser($conn);
                     <!-- Profile Picture -->
                     <img src="<?php echo $resident_details['profile_picture']; ?>" alt="Profile Picture" class="w-25">
                 </div>
+<<<<<<< HEAD
+=======
+                <div class="col-md-12 text-center">
+                    <!-- ID Picture -->
+                    <img src="<?php echo !empty($resident_details['id_picture']) ? $resident_details['id_picture'] : '../storage/uploads/default_id.jpg'; ?>" alt="ID Picture" class="w-25">
+                </div>
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
             </div>
 
 

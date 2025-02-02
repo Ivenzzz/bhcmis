@@ -28,7 +28,11 @@ $bhw_info = getBhwInformation($conn, $user['bhw_id']);
             <!-- Bootstrap Breadcrumb -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
+<<<<<<< HEAD
                     <li class="breadcrumb-item"><a href="household_records.php">Overview</a></li>
+=======
+                    <li class="breadcrumb-item"><a href="index.php">Overview</a></li>
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
                     <li class="breadcrumb-item active" aria-current="page">My Profile</li>
                 </ol>
             </nav>

@@ -125,19 +125,31 @@
         </div>
     </div>
 
+<<<<<<< HEAD
     <!-- Account Status --> 
+=======
+    <!-- Account Status -->
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
     <div class="row mb-3">
         <label class="col-sm-3 col-form-label">Account Status</label>
         <div class="col-sm-9">
             <select class="form-control" name="isTransferred">
+<<<<<<< HEAD
                 <option value="1" <?php echo (isset($resident_details['isTransferred']) && $resident_details['isTransferred'] == 1) ? 'selected' : ''; ?>>Transferred</option>
                 <option value="0" <?php echo (isset($resident_details['isTransferred']) && $resident_details['isTransferred'] == 0) ? 'selected' : ''; ?>>Active</option>
+=======
+                <option value="1" <?php echo (!empty($resident_details['isTransferred']) && $resident_details['isTransferred'] == 1) ? 'selected' : ''; ?>>Transferred</option>
+                <option value="0" <?php echo (!empty($resident_details['isTransferred']) && $resident_details['isTransferred'] == 0) ? 'selected' : ''; ?>>Active</option>
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
             </select>
         </div>
     </div>
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
     <!-- Save Changes -->
     <div class="row mb-3">
         <div class="col-sm-12 text-center d-flex justify-content-end">

@@ -57,10 +57,14 @@ function initPrenatalTable() {
             lengthMenu: [5, 10, 25, 50], // Page length options
             columnDefs: [
                 { orderable: false, targets: 0 } // Disable ordering on the Schedule ID column
+<<<<<<< HEAD
             ],
             language: {
                 emptyTable: "No prenatal schedules available."
             }
+=======
+            ]
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
         });
     });  
 }
@@ -68,10 +72,14 @@ function initPrenatalTable() {
 function initIncomingPrenatalsTable() {
     $(document).ready(function() {
         $('#incomingPrenatalsTable').DataTable({
+<<<<<<< HEAD
             searching: false, // Disable searching
             language: {
                 emptyTable: "No incoming prenatal appointments."
             }
+=======
+            searching: false // Disable searching
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
         });
     });
 }
@@ -79,6 +87,7 @@ function initIncomingPrenatalsTable() {
 function initPregnancyTable() {
     $(document).ready(function() {
         $('#pregnanciesTable').DataTable({
+<<<<<<< HEAD
             searching: false, // Disable searching
             language: {
                 emptyTable: "No pregnancy records found."
@@ -87,3 +96,9 @@ function initPregnancyTable() {
     });
 }
 
+=======
+            searching: false // Disable searching
+        });
+    });
+}
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf

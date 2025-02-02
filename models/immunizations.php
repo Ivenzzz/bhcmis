@@ -82,7 +82,11 @@ function getImmunizationSchedules($conn) {
 
 function getImmunizationAppointmentsBySchedId($conn, $sched_id) {
     try {
+<<<<<<< HEAD
         // Query to get immunization appointments and join with residents, personal_information, immunization_schedules, and vaccines to get full name and vaccine details
+=======
+        // Query to get immunization appointments based on sched_id
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
         $query = "SELECT 
                       ia.appointment_id, 
                       ia.tracking_code, 
@@ -92,6 +96,7 @@ function getImmunizationAppointmentsBySchedId($conn, $sched_id) {
                       ia.status, 
                       ia.isArchived, 
                       ia.created_at, 
+<<<<<<< HEAD
                       ia.updated_at,
                       CONCAT(pi.lastname, ', ', pi.firstname, ' ', pi.middlename) AS full_name,
                       isch.schedule_date,
@@ -105,6 +110,11 @@ function getImmunizationAppointmentsBySchedId($conn, $sched_id) {
                   JOIN immunization_schedules isch ON ia.sched_id = isch.schedule_id
                   JOIN vaccines v ON isch.vaccine_id = v.vaccine_id
                   WHERE ia.sched_id = ? AND ia.isArchived = 0 AND r.isArchived = 0
+=======
+                      ia.updated_at
+                  FROM immunization_appointments ia
+                  WHERE ia.sched_id = ? AND ia.isArchived = 0
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
                   ORDER BY ia.priority_number ASC";
         
         // Prepare the query
@@ -140,6 +150,7 @@ function getImmunizationAppointmentsBySchedId($conn, $sched_id) {
 }
 
 
+<<<<<<< HEAD
 function getVaccines($conn) {
     // Get the current date
     $currentDate = date('Y-m-d');
@@ -219,4 +230,6 @@ function getImmunizationDetails($conn, $appointment_id) {
 
 
 
+=======
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
 ?>

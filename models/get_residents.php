@@ -1,7 +1,11 @@
 <?php 
 
 function getAllResidents($conn) {
+<<<<<<< HEAD
     // SQL query to get distinct residents who belong to multiple families as one
+=======
+    // SQL query to retrieve all residents with their personal information, address, and exclude invalid/rejected residents
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
     $sql = "
         SELECT 
             r.resident_id,  
@@ -10,6 +14,7 @@ function getAllResidents($conn) {
             p.firstname, 
             p.middlename, 
             p.date_of_birth, 
+<<<<<<< HEAD
             h.address_id AS household_address_id, -- Fetch household address instead
             p.civil_status,
             p.sex,
@@ -65,6 +70,27 @@ function getAllResidents($conn) {
             AND (p.isDeceased = 0 OR p.isDeceased IS NULL)  -- Exclude deceased residents
             AND (p.isTransferred = 0 OR p.isTransferred IS NULL)  -- Exclude transferred residents
         GROUP BY r.resident_id  -- Ensures each resident appears only once
+=======
+            p.address_id,
+            p.civil_status,
+            p.sex,
+            p.isRegisteredVoter,  
+            a.address_name, 
+            a.address_type, 
+            p.created_at, 
+            p.updated_at,
+            ac.*
+        FROM 
+            residents r
+        LEFT JOIN 
+            personal_information p ON r.personal_info_id = p.personal_info_id
+        LEFT JOIN
+            accounts ac ON r.account_id = ac.account_id
+        LEFT JOIN 
+            address a ON p.address_id = a.address_id
+        WHERE 
+            ac.isValid = 1 AND ac.isRejected = 0
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
         ORDER BY r.resident_id DESC
     ";
 
@@ -75,6 +101,7 @@ function getAllResidents($conn) {
     if ($result && $result->num_rows > 0) {
         $residents = [];
         while ($row = $result->fetch_assoc()) {
+<<<<<<< HEAD
             // Calculate age if date_of_birth is not NULL
             if ($row['date_of_birth'] !== null) {
                 $dateOfBirth = new DateTime($row['date_of_birth']);
@@ -83,13 +110,28 @@ function getAllResidents($conn) {
                 $row['age'] = $age;
             } else {
                 $row['age'] = null;
+=======
+            // Check if date_of_birth is NULL
+            if ($row['date_of_birth'] === null) {
+                $row['age'] = null; // Set age as NULL
+            } else {
+                // Calculate the age based on the date of birth
+                $dateOfBirth = new DateTime($row['date_of_birth']);
+                $currentDate = new DateTime(); // Get the current date
+                $age = $dateOfBirth->diff($currentDate)->y; // Get the difference in years
+                $row['age'] = $age; // Add the age to the resident data
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
             }
 
             // Add the resident to the residents array
             $residents[] = $row;
         }
 
+<<<<<<< HEAD
         // Return the array of distinct residents
+=======
+        // Return the array of residents with personal information, address, and age
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
         return $residents;
     } else {
         // Return an empty array if no results are found or query failed
@@ -98,12 +140,15 @@ function getAllResidents($conn) {
 }
 
 
+<<<<<<< HEAD
 
 
 
 
 
 
+=======
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
 function getFamiliesWithHeadAndAddress($conn) {
     // Prepare the SQL query
     $sql = "

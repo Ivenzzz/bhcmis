@@ -8,13 +8,20 @@
             <form action="../controllers/bhw_update_head_of_family.php" method="POST">
                 <div class="modal-body">
                     <!-- Hidden fields -->
+<<<<<<< HEAD
                     <input type="hidden" name="personal_info_id" value="<?php echo htmlspecialchars($wife['personal_info_id'] ?? ''); ?>">
                     <input type="hidden" name="household_id" value="<?php echo htmlspecialchars($household_id ?? ''); ?>">
                     <input type="hidden" name="family_id" value="<?php echo htmlspecialchars($family_id ?? ''); ?>">
+=======
+                    <input type="hidden" name="personal_info_id" value="<?php echo htmlspecialchars($wife['personal_info_id']); ?>">
+                    <input type="hidden" name="household_id" value="<?php echo $household_id; ?>">
+                    <input type="hidden" name="family_id" value="<?php echo $family_id; ?>">
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
                     
                     <!-- Pre-fill the form fields with the current values of the head of the family -->
                     <div class="mb-3">
                         <label for="firstname" class="form-label">First Name</label>
+<<<<<<< HEAD
                         <input type="text" class="form-control" id="firstname" name="firstname" value="<?php echo htmlspecialchars($wife['firstname'] ?? ''); ?>" required>
                     </div>
                     <div class="mb-3">
@@ -48,6 +55,41 @@
                     <div class="mb-3">
                         <label for="date_of_birth" class="form-label">Date of Birth</label>
                         <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="<?php echo htmlspecialchars($wife['date_of_birth'] ?? ''); ?>" required>
+=======
+                        <input type="text" class="form-control" id="firstname" name="firstname" value="<?php echo htmlspecialchars($wife['firstname']); ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="middlename" class="form-label">Middle Name</label>
+                        <input type="text" class="form-control" id="middlename" name="middlename" value="<?php echo htmlspecialchars($wife['middlename']); ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastname" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastname" name="lastname" value="<?php echo htmlspecialchars($wife['lastname']); ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="occupation" class="form-label">Occupation</label>
+                        <input type="text" class="form-control" id="occupation" name="occupation" value="<?php echo htmlspecialchars($wife['occupation']); ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="religion" class="form-label">Religion</label>
+                        <input type="text" class="form-control" id="religion" name="religion" value="<?php echo htmlspecialchars($wife['religion']); ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="citizenship" class="form-label">Citizenship</label>
+                        <input type="text" class="form-control" id="citizenship" name="citizenship" value="<?php echo htmlspecialchars($wife['citizenship']); ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone_number" class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" id="phone_number" name="phone_number" value="<?php echo htmlspecialchars($wife['phone_number']); ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($wife['email']); ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="date_of_birth" class="form-label">Date of Birth</label>
+                        <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="<?php echo htmlspecialchars($wife['date_of_birth']); ?>" required>
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
                     </div>
                     <div class="mb-3">
                         <label for="sex" class="form-label">Sex</label>
@@ -87,7 +129,11 @@
                     </div>
                     <div class="mb-3" id="deceased_date_div" style="display: <?php echo ($wife['isDeceased'] ? 'block' : 'none'); ?>;">
                         <label for="deceased_date" class="form-label">Date of Death</label>
+<<<<<<< HEAD
                         <input type="date" class="form-control" id="deceased_date" name="deceased_date" value="<?php echo htmlspecialchars($wife['deceased_date'] ?? ''); ?>">
+=======
+                        <input type="date" class="form-control" id="deceased_date" name="deceased_date" value="<?php echo htmlspecialchars($wife['deceased_date']); ?>">
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
                     </div>
                     <div class="mb-3">
                         <label for="isRegisteredVoter" class="form-check-label">Registered Voter</label>
@@ -102,3 +148,9 @@
         </div>
     </div>
 </div>
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf

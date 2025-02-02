@@ -105,7 +105,10 @@ $consultation_schedule_date = isset($consultations[0]['consultation_schedule_dat
                                             <input type="hidden" name="con_sched_id" value="<?= $consultation_schedule_id ?>">
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this consultation?')">Delete</button>
                                         </form>
+<<<<<<< HEAD
                                         <a href="create_referral_form.php?consultation_id=<?= $consultation['consultation_id'] ?>&con_sched_id=<?= $consultation_schedule_id ?>" class="btn bg-indigo-500 text-slate-50 btn-primary btn-sm">Create Referral Form</a>
+=======
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
                                     </td>
                                 </tr>
 

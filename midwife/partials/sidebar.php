@@ -31,7 +31,11 @@
         <span class="text ms-2">Medicines</span>
     </a>
     
+<<<<<<< HEAD
     <a href="immunizations.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['immunizations.php', 'immunization_appointments.php', 'immunization_result.php']) ? 'active' : '' ?>">
+=======
+    <a href="immunizations.php" class="<?= in_array(basename($_SERVER['PHP_SELF']), ['immunizations.php', 'immunization_appointments.php']) ? 'active' : '' ?>">
+>>>>>>> ddb9a718c904a6bd1cb504c747ddb13d799775bf
         <i class="icon fa-solid fa-syringe text-indigo-500"></i>
         <span class="text ms-2">Immunizations</span>
     </a>
